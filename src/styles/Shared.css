@@ -53,12 +53,13 @@ input {
 ::-webkit-scrollbar-thumb:hover {
   background: #b3b4c2;
 }
+
 :root {
-  --main-bg-color: #101124;
+  --main-bg-color: #F6F6F6;
   --dark-blue: #17182c;
   --dark-blue-bg: #16182e;
   --dark-blue-accent: #a0a3c4;
-  --primary-btn-bg: #2d42fc;
+  --primary-btn-bg: #5FB888;
   --primary-btn-hover: #4d5ffa;
   --primary-btn-active: #5264fc;
   --dark-blue-hover: #808aff14;
@@ -220,7 +221,7 @@ a.plain {
 }
 
 .default-btn {
-  background: #2d42fc;
+  background: var(--primary-btn-bg);
   border-radius: 4px;
   font-size: var(--font-sm);
   line-height: 2rem;
@@ -402,9 +403,11 @@ button.btn-link:hover .logout-icon {
 .mt-sm {
   margin-top: 1rem;
 }
+
 .mt-md {
   margin-top: 1.5rem;
 }
+
 .page-layout {
   min-height: calc(100vh - 62px);
   display: flex;
@@ -451,6 +454,7 @@ button.btn-link:hover .logout-icon {
 .font-sm {
   font-size: var(--font-sm);
 }
+
 .font-base {
   font-size: var(--font-base);
 }
@@ -466,10 +470,12 @@ button.btn-link:hover .logout-icon {
 .default-cursor.App-cta {
   cursor: default;
 }
+
 .nowrap {
   white-space: nowrap;
 }
-.gap-right > *:not(:last-child) {
+
+.gap-right>*:not(:last-child) {
   margin-right: 1rem;
 }
 
@@ -498,6 +504,7 @@ button.btn-link:hover .logout-icon {
 .mr-xxs {
   margin-right: 0.25rem;
 }
+
 .mr-xs {
   margin-right: 0.5rem;
 }
@@ -505,6 +512,7 @@ button.btn-link:hover .logout-icon {
 .ml-xxs {
   margin-left: 0.25rem;
 }
+
 .ml-xs {
   margin-left: 0.5rem;
 }
@@ -524,9 +532,11 @@ button.btn-link:hover .logout-icon {
 .m-sm {
   margin-right: 1rem;
 }
+
 .m-md {
   margin: 1.5rem;
 }
+
 .text-warning {
   color: var(--warning-yellow);
 }
@@ -591,6 +601,6 @@ a:hover .text-red {
   }
 }
 
-.gap-right-xs > *:not(:last-child) {
+.gap-right-xs>*:not(:last-child) {
   margin-right: 0.5rem;
 }
