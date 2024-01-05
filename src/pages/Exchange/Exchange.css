@@ -532,7 +532,7 @@ table.Exchange-list.Orders td {
 }
 
 table.Exchange-list tr {
-  border-bottom: 1px solid #23263b;
+  border-bottom: 1px solid #e0e3eb;
 }
 
 table.Exchange-list tr:last-child {
@@ -540,7 +540,8 @@ table.Exchange-list tr:last-child {
 }
 
 table.Exchange-list tr:hover {
-  background: linear-gradient(90deg, rgba(30, 34, 61, 1) 0%, rgba(38, 43, 71, 1) 100%);
+  background-color: #E8E8E8;
+  /* background: linear-gradient(90deg, rgba(30, 34, 61, 1) 0%, rgba(38, 43, 71, 1) 100%); */
   box-shadow: inset 0px 0px 3rem 0.5rem rgba(255, 255, 255, 0.01);
 }
 
@@ -697,7 +698,8 @@ table.Exchange-list .Exchange-list-item-active {
   padding: 1.5rem;
   margin-bottom: 1.05rem;
   border-radius: 0.3rem;
-  background: linear-gradient(90deg, rgba(30, 34, 61, 0.9) 0%, rgba(38, 43, 71, 0.9) 100%);
+  /* background: linear-gradient(90deg, rgba(30, 34, 61, 0.9) 0%, rgba(38, 43, 71, 0.9) 100%); */
+  box-shadow: 0 2px 10px rgba(203, 203, 203, 0.5);
   outline: 0.05rem solid transparent;
   outline-offset: -0.1rem;
 }

@@ -128,7 +128,7 @@ export function GmList({
                           <p>
                             Check Pools performance against other LP Positions in{" "}
                             <ExternalLink newTab href="https://dune.com/gmx-io/gmx-analytics">
-                              GMX Dune Dashboard
+                              DEX Dune Dashboard
                             </ExternalLink>
                             .
                           </p>

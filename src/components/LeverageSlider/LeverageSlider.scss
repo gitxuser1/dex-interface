@@ -18,25 +18,27 @@
   }
 
   .rc-slider-rail {
-    background: linear-gradient(90deg, rgba(30, 34, 61, 1) 0%, rgba(40, 45, 74, 1) 100%);
+    background-color: rgba(216, 216, 216, 1);
+    // background: linear-gradient(90deg, rgba(30, 34, 61, 1) 0%, rgba(40, 45, 74, 1) 100%);
   }
 
   .rc-slider-track {
-    background: linear-gradient(90deg, rgba(46, 61, 205, 1) 0%, rgba(45, 66, 252, 1) 100%);
+    background-color: var(--primary-btn-bg);
+    // background: linear-gradient(90deg, rgba(46, 61, 205, 1) 0%, rgba(45, 66, 252, 1) 100%);
   }
   .rc-slider-dot {
     border: none;
     border-radius: 1px;
     width: 2px;
     margin-left: -1px;
-    background: rgba(40, 45, 74, 1);
+    background: rgba(216, 216, 216, 1);
   }
   .rc-slider-dot-active {
-    background: #3d51ff;
+    background: var(--primary-btn-bg);
   }
   .rc-slider-handle {
-    background: #303652;
-    border: solid 2px rgba(45, 66, 252, 1);
+    background: white;
+    border: solid 2px var(--primary-btn-bg);
   }
 
   .rc-slider-handle:active {

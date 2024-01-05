@@ -92,7 +92,7 @@ function NavIcons({ selectorLabel }) {
       </button>
       <div className="network-dropdown-seperator" />
       <button className="transparent">
-        <HiDotsVertical color="white" size={20} />
+        <HiDotsVertical color="rgba(51, 51, 51, 1)" size={20} />
       </button>
     </>
   );

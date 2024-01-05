@@ -114,7 +114,7 @@ export function MarketPoolsPage(p: Props) {
           shouldScrollToTop={true}
         />
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </SEO>
   );
 }

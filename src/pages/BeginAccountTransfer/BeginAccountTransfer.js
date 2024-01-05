@@ -117,9 +117,9 @@ export default function BeginAccountTransfer(props) {
 
   const needApproval = gmxAllowance && gmxStaked && gmxStaked.gt(gmxAllowance);
 
-  const hasVestedGmx = gmxVesterBalance && gmxVesterBalance.gt(0);
+  const hasVestedDEX = gmxVesterBalance && gmxVesterBalance.gt(0);
   const hasVestedGlp = glpVesterBalance && glpVesterBalance.gt(0);
-  const hasStakedGmx =
+  const hasStakedDEX =
     (cumulativeGmxRewards && cumulativeGmxRewards.gt(0)) ||
     (transferredCumulativeGmxRewards && transferredCumulativeGmxRewards.gt(0));
   const hasStakedGlp =
@@ -132,7 +132,7 @@ export default function BeginAccountTransfer(props) {
       return t`Wallet is not connected`;
     }
     if (hasVestedGmx) {
-      return t`Vested GMX not withdrawn`;
+      return t`Vested DEX not withdrawn`;
     }
     if (hasVestedGlp) {
       return t`Vested GLP not withdrawn`;
@@ -143,7 +143,7 @@ export default function BeginAccountTransfer(props) {
     if (!ethers.utils.isAddress(receiver)) {
       return t`Invalid Receiver Address`;
     }
-    if (hasStakedGmx || hasStakedGlp) {
+    if (hasStakedDEX || hasStakedGlp) {
       return t`Invalid Receiver`;
     }
     if ((parsedReceiver || "").toString().toLowerCase() === (account || "").toString().toLowerCase()) {
@@ -245,7 +245,7 @@ export default function BeginAccountTransfer(props) {
             <br />
             This will transfer all your GMX, esGMX, GLP and Multiplier Points to your new account.
             <br />
-            Transfers are only supported if the receiving account has not staked GMX or GLP tokens before.
+            Transfers are only supported if the receiving account has not staked DEX or GLP tokens before.
             <br />
             Transfers are one-way, you will not be able to transfer staked tokens back to the sending account.
           </Trans>
@@ -275,13 +275,13 @@ export default function BeginAccountTransfer(props) {
           </div>
           <div className="BeginAccountTransfer-validations">
             <ValidationRow isValid={!hasVestedGmx}>
-              <Trans>Sender has withdrawn all tokens from GMX Vesting Vault</Trans>
+              <Trans>Sender has withdrawn all tokens from DEX Vesting Vault</Trans>
             </ValidationRow>
             <ValidationRow isValid={!hasVestedGlp}>
               <Trans>Sender has withdrawn all tokens from GLP Vesting Vault</Trans>
             </ValidationRow>
             <ValidationRow isValid={!hasStakedGmx}>
-              <Trans>Receiver has not staked GMX tokens before</Trans>
+              <Trans>Receiver has not staked DEX tokens before</Trans>
             </ValidationRow>
             <ValidationRow isValid={!hasStakedGlp}>
               <Trans>Receiver has not staked GLP tokens before</Trans>

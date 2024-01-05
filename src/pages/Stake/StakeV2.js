@@ -592,10 +592,10 @@ function VesterWithdrawModal(props) {
             This will withdraw and unreserve all tokens as well as pause vesting.
             <br />
             <br />
-            esGMX tokens that have been converted to GMX will remain as GMX tokens.
+            esDEX tokens that have been converted to DEX will remain as DEX tokens.
             <br />
             <br />
-            To claim GMX tokens without withdrawing, use the "Claim" button under the Total Rewards section.
+            To claim DEX tokens without withdrawing, use the "Claim" button under the Total Rewards section.
             <br />
             <br />
           </div>
@@ -726,7 +726,7 @@ function CompoundModal(props) {
       });
   };
 
-  const toggleShouldStakeGmx = (value) => {
+  const toggleshouldStakeGmx = (value) => {
     if (value) {
       setShouldClaimGmx(true);
     }
@@ -762,22 +762,22 @@ function CompoundModal(props) {
           </div>
           <div>
             <Checkbox isChecked={shouldClaimGmx} setIsChecked={setShouldClaimGmx} disabled={shouldStakeGmx}>
-              <Trans>Claim GMX Rewards</Trans>
+              <Trans>Claim DEX Rewards</Trans>
             </Checkbox>
           </div>
           <div>
-            <Checkbox isChecked={shouldStakeGmx} setIsChecked={toggleShouldStakeGmx}>
-              <Trans>Stake GMX Rewards</Trans>
+            <Checkbox isChecked={shouldStakeGmx} setIsChecked={toggleshouldStakeGmx}>
+              <Trans>Stake DEX Rewards</Trans>
             </Checkbox>
           </div>
           <div>
             <Checkbox isChecked={shouldClaimEsGmx} setIsChecked={setShouldClaimEsGmx} disabled={shouldStakeEsGmx}>
-              <Trans>Claim esGMX Rewards</Trans>
+              <Trans>Claim esDEX Rewards</Trans>
             </Checkbox>
           </div>
           <div>
             <Checkbox isChecked={shouldStakeEsGmx} setIsChecked={toggleShouldStakeEsGmx}>
-              <Trans>Stake esGMX Rewards</Trans>
+              <Trans>Stake esDEX Rewards</Trans>
             </Checkbox>
           </div>
           <div>
@@ -888,12 +888,12 @@ function ClaimModal(props) {
         <div className="CompoundModal-menu">
           <div>
             <Checkbox isChecked={shouldClaimGmx} setIsChecked={setShouldClaimGmx}>
-              <Trans>Claim GMX Rewards</Trans>
+              <Trans>Claim DEX Rewards</Trans>
             </Checkbox>
           </div>
           <div>
             <Checkbox isChecked={shouldClaimEsGmx} setIsChecked={setShouldClaimEsGmx}>
-              <Trans>Claim esGMX Rewards</Trans>
+              <Trans>Claim esDEX Rewards</Trans>
             </Checkbox>
           </div>
           <div>
@@ -1197,7 +1197,7 @@ export default function StakeV2({ setPendingTxns }) {
 
   const showStakeGmxModal = () => {
     if (!isGmxTransferEnabled) {
-      helperToast.error(t`GMX transfers not yet enabled`);
+      helperToast.error(t`DEX transfers not yet enabled`);
       return;
     }
 
@@ -1229,8 +1229,8 @@ export default function StakeV2({ setPendingTxns }) {
     }
 
     setIsVesterDepositModalVisible(true);
-    setVesterDepositTitle(t`GMX Vault`);
-    setVesterDepositStakeTokenLabel("staked GMX + esGMX + Multiplier Points");
+    setVesterDepositTitle(t`DEX Vault`);
+    setVesterDepositStakeTokenLabel("staked DEX + esDEX + Multiplier Points");
     setVesterDepositMaxAmount(remainingVestableAmount);
     setVesterDepositBalance(processedData.esGmxBalance);
     setVesterDepositEscrowedBalance(vestingData.gmxVester.escrowedBalance);
@@ -1271,7 +1271,7 @@ export default function StakeV2({ setPendingTxns }) {
     }
 
     setIsVesterWithdrawModalVisible(true);
-    setVesterWithdrawTitle(t`Withdraw from GMX Vault`);
+    setVesterWithdrawTitle(t`Withdraw from DEX Vault`);
     setVesterWithdrawAddress(gmxVesterAddress);
   };
 
@@ -1288,7 +1288,7 @@ export default function StakeV2({ setPendingTxns }) {
 
   const showUnstakeGmxModal = () => {
     if (!isGmxTransferEnabled) {
-      helperToast.error(t`GMX transfers not yet enabled`);
+      helperToast.error(t`DEX transfers not yet enabled`);
       return;
     }
     setIsUnstakeModalVisible(true);
@@ -1553,7 +1553,7 @@ export default function StakeV2({ setPendingTxns }) {
                   <Trans>Wallet</Trans>
                 </div>
                 <div>
-                  {formatKeyAmount(processedData, "gmxBalance", 18, 2, true)} GMX ($
+                  {formatKeyAmount(processedData, "gmxBalance", 18, 2, true)} DEX ($
                   {formatKeyAmount(processedData, "gmxBalanceUsd", USD_DECIMALS, 2, true)})
                 </div>
               </div>
@@ -1562,7 +1562,7 @@ export default function StakeV2({ setPendingTxns }) {
                   <Trans>Staked</Trans>
                 </div>
                 <div>
-                  {formatKeyAmount(processedData, "gmxInStakedGmx", 18, 2, true)} GMX ($
+                  {formatKeyAmount(processedData, "gmxInStakedGmx", 18, 2, true)} DEX ($
                   {formatKeyAmount(processedData, "gmxInStakedGmxUsd", USD_DECIMALS, 2, true)})
                 </div>
               </div>
@@ -1691,7 +1691,7 @@ export default function StakeV2({ setPendingTxns }) {
                 {!totalGmxSupply && "..."}
                 {totalGmxSupply && (
                   <div>
-                    {formatAmount(totalGmxSupply, 18, 0, true)} GMX ($
+                    {formatAmount(totalGmxSupply, 18, 0, true)} DEX ($
                     {formatAmount(totalSupplyUsd, USD_DECIMALS, 0, true)})
                   </div>
                 )}
@@ -1843,7 +1843,7 @@ export default function StakeV2({ setPendingTxns }) {
 
                           {processedData?.glpAprForEsGmx.gt(0) && (
                             <StatsTooltipRow
-                              label="Escrowed GMX APR"
+                              label="Escrowed DEX APR"
                               value={`${formatKeyAmount(processedData, "glpAprForEsGmx", 2, 2, true)}%`}
                               showDollar={false}
                             />
@@ -1970,7 +1970,7 @@ export default function StakeV2({ setPendingTxns }) {
                   <Trans>Wallet</Trans>
                 </div>
                 <div>
-                  {formatKeyAmount(processedData, "esGmxBalance", 18, 2, true)} esGMX ($
+                  {formatKeyAmount(processedData, "esGmxBalance", 18, 2, true)} esDEX ($
                   {formatKeyAmount(processedData, "esGmxBalanceUsd", USD_DECIMALS, 2, true)})
                 </div>
               </div>
@@ -1979,7 +1979,7 @@ export default function StakeV2({ setPendingTxns }) {
                   <Trans>Staked</Trans>
                 </div>
                 <div>
-                  {formatKeyAmount(processedData, "esGmxInStakedGmx", 18, 2, true)} esGMX ($
+                  {formatKeyAmount(processedData, "esGmxInStakedGmx", 18, 2, true)} esDEX ($
                   {formatKeyAmount(processedData, "esGmxInStakedGmxUsd", USD_DECIMALS, 2, true)})
                 </div>
               </div>
@@ -2008,7 +2008,7 @@ export default function StakeV2({ setPendingTxns }) {
                   <Trans>Total Staked</Trans>
                 </div>
                 <div>
-                  {formatKeyAmount(processedData, "stakedEsGmxSupply", 18, 0, true)} esGMX ($
+                  {formatKeyAmount(processedData, "stakedEsGmxSupply", 18, 0, true)} esDEX ($
                   {formatKeyAmount(processedData, "stakedEsGmxSupplyUsd", USD_DECIMALS, 0, true)})
                 </div>
               </div>
@@ -2017,7 +2017,7 @@ export default function StakeV2({ setPendingTxns }) {
                   <Trans>Total Supply</Trans>
                 </div>
                 <div>
-                  {formatAmount(esGmxSupply, 18, 0, true)} esGMX (${formatAmount(esGmxSupplyUsd, USD_DECIMALS, 0, true)}
+                  {formatAmount(esGmxSupply, 18, 0, true)} esDEX (${formatAmount(esGmxSupplyUsd, USD_DECIMALS, 0, true)}
                   )
                 </div>
               </div>
@@ -2062,7 +2062,7 @@ export default function StakeV2({ setPendingTxns }) {
           title={t`Vest`}
           subtitle={
             <Trans>
-              Convert esGMX tokens to GMX tokens.
+              Convert esDEX tokens to DEX tokens.
               <br />
               Please read the{" "}
               <ExternalLink href="https://docs.gmx.io/docs/tokenomics/rewards#vesting">
@@ -2078,7 +2078,7 @@ export default function StakeV2({ setPendingTxns }) {
               <div className="App-card-title">
                 <div className="inline-items-center">
                   <img className="mr-xs" alt="GMX" src={icons.gmx} height={20} />
-                  <Trans>GMX Vault</Trans>
+                  <Trans>DEX Vault</Trans>
                 </div>
               </div>
               <div className="App-card-divider"></div>
@@ -2144,8 +2144,8 @@ export default function StakeV2({ setPendingTxns }) {
                           <div>
                             <Trans>
                               {formatKeyAmount(vestingData, "gmxVesterClaimSum", 18, 4, true)} tokens have been
-                              converted to GMX from the{" "}
-                              {formatKeyAmount(vestingData, "gmxVesterVestedAmount", 18, 4, true)} esGMX deposited for
+                              converted to DEX from the{" "}
+                              {formatKeyAmount(vestingData, "gmxVesterVestedAmount", 18, 4, true)} esDEX deposited for
                               vesting.
                             </Trans>
                           </div>
@@ -2164,7 +2164,7 @@ export default function StakeV2({ setPendingTxns }) {
                       position="right-bottom"
                       renderContent={() => (
                         <Trans>
-                          {formatKeyAmount(vestingData, "gmxVesterClaimable", 18, 4, true)} GMX tokens can be claimed,
+                          {formatKeyAmount(vestingData, "gmxVesterClaimable", 18, 4, true)} DEX tokens can be claimed,
                           use the options under the Total Rewards section to claim them.
                         </Trans>
                       )}
@@ -2234,8 +2234,8 @@ export default function StakeV2({ setPendingTxns }) {
                           <div>
                             <Trans>
                               {formatKeyAmount(vestingData, "glpVesterClaimSum", 18, 4, true)} tokens have been
-                              converted to GMX from the{" "}
-                              {formatKeyAmount(vestingData, "glpVesterVestedAmount", 18, 4, true)} esGMX deposited for
+                              converted to DEX from the{" "}
+                              {formatKeyAmount(vestingData, "glpVesterVestedAmount", 18, 4, true)} esDEX deposited for
                               vesting.
                             </Trans>
                           </div>
@@ -2254,7 +2254,7 @@ export default function StakeV2({ setPendingTxns }) {
                       position="right-bottom"
                       renderContent={() => (
                         <Trans>
-                          {formatKeyAmount(vestingData, "glpVesterClaimable", 18, 4, true)} GMX tokens can be claimed,
+                          {formatKeyAmount(vestingData, "glpVesterClaimable", 18, 4, true)} DEX tokens can be claimed,
                           use the options under the Total Rewards section to claim them.
                         </Trans>
                       )}
@@ -2300,7 +2300,7 @@ export default function StakeV2({ setPendingTxns }) {
           <UserIncentiveDistributionList />
         </>
       )}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

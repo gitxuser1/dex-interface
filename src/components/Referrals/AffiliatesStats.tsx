@@ -411,7 +411,7 @@ function AffiliatesStats({
         <div className="reward-history">
           <Card
             title={t`Rebates Distribution History`}
-            tooltipText={t`V1 Rebates and V1/V2 esGMX are airdropped weekly. V2 Rebates are claimed manually.`}
+            tooltipText={t`V1 Rebates and V1/V2 esDEX are airdropped weekly. V2 Rebates are claimed manually.`}
           >
             <div className="table-wrapper">
               <table className="referral-table">

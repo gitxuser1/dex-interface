@@ -1227,7 +1227,7 @@ export function getProcessedData(
 }
 
 export function getPageTitle(data) {
-  const title = t`Decentralized Perpetual Exchange | GMX`;
+  const title = t`Decentralized Perpetual Exchange | DEX`;
   return `${data} | ${title}`;
 }
 

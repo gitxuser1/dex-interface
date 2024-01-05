@@ -98,12 +98,12 @@ export default function TokenCard({ showRedirectModal, redirectPopupTimestamp })
       <div className="Home-token-card-option">
         <div>
           <div className="Home-token-card-option-icon">
-            <img src={gmxIcon} width="40" alt="GMX Icons" /> GMX
+            <img src={gmxIcon} width="40" alt="DEX Icons" /> DEX
           </div>
           <div className="Home-token-card-option-info">
             <div className="Home-token-card-option-title">
               <Trans>
-                GMX is the utility and governance token. Accrues 30% and 27% of V1 and V2 markets generated fees,
+              DEX is the utility and governance token. Accrues 30% and 27% of V1 and V2 markets generated fees,
                 respectively.
               </Trans>
             </div>
@@ -135,7 +135,7 @@ export default function TokenCard({ showRedirectModal, redirectPopupTimestamp })
           <div className="Home-token-card-option-info">
             <div className="Home-token-card-option-title">
               <Trans>
-                GM is the liquidity provider token for GMX V2 markets. Accrues 63% of the V2 markets generated fees.
+                GM is the liquidity provider token for DEX V2 markets. Accrues 63% of the V2 markets generated fees.
               </Trans>
             </div>
           </div>
@@ -180,7 +180,7 @@ export default function TokenCard({ showRedirectModal, redirectPopupTimestamp })
           <div className="Home-token-card-option-info">
             <div className="Home-token-card-option-title">
               <Trans>
-                GLP is the liquidity provider token for GMX V1 markets. Accrues 70% of the V1 markets generated fees.
+                GLP is the liquidity provider token for DEX V1 markets. Accrues 70% of the V1 markets generated fees.
               </Trans>
               {arbitrumIncentiveState?.migration?.isActive && (
                 <BannerButton

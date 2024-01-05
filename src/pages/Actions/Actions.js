@@ -97,10 +97,10 @@ export default function Actions({ savedIsPnlInLeverage, savedShowPnlAfterFees })
             title={t`V1 Account`}
             subtitle={
               <>
-                <Trans>GMX V1 information for account: {checkSummedAccount}</Trans>
+                <Trans>DEX V1 information for account: {checkSummedAccount}</Trans>
                 <div>
                   <ExternalLink newTab={false} href={`/#/actions/${checkSummedAccount}`}>
-                    Check on GMX V2
+                    Check on DEX V2
                   </ExternalLink>
                   .
                 </div>
@@ -186,10 +186,10 @@ export default function Actions({ savedIsPnlInLeverage, savedShowPnlAfterFees })
               title={t`V1 Actions`}
               subtitle={
                 <>
-                  {<Trans>GMX V1 actions for all accounts.</Trans>}
+                  {<Trans>DEX V1 actions for all accounts.</Trans>}
                   <div>
                     <ExternalLink newTab={false} href={`/#/actions/`}>
-                      Check on GMX V2
+                      Check on DEX V2
                     </ExternalLink>
                     .
                   </div>

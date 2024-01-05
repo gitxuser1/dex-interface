@@ -31,8 +31,8 @@ export function TradeDropdown(p: Props) {
               redirectPopupTimestamp={redirectPopupTimestamp}
               showRedirectModal={showRedirectModal}
             >
-              <img src={getIcon("common", "gmxOutline")} alt="GMX V1" className="TradeDropdown-option-icon" />
-              <div className="TradeDropdown-option-label">GMX V1</div>
+              <img src={getIcon("common", "gmxOutline")} alt="DEX V1" className="TradeDropdown-option-icon" />
+              <div className="TradeDropdown-option-label">DEX V1</div>
             </HeaderLink>
           </Menu.Item>
 
@@ -43,8 +43,8 @@ export function TradeDropdown(p: Props) {
               redirectPopupTimestamp={redirectPopupTimestamp}
               showRedirectModal={showRedirectModal}
             >
-              <img src={getIcon("common", "gmxOutline")} alt="GMX V2" className="TradeDropdown-option-icon" />
-              <div className="TradeDropdown-option-label">GMX V2</div>
+              <img src={getIcon("common", "gmxOutline")} alt="DEX V2" className="TradeDropdown-option-icon" />
+              <div className="TradeDropdown-option-label">DEX V2</div>
             </HeaderLink>
           </Menu.Item>
         </Menu.Items>

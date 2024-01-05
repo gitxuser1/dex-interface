@@ -319,7 +319,7 @@ export function SyntheticsPage(p: Props) {
       <Helmet>
         <style type="text/css">{`
             :root {
-              --main-bg-color: #08091b;                   
+              --main-bg-color: #F6F6F6;             
              {
          `}</style>
       </Helmet>
@@ -582,7 +582,7 @@ export function SyntheticsPage(p: Props) {
           setIsSettling(false);
         }, [])}
       />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

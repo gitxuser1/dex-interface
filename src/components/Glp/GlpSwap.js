@@ -945,7 +945,7 @@ export default function GlpSwap(props) {
                           showDollar={false}
                         />
                         <StatsTooltipRow
-                          label={t`Escrowed GMX APR`}
+                          label={t`Escrowed DEX APR`}
                           value={`${formatAmount(stakedGlpTrackerApr, 2, 2, false)}%`}
                           showDollar={false}
                         />

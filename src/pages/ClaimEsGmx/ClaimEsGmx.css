@@ -1,11 +1,11 @@
-.ClaimEsGmx input {
+.ClaimEsDEX input {
   border: 1px solid rgba(255, 255, 255, 0.2);
   font-size: var(--font-base);
   width: 100%;
   box-sizing: border-box;
 }
 
-.ClaimEsGmx label {
+.ClaimEsDEX label {
   display: block;
   margin-bottom: 0.8rem;
 }
@@ -20,7 +20,7 @@
   margin-bottom: 1.5rem;
 }
 
-.ClaimEsGmx button {
+.ClaimEsDEX button {
   margin-top: 0.8rem;
 }
 
@@ -62,11 +62,11 @@
   color: #e84141;
 }
 
-.ClaimEsGmx button {
+.ClaimEsDEX button {
   max-width: 35.65rem;
 }
 
-.ClaimEsGmx .vest-option {
+.ClaimEsDEX .vest-option {
   text-decoration: none;
   display: grid;
   grid-template-columns: auto 1fr;
@@ -80,7 +80,7 @@
   max-width: 36rem;
   margin-bottom: 1rem;
 }
-.ClaimEsGmx .vest-option .Checkbox-label {
+.ClaimEsDEX .vest-option .Checkbox-label {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -91,7 +91,7 @@
   margin-bottom: 0.8rem;
 }
 
-.ClaimEsGmx input {
+.ClaimEsDEX input {
   width: 35.65rem;
 }
 

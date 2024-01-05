@@ -55,7 +55,7 @@
   }
 
   &.secondary {
-    background-color: rgba(180, 187, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.7);
     border-radius: var(--border-radius-sm);
     color: #fff;
     padding: 1.1rem 1.25rem;
@@ -81,11 +81,11 @@
     }
 
     &:not([disabled]):hover {
-      background: rgba(80, 87, 126, 0.6);
+      background: rgba(0, 0, 0, 0.9);
     }
 
     &:not([disabled]):active {
-      background: rgba(80, 87, 126, 0.7);
+      background: rgba(0, 0, 0, 1);
     }
   }
 

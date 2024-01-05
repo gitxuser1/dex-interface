@@ -255,7 +255,7 @@ function MigrationModal(props) {
             <div className="App-info-label">{token.bonus > 0 ? "Base Tokens" : "To Receive"}</div>
             <div className="align-right">
               {baseAmount &&
-                `${formatAmount(baseAmount, 18, 4, true)} GMX ($${formatAmount(
+                `${formatAmount(baseAmount, 18, 4, true)} DEX ($${formatAmount(
                   baseAmountUsd,
                   18 + decimals,
                   2,
@@ -271,7 +271,7 @@ function MigrationModal(props) {
               </div>
               <div className="align-right">
                 {bonusAmount &&
-                  `${formatAmount(bonusAmount, 18, 4, true)} GMX ($${formatAmount(
+                  `${formatAmount(bonusAmount, 18, 4, true)} DEX ($${formatAmount(
                     bonusAmountUsd,
                     18 + decimals,
                     2,
@@ -288,7 +288,7 @@ function MigrationModal(props) {
               </div>
               <div className="align-right">
                 {totalAmount &&
-                  `${formatAmount(totalAmount, 18, 4, true)} GMX ($${formatAmount(
+                  `${formatAmount(totalAmount, 18, 4, true)} DEX ($${formatAmount(
                     totalAmountUsd,
                     18 + decimals,
                     2,
@@ -347,11 +347,11 @@ export default function Migration() {
 
   if (iouBalances) {
     gmxBalance = bigNumberify(0);
-    totalMigratedGmx = bigNumberify(0);
+    totalMigratedDEX = bigNumberify(0);
 
     for (let i = 0; i < iouBalances.length / 2; i++) {
       gmxBalance = gmxBalance.add(iouBalances[i * 2]);
-      totalMigratedGmx = totalMigratedGmx.add(iouBalances[i * 2 + 1]);
+      totalMigratedDEX = totalMigratedGmx.add(iouBalances[i * 2 + 1]);
     }
 
     totalMigratedUsd = totalMigratedGmx.mul(gmxPrice);

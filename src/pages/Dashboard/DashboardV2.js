@@ -514,7 +514,7 @@ export default function DashboardV2() {
                       handle={`$${formatAmount(tvl, USD_DECIMALS, 0, true)}`}
                       position="right-bottom"
                       renderContent={() => (
-                        <span>{t`Assets Under Management: GMX staked (All chains) + GLP pool (${chainName}) +  GM Pools (${chainName}).`}</span>
+                        <span>{t`Assets Under Management: DEX staked (All chains) + GLP pool (${chainName}) +  GM Pools (${chainName}).`}</span>
                       )}
                     />
                   </div>
@@ -814,7 +814,7 @@ export default function DashboardV2() {
                   <div className="App-card-title">
                     <div className="App-card-title-mark">
                       <div className="App-card-title-mark-icon">
-                        <img src={currentIcons.gmx} width="40" alt="GMX Token Icon" />
+                        <img src={currentIcons.gmx} width="40" alt="DEX Token Icon" />
                       </div>
                       <div className="App-card-title-mark-info">
                         <div className="App-card-title-mark-title">GMX</div>
@@ -1241,7 +1241,7 @@ export default function DashboardV2() {
             {getIsSyntheticsSupported(chainId) && <MarketsList />}
           </div>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </SEO>
   );

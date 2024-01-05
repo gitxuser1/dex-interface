@@ -599,7 +599,7 @@ function FullApp() {
                     <Trans>
                       The Max Execution Fee is set to a higher value to handle potential increases in gas price during
                       order execution. Any excess execution fee will be refunded to your account when the order is
-                      executed. Only applicable to GMX V2.
+                      executed. Only applicable to DEX V2.
                     </Trans>
                     <br />
                     <br />

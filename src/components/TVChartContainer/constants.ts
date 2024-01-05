@@ -18,9 +18,9 @@ const chartStyleOverrides = ["candleStyle", "hollowCandleStyle", "haStyle"].redu
 }, {});
 
 const chartOverrides = {
-  "paneProperties.background": "#16182e",
-  "paneProperties.backgroundGradientStartColor": "#16182e",
-  "paneProperties.backgroundGradientEndColor": "#16182e",
+  "paneProperties.background": "#fff",
+  "paneProperties.backgroundGradientStartColor": "#fff",
+  "paneProperties.backgroundGradientEndColor": "#fff",
   "paneProperties.backgroundType": "solid",
   "paneProperties.vertGridProperties.color": "rgba(35, 38, 59, 1)",
   "paneProperties.vertGridProperties.style": 2,
@@ -28,7 +28,7 @@ const chartOverrides = {
   "paneProperties.horzGridProperties.style": 2,
   "mainSeriesProperties.priceLineColor": "#3a3e5e",
   "scalesProperties.textColor": "#fff",
-  "scalesProperties.lineColor": "#16182e",
+  "scalesProperties.lineColor": "#fff",
   ...chartStyleOverrides,
 };
 
@@ -60,7 +60,7 @@ const enabledFeatures = [
 ];
 
 export const defaultChartProps = {
-  theme: "Dark",
+  theme: "Light",
   locale: "en",
   library_path: "/charting_library/",
   clientId: "tradingview.com",
@@ -72,7 +72,7 @@ export const defaultChartProps = {
   enabled_features: enabledFeatures,
   disabled_features: disabledFeatures,
   custom_css_url: "/tradingview-chart.css",
-  loading_screen: { backgroundColor: "#16182e", foregroundColor: "#2962ff" },
+  loading_screen: { backgroundColor: "#fff", foregroundColor: "#2962ff" },
   favorites: {},
   custom_formatters: {
     timeFormatter: {

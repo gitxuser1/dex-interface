@@ -75,19 +75,19 @@
   font-size: var(--font-md);
   line-height: 2.1rem;
   letter-spacing: 0px;
-  color: #ffffff;
+  color: black;
 }
 
 .App-card-title-mark .App-card-title-mark-subtitle {
   font-size: 1.2rem;
   line-height: 1.5rem;
   letter-spacing: 0px;
-  color: #a9a9b0;
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .GlpSwap-token-list {
   border-radius: 4px;
-  background: #16182e;
+  background: #fff;
   padding: 1.5rem;
   padding-top: 0;
   text-align: left;
@@ -171,7 +171,7 @@
 
 .token-table td {
   letter-spacing: 0.25px;
-  color: #ffffffde;
+  color: black;
 }
 
 .token-table th:first-child,
@@ -190,7 +190,7 @@
 .token-table th {
   font-weight: normal;
   letter-spacing: 0.25px;
-  color: #a9a9b0;
+  color: rgba(0, 0, 0, 0.7);
   text-transform: uppercase;
 }
 

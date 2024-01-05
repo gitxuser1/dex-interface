@@ -56,10 +56,10 @@ export default function SyntheticsActions({
             title={t`V2 Account`}
             subtitle={
               <>
-                <Trans>GMX V2 information for account: {checkSummedAccount}</Trans>
+                <Trans>DEX V2 information for account: {checkSummedAccount}</Trans>
                 <div>
                   <ExternalLink newTab={false} href={`/#/actions/v1/${checkSummedAccount}`}>
-                    Check on GMX V1
+                    Check on DEX V1
                   </ExternalLink>
                   .
                 </div>
@@ -118,10 +118,10 @@ export default function SyntheticsActions({
               title={t`V2 Actions`}
               subtitle={
                 <>
-                  {<Trans>GMX V2 actions for all accounts.</Trans>}
+                  {<Trans>DEX V2 actions for all accounts.</Trans>}
                   <div>
                     <ExternalLink newTab={false} href={`/#/actions/v1`}>
-                      Check on GMX V1
+                      Check on DEX V1
                     </ExternalLink>
                     .
                   </div>

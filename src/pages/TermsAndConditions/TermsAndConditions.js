@@ -18,12 +18,12 @@ export default function TermsAndConditions() {
           <div className="content">
             <div className="section">
               <p className="body-text">
-                Welcome to GMX.io ("we," "us," or "our"), the informational resource for GMX Protocol, as defined below.
+                Welcome to GMX.io ("we," "us," or "our"), the informational resource for DEX Protocol, as defined below.
               </p>
               <p className="body-text">
                 GMX.io provides information and resources about the fundamentals of the decentralized non-custodial
-                protocol called the GMX Protocol (the "GMX Protocol," "Protocol," or "GMX DApp"). GMX.io is not an
-                available access point to the GMX Protocol.
+                protocol called the DEX Protocol (the "DEX Protocol," "Protocol," or "DEX DApp"). GMX.io is not an
+                available access point to the DEX Protocol.
               </p>
               <p className="body-text">
                 These Terms and Conditions and any other documents incorporated herein by reference (collectively, these
@@ -36,10 +36,10 @@ export default function TermsAndConditions() {
               <h3 className="body-title">1. USE OF THE SITE AND THE INTERFACE</h3>
               <p className="body-text">The GMX.io site is for informational purposes only.</p>
               <p className="body-text">
-                GMX.io is not part of any transaction on the blockchain networks underlying the GMX Protocol; we do not
+                GMX.io is not part of any transaction on the blockchain networks underlying the DEX Protocol; we do not
                 have possession, custody, or control over any crypto assets appearing on the Interface; and we do not
                 have possession, custody, or control over any user's funds. Further, we do not store, send, or receive
-                any crypto assets. You understand that when you interact with any GMX Protocol smart contracts, you
+                any crypto assets. You understand that when you interact with any DEX Protocol smart contracts, you
                 always retain control over your crypto assets. We do not have access to your private keys.
               </p>
               <ul className="list-style-none">
@@ -414,7 +414,7 @@ export default function TermsAndConditions() {
             <div className="section">
               <h3 className="body-title">8. DISCLOSURES; DISCLAIMERS</h3>
               <p className="body-text">
-                GMX.io is an informational site for the GMX Protocol. GMX.io does not operate an exchange platform or
+                GMX.io is an informational site for the DEX Protocol. GMX.io does not operate an exchange platform or
                 offer trade execution or clearing services and has no oversight, involvement, or control concerning your
                 transactions using the Interface. All transactions between users of the Interface are executed
                 peer-to-peer directly between the users' blockchain addresses through a third-party developed

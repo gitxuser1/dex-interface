@@ -209,7 +209,7 @@ export const TOKENS: { [chainId: number]: Token[] } = {
       isPlatformToken: true,
     },
     {
-      name: "GMX LP",
+      name: "DEX LP",
       symbol: "GLP",
       address: getContract(ARBITRUM, "GLP"),
       decimals: 18,
@@ -218,7 +218,7 @@ export const TOKENS: { [chainId: number]: Token[] } = {
       isPlatformToken: true,
     },
     {
-      name: "GMX Market tokens",
+      name: "DEX Market tokens",
       symbol: "GM",
       address: "<market-token-address>",
       decimals: 18,
@@ -418,7 +418,7 @@ export const TOKENS: { [chainId: number]: Token[] } = {
       isPlatformToken: true,
     },
     {
-      name: "GMX LP",
+      name: "DEX LP",
       symbol: "GLP",
       address: getContract(AVALANCHE, "GLP"),
       decimals: 18,
@@ -428,7 +428,7 @@ export const TOKENS: { [chainId: number]: Token[] } = {
       reservesUrl: "https://portfolio.nansen.ai/dashboard/gmx?chain=AVAX",
     },
     {
-      name: "GMX Market tokens",
+      name: "DEX Market tokens",
       symbol: "GM",
       address: "<market-token-address>",
       decimals: 18,
@@ -611,7 +611,7 @@ export const TOKENS: { [chainId: number]: Token[] } = {
       isPlatformToken: true,
     },
     {
-      name: "GMX LP",
+      name: "DEX LP",
       symbol: "GLP",
       address: "",
       decimals: 18,
@@ -619,7 +619,7 @@ export const TOKENS: { [chainId: number]: Token[] } = {
       isPlatformToken: true,
     },
     {
-      name: "GMX Market tokens",
+      name: "DEX Market tokens",
       symbol: "GM",
       address: "<market-token-address>",
       decimals: 18,
@@ -813,7 +813,7 @@ export const TOKENS: { [chainId: number]: Token[] } = {
       isPlatformToken: true,
     },
     {
-      name: "GMX LP",
+      name: "DEX LP",
       symbol: "GLP",
       address: "",
       decimals: 18,
@@ -821,7 +821,7 @@ export const TOKENS: { [chainId: number]: Token[] } = {
       isPlatformToken: true,
     },
     {
-      name: "GMX Market tokens",
+      name: "DEX Market tokens",
       symbol: "GM",
       address: "<market-token-address>",
       decimals: 18,

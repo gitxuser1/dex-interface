@@ -24,11 +24,11 @@ import { bitgetWallet } from "./connecters/bitgetWallet/bitgetWallet";
 import binanceWallet from "./connecters/binanceW3W/binanceWallet";
 
 const WALLET_CONNECT_PROJECT_ID = "de24cddbaf2a68f027eae30d9bb5df58";
-const APP_NAME = "GMX";
+const APP_NAME = "DEX";
 
 const walletTheme = merge(darkTheme(), {
   colors: {
-    modalBackground: "#16182e",
+    modalBackground: "#fff",
     accentColor: "#9da5f2",
     menuItemBackground: "#808aff14",
   },

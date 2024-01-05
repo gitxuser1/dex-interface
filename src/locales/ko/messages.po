@@ -34,7 +34,7 @@ msgid "<0><1>{eventTitle}</1> from <2>{0} {indexName} <3>[{poolName}]</3> Posit
 msgstr ""
 
 #: src/components/Synthetics/GmList/GmList.tsx
-msgid "<0>APR is based on the Fees collected for the past {daysConsidered} days. It is an estimate as actual Fees are auto-compounded into the pool in real-time.</0><1>Check Pools performance against other LP Positions in <2>GMX Dune Dashboard</2>.</1>"
+msgid "<0>APR is based on the Fees collected for the past {daysConsidered} days. It is an estimate as actual Fees are auto-compounded into the pool in real-time.</0><1>Check Pools performance against other LP Positions in <2>DEX Dune Dashboard</2>.</1>"
 msgstr ""
 
 #: src/components/Synthetics/StatusNotification/GmStatusNotification.tsx
@@ -91,8 +91,8 @@ msgid "<0>The price that orders can be executed at may differ slightly from the 
 msgstr ""
 
 #: src/pages/Stake/StakeV2.js
-msgid "<0>This will withdraw and unreserve all tokens as well as pause vesting.<1/><2/>esGMX tokens that have been converted to GMX will remain as GMX tokens.<3/><4/>To claim GMX tokens without withdrawing, use the \"Claim\" button under the Total Rewards section.<5/><6/></0>"
-msgstr "<0>모든 토큰이 인출되고 취소되며 베스팅이 중지됩니다.<1/><2/>GMX로 변환된 esGMX 토큰은 GMX 토큰으로 유지됩니다.<3/><4/>인출하지 않고 GMX 토큰을 수령하기 위해서는 총 보상 섹션 아래의 \"수령하기\" 버튼을 사용해주세요."
+msgid "<0>This will withdraw and unreserve all tokens as well as pause vesting.<1/><2/>esDEX tokens that have been converted to DEX will remain as DEX tokens.<3/><4/>To claim DEX tokens without withdrawing, use the \"Claim\" button under the Total Rewards section.<5/><6/></0>"
+msgstr "<0>모든 토큰이 인출되고 취소되며 베스팅이 중지됩니다.<1/><2/>GMX로 변환된 esDEX 토큰은 DEX 토큰으로 유지됩니다.<3/><4/>인출하지 않고 DEX 토큰을 수령하기 위해서는 총 보상 섹션 아래의 \"수령하기\" 버튼을 사용해주세요."
 
 #: src/pages/Dashboard/DashboardV2.js
 msgid "<0>Total value of tokens in GLP pool ({chainName}).</0><1>This value may be higher on other websites due to the collateral of positions being included in the calculation.</1>"
@@ -309,12 +309,12 @@ msgid "Affiliates"
 msgstr ""
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "After claiming you will be able to vest a maximum of {0} esGMX at a ratio of {1} {stakingToken} to 1 esGMX."
-msgstr "수령 후 {1} {stake} 대 1 esGMX 비율로 최대 {0}개의 esGMX를 베스팅 할 수 있습니다."
+msgid "After claiming you will be able to vest a maximum of {0} esDEX at a ratio of {1} {stakingToken} to 1 esGMX."
+msgstr "수령 후 {1} {stake} 대 1 esDEX 비율로 최대 {0}개의 esGMX를 베스팅 할 수 있습니다."
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "After claiming, the esGMX tokens will be airdropped to your account on the selected network within 7 days."
-msgstr "수령 후, esGMX 토큰은 7일 이내에 선택한 네트워크의 계정으로 에어드랍됩니다."
+msgid "After claiming, the esDEX tokens will be airdropped to your account on the selected network within 7 days."
+msgstr "수령 후, esDEX 토큰은 7일 이내에 선택한 네트워크의 계정으로 에어드랍됩니다."
 
 #: src/components/ModalViews/RedirectModal.js
 msgid "Agree"
@@ -390,7 +390,7 @@ msgstr "제출 취소되었습니다"
 #: src/pages/BeginAccountTransfer/BeginAccountTransfer.js
 #: src/pages/Stake/StakeV2.js
 msgid "Approve GMX"
-msgstr "GMX 승인"
+msgstr "DEX 승인"
 
 #: src/components/Exchange/PositionEditor.js
 #: src/components/Exchange/SwapBox.js
@@ -406,7 +406,7 @@ msgstr "{stakingTokenSymbol} 승인"
 
 #: src/pages/Stake/StakeV2.js
 msgid "Approving GMX..."
-msgstr "GMX 승인중..."
+msgstr "DEX 승인중..."
 
 #: src/components/Exchange/PositionEditor.js
 #: src/components/Exchange/SwapBox.js
@@ -434,7 +434,7 @@ msgid "As there is not enough liquidity in GLP to swap {0} to {swapTokenSymbol},
 msgstr "{0}에서 {swapTokenSymbol}로 교환할 수 있는 유동성이 GLP에 충분하지 않기 때문에, 이하의 옵션을 사용해주세요:"
 
 #: src/pages/Dashboard/DashboardV2.js
-msgid "Assets Under Management: GMX staked (All chains) + GLP pool ({chainName}) +  GM Pools ({chainName})."
+msgid "Assets Under Management: DEX staked (All chains) + GLP pool ({chainName}) +  GM Pools ({chainName})."
 msgstr ""
 
 #: src/components/Glp/GlpSwap.js
@@ -591,42 +591,42 @@ msgstr ""
 
 #: src/pages/Stake/StakeV2.js
 msgid "Buy GMX"
-msgstr "GMX 구매"
+msgstr "DEX 구매"
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX from Traderjoe:"
+msgid "Buy DEX from Traderjoe:"
 msgstr ""
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX from Uniswap (make sure to select Arbitrum):"
+msgid "Buy DEX from Uniswap (make sure to select Arbitrum):"
 msgstr ""
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX from centralized exchanges:"
+msgid "Buy DEX from centralized exchanges:"
 msgstr ""
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX from centralized services"
+msgid "Buy DEX from centralized services"
 msgstr ""
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX from decentralized exchanges"
+msgid "Buy DEX from decentralized exchanges"
 msgstr ""
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX on {chainName}"
+msgid "Buy DEX on {chainName}"
 msgstr ""
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX using Decentralized Exchange Aggregators:"
+msgid "Buy DEX using Decentralized Exchange Aggregators:"
 msgstr ""
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX using FIAT gateways:"
+msgid "Buy DEX using FIAT gateways:"
 msgstr ""
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX using any token from any network:"
+msgid "Buy DEX using any token from any network:"
 msgstr ""
 
 #: src/pages/Buy/Buy.js
@@ -779,8 +779,8 @@ msgstr ""
 
 #: src/pages/Stake/StakeV2.js
 #: src/pages/Stake/StakeV2.js
-msgid "Claim GMX Rewards"
-msgstr "GMX 보상 수령하기"
+msgid "Claim DEX Rewards"
+msgstr "DEX 보상 수령하기"
 
 #: src/components/Synthetics/ClaimHistoryRow/ClaimHistoryRow.tsx
 msgid "Claim Price Impact"
@@ -801,12 +801,12 @@ msgstr "수령 완료!"
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
 msgid "Claim esGMX"
-msgstr "esGMX 수령하기"
+msgstr "esDEX 수령하기"
 
 #: src/pages/Stake/StakeV2.js
 #: src/pages/Stake/StakeV2.js
-msgid "Claim esGMX Rewards"
-msgstr "esGMX 보상 수령하기"
+msgid "Claim esDEX Rewards"
+msgstr "esDEX 보상 수령하기"
 
 #: src/pages/Stake/StakeV1.js
 msgid "Claim failed"
@@ -1101,8 +1101,8 @@ msgid "Continue"
 msgstr "계속하기"
 
 #: src/pages/Stake/StakeV2.js
-msgid "Convert esGMX tokens to GMX tokens.<0/>Please read the <1>vesting details</1> before using the vaults."
-msgstr "esGMX 토큰을 GMX 토큰으로 변환합니다.<0/>볼트를 사용하기 전 <1>베스팅 세부정보</1>를 참조해주세요."
+msgid "Convert esDEX tokens to DEX tokens.<0/>Please read the <1>vesting details</1> before using the vaults."
+msgstr "esDEX 토큰을 DEX 토큰으로 변환합니다.<0/>볼트를 사용하기 전 <1>베스팅 세부정보</1>를 참조해주세요."
 
 #: src/pages/Stake/StakeV2.js
 #: src/pages/Stake/StakeV2.js
@@ -1252,8 +1252,8 @@ msgid "Dashboard"
 msgstr "대시보드"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "Dashboard for GMX referral stats"
-msgstr "GMX 추천 시스템 통계 대시보드"
+msgid "Dashboard for DEX referral stats"
+msgstr "DEX 추천 시스템 통계 대시보드"
 
 #: src/pages/Ecosystem/Ecosystem.js
 msgid "Dashboards"
@@ -1457,7 +1457,7 @@ msgid "Earn"
 msgstr "보상"
 
 #: src/pages/Stake/StakeV2.js
-msgid "Earn ARB tokens by purchasing GM tokens, trading, or migrating liquidity from GLP to GM. Only for GMX V2."
+msgid "Earn ARB tokens by purchasing GM tokens, trading, or migrating liquidity from GLP to GM. Only for DEX V2."
 msgstr ""
 
 #: src/components/Header/AppHeaderLinks.tsx
@@ -1699,8 +1699,8 @@ msgstr "에스크로 GMX"
 
 #: src/components/Glp/GlpSwap.js
 #: src/components/Stake/GMXAprTooltip.tsx
-msgid "Escrowed GMX APR"
-msgstr "esGMX APR"
+msgid "Escrowed DEX APR"
+msgstr "esDEX APR"
 
 #: src/components/Synthetics/TradeHistoryRow/utils.ts
 #: src/pages/OrdersOverview/OrdersOverview.js
@@ -1950,7 +1950,7 @@ msgid "GLP Vault"
 msgstr "GLP 볼트"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GLP and GMX autocompounding vaults"
+msgid "GLP and DEX autocompounding vaults"
 msgstr ""
 
 #: src/pages/Ecosystem/Ecosystem.js
@@ -1962,7 +1962,7 @@ msgid "GLP buy disabled, pending {0} upgrade"
 msgstr "{0} 업그레이드를 위해 GLP 구매가 비활성화되었습니다"
 
 #: src/components/TokenCard/TokenCard.js
-msgid "GLP is the liquidity provider token for GMX V1 markets. Accrues 70% of the V1 markets generated fees."
+msgid "GLP is the liquidity provider token for DEX V1 markets. Accrues 70% of the V1 markets generated fees."
 msgstr ""
 
 #: src/components/Glp/GlpSwap.js
@@ -1990,117 +1990,117 @@ msgid "GM can be sold for {0} and {1} for this market up to the specified sellin
 msgstr ""
 
 #: src/components/TokenCard/TokenCard.js
-msgid "GM is the liquidity provider token for GMX V2 markets. Accrues 63% of the V2 markets generated fees."
+msgid "GM is the liquidity provider token for DEX V2 markets. Accrues 63% of the V2 markets generated fees."
 msgstr ""
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX Announcements and Updates"
-msgstr "GMX 공지 및 업데이트"
+msgid "DEX Announcements and Updates"
+msgstr "DEX 공지 및 업데이트"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX Blueberry NFTs"
-msgstr "GMX 블루베리 NFT"
+msgid "DEX Blueberry NFTs"
+msgstr "DEX 블루베리 NFT"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX Governance Page"
-msgstr "GMX 거버넌스 페이지"
+msgid "DEX Governance Page"
+msgstr "DEX 거버넌스 페이지"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX Pages"
-msgstr "GMX 페이지"
+msgid "DEX Pages"
+msgstr "DEX 페이지"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX Perpetuals Data"
-msgstr "GMX 파생상품 데이터"
+msgid "DEX Perpetuals Data"
+msgstr "DEX 파생상품 데이터"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX Proposals Voting page"
-msgstr "GMX 프로포절 투표 페이지"
+msgid "DEX Proposals Voting page"
+msgstr "DEX 프로포절 투표 페이지"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX Stats Page"
-msgstr "GMX 통계 페이지"
+msgid "DEX Stats Page"
+msgstr "DEX 통계 페이지"
 
 #: src/pages/Actions/Actions.js
-msgid "GMX V1 actions for all accounts."
+msgid "DEX V1 actions for all accounts."
 msgstr ""
 
 #: src/pages/Actions/Actions.js
-msgid "GMX V1 information for account: {checkSummedAccount}"
+msgid "DEX V1 information for account: {checkSummedAccount}"
 msgstr ""
 
 #: src/pages/SyntheticsActions/SyntheticsActions.tsx
-msgid "GMX V2 actions for all accounts."
+msgid "DEX V2 actions for all accounts."
 msgstr ""
 
 #: src/pages/SyntheticsActions/SyntheticsActions.tsx
-msgid "GMX V2 information for account: {checkSummedAccount}"
+msgid "DEX V2 information for account: {checkSummedAccount}"
 msgstr ""
 
 #: src/pages/Stake/StakeV2.js
 #: src/pages/Stake/StakeV2.js
-msgid "GMX Vault"
-msgstr "GMX 볼트"
+msgid "DEX Vault"
+msgstr "DEX 볼트"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX Weekly Updates"
-msgstr "GMX 주간 업데이트"
+msgid "DEX Weekly Updates"
+msgstr "DEX 주간 업데이트"
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "GMX bonds can be bought on Bond Protocol with a discount and a small vesting period:"
+msgid "DEX bonds can be bought on Bond Protocol with a discount and a small vesting period:"
 msgstr ""
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX community discussion"
-msgstr "GMX 커뮤니티 토론"
+msgid "DEX community discussion"
+msgstr "DEX 커뮤니티 토론"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX dashboards and analytics."
-msgstr "GMX 대시보드 및 통계"
+msgid "DEX dashboards and analytics."
+msgstr "DEX 대시보드 및 통계"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX ecosystem pages."
-msgstr "GMX 이코시스템 페이지"
+msgid "DEX ecosystem pages."
+msgstr "DEX 이코시스템 페이지"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX explorer for stats and traders"
-msgstr "통계와 트레이드 정보를 위한 GMX 익스플로러"
+msgid "DEX explorer for stats and traders"
+msgstr "통계와 트레이드 정보를 위한 DEX 익스플로러"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX fundamentals"
-msgstr "GMX 펀더멘탈"
+msgid "DEX fundamentals"
+msgstr "DEX 펀더멘탈"
 
 #: src/pages/Home/Home.js
-msgid "GMX is currently live on Arbitrum and Avalanche."
+msgid "DEX is currently live on Arbitrum and Avalanche."
 msgstr "GMX는 현재 Arbitrum과 Avalanche에서 이용할 수 있습니다."
 
 #: src/pages/Jobs/Jobs.js
-msgid "GMX is not actively looking for new hires at the moment. However, if you think you can contribute to the project, please email <0>jobs@gmx.io</0>."
+msgid "DEX is not actively looking for new hires at the moment. However, if you think you can contribute to the project, please email <0>jobs@gmx.io</0>."
 msgstr "GMX는 현재 구인하고 있지 않습니다. 하지만 해당 프로젝트에 기여할 수 있다고 생각하시면 email <0>jobs@gmx.io</0>으로 연락해주세요."
 
 #: src/components/TokenCard/TokenCard.js
-msgid "GMX is the utility and governance token. Accrues 30% and 27% of V1 and V2 markets generated fees, respectively."
+msgid "DEX is the utility and governance token. Accrues 30% and 27% of V1 and V2 markets generated fees, respectively."
 msgstr ""
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX staking calculator"
-msgstr "GMX 스테이킹 계산기"
+msgid "DEX staking calculator"
+msgstr "DEX 스테이킹 계산기"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX staking calculator and guide"
+msgid "DEX staking calculator and guide"
 msgstr ""
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX staking rewards updates and insights"
-msgstr "GMX 스테이킹 보상 업데이트 및 인사이트"
+msgid "DEX staking rewards updates and insights"
+msgstr "DEX 스테이킹 보상 업데이트 및 인사이트"
 
 #: src/pages/Stake/StakeV2.js
 #: src/pages/Stake/StakeV2.js
-msgid "GMX transfers not yet enabled"
-msgstr "GMX 전송이 아직 불가능합니다."
+msgid "DEX transfers not yet enabled"
+msgstr "DEX 전송이 아직 불가능합니다."
 
 #: src/components/Common/SEO.js
-msgid "GMX | Decentralized Perpetual Exchange"
+msgid "DEX | Decentralized Perpetual Exchange"
 msgstr ""
 
 #: src/components/Referrals/AddAffiliateCode.js
@@ -2112,7 +2112,7 @@ msgid "Generating shareable image..."
 msgstr "공유가능한 이미지 생성중..."
 
 #: src/pages/Referrals/Referrals.tsx
-msgid "Get fee discounts and earn rebates through the GMX referral program.<0/>For more information, please read the <1>referral program details</1>."
+msgid "Get fee discounts and earn rebates through the DEX referral program.<0/>For more information, please read the <1>referral program details</1>."
 msgstr ""
 
 #: src/components/Header/HomeHeaderLinks.tsx
@@ -2414,8 +2414,8 @@ msgid "Leaderboard"
 msgstr "리더보드"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "Leaderboard for GMX traders"
-msgstr "GMX 트레이더를 위한 리더보드"
+msgid "Leaderboard for DEX traders"
+msgstr "DEX 트레이더를 위한 리더보드"
 
 #: src/components/Exchange/PositionEditor.js
 msgid "Leave at least {0} ETH for gas"
@@ -3116,7 +3116,7 @@ msgid "No claims yet"
 msgstr ""
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "No esGMX to claim"
+msgid "No esDEX to claim"
 msgstr "수령할 수 있는 esGMX가 없습니다"
 
 #: src/components/Synthetics/UserIncentiveDistributionList/UserIncentiveDistributionList.tsx
@@ -3142,7 +3142,7 @@ msgid "No open positions"
 msgstr "열려있는 포지션이 없습니다"
 
 #: src/pages/Jobs/Jobs.js
-msgid "No open positions at GMX currently"
+msgid "No open positions at DEX currently"
 msgstr "현재 GMX에서 열려있는 포지션이 없습니다."
 
 #: src/pages/OrdersOverview/OrdersOverview.js
@@ -3433,7 +3433,7 @@ msgid "Please input a referral code to benefit from fee discounts."
 msgstr "수수료 할인의 혜택을 받으려면 추천인 코드를 입력해주세요."
 
 #: src/pages/BeginAccountTransfer/BeginAccountTransfer.js
-msgid "Please only use this for full account transfers.<0/>This will transfer all your GMX, esGMX, GLP and Multiplier Points to your new account.<1/>Transfers are only supported if the receiving account has not staked GMX or GLP tokens before.<2/>Transfers are one-way, you will not be able to transfer staked tokens back to the sending account."
+msgid "Please only use this for full account transfers.<0/>This will transfer all your GMX, esGMX, GLP and Multiplier Points to your new account.<1/>Transfers are only supported if the receiving account has not staked DEX or GLP tokens before.<2/>Transfers are one-way, you will not be able to transfer staked tokens back to the sending account."
 msgstr "계정 전체 이전을 위해서만 해당 기능을 사용해주세요.<0/>이 기능은, 귀하의 GMX, esGMX, GLP 및 멀티플라이어 포인트 전부를 새로운 계정으로 전송합니다.<1/>이전은 수취 게정이 이전에 GMX, GLP를 스테이킹한 적이 없는 경우에만 지원됩니다.<2/>이전은 단방향이며, 발송 계정으로 다시 이전하는 것이 불가능합니다."
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
@@ -3638,7 +3638,7 @@ msgid "Profit"
 msgstr "수익"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "Projects developed by the GMX community. <0/>Please exercise caution when interacting with any app, apps are fully maintained by community developers."
+msgid "Projects developed by the DEX community. <0/>Please exercise caution when interacting with any app, apps are fully maintained by community developers."
 msgstr ""
 
 #: src/pages/Ecosystem/Ecosystem.js
@@ -3752,8 +3752,8 @@ msgid "Receiver has not staked GLP tokens before"
 msgstr "수취인은 지금까지 GLP 토큰을 스테이킹한 적이 없습니다."
 
 #: src/pages/BeginAccountTransfer/BeginAccountTransfer.js
-msgid "Receiver has not staked GMX tokens before"
-msgstr "수취인은 지금까지 GMX 토큰을 스테이킹한 적이 없습니다."
+msgid "Receiver has not staked DEX tokens before"
+msgstr "수취인은 지금까지 DEX 토큰을 스테이킹한 적이 없습니다."
 
 #: src/components/Synthetics/AcceptablePriceImpactInputRow/AcceptablePriceImpactInputRow.tsx
 #~ msgid "Recommended Impact: {0}."
@@ -3877,8 +3877,8 @@ msgid "Reserved for Vesting"
 msgstr "베스팅을 위해 리저브됨"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "Returns calculator for GMX and GLP"
-msgstr "GMX 및 GLP 수익 계산기"
+msgid "Returns calculator for DEX and GLP"
+msgstr "DEX 및 GLP 수익 계산기"
 
 #: src/components/Referrals/ClaimAffiliatesModal/ClaimAffiliatesModal.tsx
 #: src/pages/Stake/StakeV1.js
@@ -4046,7 +4046,7 @@ msgid "Sender has withdrawn all tokens from GLP Vesting Vault"
 msgstr "GLP의 베스팅 볼트에서 모든 토큰을 인출했습니다."
 
 #: src/pages/BeginAccountTransfer/BeginAccountTransfer.js
-msgid "Sender has withdrawn all tokens from GMX Vesting Vault"
+msgid "Sender has withdrawn all tokens from DEX Vesting Vault"
 msgstr "GMX의 베스팅 볼트에서 모든 토큰을 인출했습니다."
 
 #: src/components/Synthetics/StatusNotification/GmStatusNotification.tsx
@@ -4282,11 +4282,11 @@ msgstr ""
 
 #: src/pages/Stake/StakeV2.js
 msgid "Stake GMX"
-msgstr "GMX 스테이킹"
+msgstr "DEX 스테이킹"
 
 #: src/pages/Stake/StakeV2.js
-msgid "Stake GMX Rewards"
-msgstr "GMX 보상 스테이킹"
+msgid "Stake DEX Rewards"
+msgstr "DEX 보상 스테이킹"
 
 #: src/pages/Stake/StakeV2.js
 msgid "Stake Multiplier Points"
@@ -4294,11 +4294,11 @@ msgstr "멀티플라이어 포인트 스테이킹"
 
 #: src/pages/Stake/StakeV2.js
 msgid "Stake esGMX"
-msgstr "esGMX 스테이킹"
+msgstr "esDEX 스테이킹"
 
 #: src/pages/Stake/StakeV2.js
-msgid "Stake esGMX Rewards"
-msgstr "esGMX 보상 스테이킹"
+msgid "Stake esDEX Rewards"
+msgstr "esDEX 보상 스테이킹"
 
 #: src/pages/Stake/StakeV1.js
 msgid "Stake failed"
@@ -4573,16 +4573,16 @@ msgid "Telegram Groups"
 msgstr "텔레그램 그룹"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "Telegram bot for GMX Swaps monitoring"
+msgid "Telegram bot for DEX Swaps monitoring"
 msgstr ""
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "Telegram bot for GMX position updates"
-msgstr "GMX 포지션 업데이트를 위한 텔레그램 봇"
+msgid "Telegram bot for DEX position updates"
+msgstr "DEX 포지션 업데이트를 위한 텔레그램 봇"
 
 #: src/pages/Ecosystem/Ecosystem.js
 msgid "Telegram bot for Open Interest on GMX"
-msgstr "GMX 미결제약정을 위한 텔레그램 봇"
+msgstr "DEX 미결제약정을 위한 텔레그램 봇"
 
 #: src/components/Footer/constants.ts
 #: src/pages/TermsAndConditions/TermsAndConditions.js
@@ -4590,8 +4590,8 @@ msgid "Terms and Conditions"
 msgstr "약관"
 
 #: src/pages/Stake/StakeV1.js
-msgid "The <0>GMX migration</0> is in progress, please migrate your GMT, xGMT, GMT-USDG and xGMT-USDG tokens.<1/>USDG tokens will continue to function as before and do not need to be migrated."
-msgstr "<0>GMX 마이그레이션</0>은 진행중입니다. 귀하의 GMT, xGMT, GMT-USDG 및 xGMT-USDG 토큰을 이전해주세요.<1/>USDG 토큰은 계속 기능하기때문에 이전할 필요가 없습니다."
+msgid "The <0>DEX migration</0> is in progress, please migrate your GMT, xGMT, GMT-USDG and xGMT-USDG tokens.<1/>USDG tokens will continue to function as before and do not need to be migrated."
+msgstr "<0>DEX 마이그레이션</0>은 진행중입니다. 귀하의 GMT, xGMT, GMT-USDG 및 xGMT-USDG 토큰을 이전해주세요.<1/>USDG 토큰은 계속 기능하기때문에 이전할 필요가 없습니다."
 
 #: src/components/Synthetics/MarketCard/MarketCard.tsx
 msgid "The Available Liquidity will be the lesser of the difference between the maximum value and the current value for the Reserve and Open Interest."
@@ -4630,7 +4630,7 @@ msgid "The Max Execution Fee is overestimated by {maxExecutionFeeText}%. Upon ex
 msgstr ""
 
 #: src/App/App.js
-msgid "The Max Execution Fee is set to a higher value to handle potential increases in gas price during order execution. Any excess execution fee will be refunded to your account when the order is executed. Only applicable to GMX V2."
+msgid "The Max Execution Fee is set to a higher value to handle potential increases in gas price during order execution. Any excess execution fee will be refunded to your account when the order is executed. Only applicable to DEX V2."
 msgstr ""
 
 #: src/domain/synthetics/orders/utils.ts
@@ -4638,8 +4638,8 @@ msgid "The Order may not execute at the desired {priceText} as the current Price
 msgstr ""
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "The address of the esGMX (IOU) token is {esGmxIouAddress}."
-msgstr "esGMX (IOU) 토큰의 주소는 {esGmxIouAddress}입니다."
+msgid "The address of the esDEX (IOU) token is {esGmxIouAddress}."
+msgstr "esDEX (IOU) 토큰의 주소는 {esGmxIouAddress}입니다."
 
 #: src/components/Exchange/SwapBox.js
 msgid "The borrow fee is calculated as (assets borrowed) / (total assets in pool) * 0.01% per hour."
@@ -4650,11 +4650,11 @@ msgid "The current Price Impact is {0}. Consider using -0.30% Acceptable Price I
 msgstr ""
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "The esGMX (IOU) token is transferrable. You can add the token to your wallet and send it to another address to claim if you'd like."
-msgstr "\"esGMX (IOU) 토큰의 주소는 {esGmxIouAddress} 입니다."
+msgid "The esDEX (IOU) token is transferrable. You can add the token to your wallet and send it to another address to claim if you'd like."
+msgstr "\"esDEX (IOU) 토큰의 주소는 {esGmxIouAddress} 입니다."
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "The esGMX tokens can be staked or vested at any time."
+msgid "The esDEX tokens can be staked or vested at any time."
 msgstr "esGMX는 언제든지 스테이킹하거나 베스팅 할 수 있습니다."
 
 #: src/lib/contracts/transactionErrors.tsx
@@ -4711,8 +4711,8 @@ msgid "The spread is > 1%, please ensure the trade details are acceptable before
 msgstr ""
 
 #: src/components/ModalViews/RedirectModal.js
-msgid "The website is a community deployed and maintained instance of the open source <0>GMX front end</0>, hosted and served on the distributed, peer-to-peer <1>IPFS network</1>."
-msgstr "웹사이트는 오픈소스인 <0>GMX front end</0>를 이용하고 커뮤니티에의해 배포되며, P2P <1>IPFS network<1/>에 의해 서빙및 호스팅됩니다."
+msgid "The website is a community deployed and maintained instance of the open source <0>DEX front end</0>, hosted and served on the distributed, peer-to-peer <1>IPFS network</1>."
+msgstr "웹사이트는 오픈소스인 <0>DEX front end</0>를 이용하고 커뮤니티에의해 배포되며, P2P <1>IPFS network<1/>에 의해 서빙및 호스팅됩니다."
 
 #: src/components/Exchange/SwapBox.js
 msgid "There are more longs than shorts, borrow fees for shorting is currently zero"
@@ -4804,7 +4804,7 @@ msgid "To complete the transfer, you must switch your connected account to {rece
 msgstr "전송을 완료하려면 {receiver} 계정에 다시 연결해야 합니다."
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "To purchase GMX on the {0} blockchain, please <0>change your network</0>."
+msgid "To purchase DEX on the {0} blockchain, please <0>change your network</0>."
 msgstr ""
 
 #: src/components/Glp/GlpSwap.js
@@ -4909,7 +4909,7 @@ msgid "Trade BTC, ETH, AVAX and other top cryptocurrencies with up to 50x levera
 msgstr ""
 
 #: src/components/Exchange/ExchangeBanner.js
-msgid "Trade on GMX and win <0>$250.000</0> in prizes! Live until November 30th, <1>click here</1> to learn more."
+msgid "Trade on DEX and win <0>$250.000</0> in prizes! Live until November 30th, <1>click here</1> to learn more."
 msgstr "GMX에서 트레이드하고 <0>$250.000</0> 상금을 획득하세요! 11월 30일까지 진행되며, <1>여기를 클릭해</1> 더 많은 정보를 확인하세요."
 
 #: src/components/Common/SEO.js
@@ -5126,7 +5126,7 @@ msgstr "언스테이킹"
 
 #: src/pages/Stake/StakeV2.js
 msgid "Unstake GMX"
-msgstr "GMX 언스테이킹"
+msgstr "DEX 언스테이킹"
 
 #: src/pages/Stake/StakeV2.js
 msgid "Unstake completed!"
@@ -5250,7 +5250,7 @@ msgid "V1 Avalanche Fuji"
 msgstr ""
 
 #: src/components/Referrals/AffiliatesStats.tsx
-msgid "V1 Rebates and V1/V2 esGMX are airdropped weekly. V2 Rebates are claimed manually."
+msgid "V1 Rebates and V1/V2 esDEX are airdropped weekly. V2 Rebates are claimed manually."
 msgstr ""
 
 #: src/components/Referrals/AffiliatesStats.tsx
@@ -5324,11 +5324,11 @@ msgid "Vest with GLP on Avalanche"
 msgstr "Avalanche에서 GMX로 베스팅하기"
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "Vest with GMX on Arbitrum"
+msgid "Vest with DEX on Arbitrum"
 msgstr "Arbitrum에서 GMX로 베스팅하기"
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "Vest with GMX on Avalanche"
+msgid "Vest with DEX on Avalanche"
 msgstr "Avalanche에서 GMX로 베스팅하기"
 
 #: src/pages/BeginAccountTransfer/BeginAccountTransfer.js
@@ -5336,7 +5336,7 @@ msgid "Vested GLP not withdrawn"
 msgstr "베스트팅된 GLP에서 인출되지 않은 양"
 
 #: src/pages/BeginAccountTransfer/BeginAccountTransfer.js
-msgid "Vested GMX not withdrawn"
+msgid "Vested DEX not withdrawn"
 msgstr "베스트팅된 GMX에서 인출되지 않은 양"
 
 #: src/pages/Stake/StakeV2.js
@@ -5485,8 +5485,8 @@ msgid "Withdraw from GLP Vault"
 msgstr "GLP 볼트에서 인출"
 
 #: src/pages/Stake/StakeV2.js
-msgid "Withdraw from GMX Vault"
-msgstr "GMX 볼트에서 인출"
+msgid "Withdraw from DEX Vault"
+msgstr "DEX 볼트에서 인출"
 
 #: src/pages/Stake/StakeV2.js
 msgid "Withdraw submitted."
@@ -5577,8 +5577,8 @@ msgid "You can check your claim history <0>here</0>."
 msgstr "<0>여기</0>에서 수령한 내역을 확인할 수 있습니다."
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "You can currently vest a maximum of {0} esGMX tokens at a ratio of {1} {stakingToken} to 1 esGMX."
-msgstr "{1} {stakingToken} 대 1 esGMX 비율로 최대 {0} esGMX 토큰을 현재 베스팅 할 수 있습니다."
+msgid "You can currently vest a maximum of {0} esDEX tokens at a ratio of {1} {stakingToken} to 1 esGMX."
+msgstr "{1} {stakingToken} 대 1 esDEX 비율로 최대 {0} esDEX 토큰을 현재 베스팅 할 수 있습니다."
 
 #: src/components/Exchange/ConfirmationBox.js
 #: src/components/Synthetics/ConfirmationBox/ConfirmationBox.tsx
@@ -5678,8 +5678,8 @@ msgid "You have set a high Acceptable Price Impact. The current Price Impact is 
 msgstr ""
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "You have {0} esGMX (IOU) tokens."
-msgstr "귀하는 {0} esGMx (IOU) 토큰을 보유하고 있습니다."
+msgid "You have {0} esDEX (IOU) tokens."
+msgstr "귀하는 {0} esDEX (IOU) 토큰을 보유하고 있습니다."
 
 #: src/pages/Stake/StakeV2.js
 msgid "You need a total of at least {0} {stakeTokenLabel} to vest {1} esGMX."
@@ -5710,7 +5710,7 @@ msgid "You will receive at least {toAmountText} if this order is executed. This 
 msgstr ""
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "Your esGMX (IOU) balance will decrease by your claim amount after claiming, this is expected behaviour."
+msgid "Your esDEX (IOU) balance will decrease by your claim amount after claiming, this is expected behaviour."
 msgstr "귀하의 esGMX(IOU) 잔액은 수령 후 수령액만큼 감소하는데 이는 상정된 행동입니다."
 
 #: src/components/Exchange/ConfirmationBox.js
@@ -5739,7 +5739,7 @@ msgid "collateral"
 msgstr "담보"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "esGMX OTC Market"
+msgid "esDEX OTC Market"
 msgstr ""
 
 #: src/pages/PositionsOverview/PositionsOverview.js
@@ -5833,8 +5833,8 @@ msgstr "{0} GLP를 {1} {2}로 판매하였습니다!"
 
 #: src/pages/Stake/StakeV2.js
 #: src/pages/Stake/StakeV2.js
-msgid "{0} GMX tokens can be claimed, use the options under the Total Rewards section to claim them."
-msgstr "{0} GMX 토큰을 클레임할 수 있습니다. 총 보상 섹션 아래의 옵션을 사용해서 클레임하세요."
+msgid "{0} DEX tokens can be claimed, use the options under the Total Rewards section to claim them."
+msgstr "{0} DEX 토큰을 클레임할 수 있습니다. 총 보상 섹션 아래의 옵션을 사용해서 클레임하세요."
 
 #: src/components/Exchange/NoLiquidityErrorModal.tsx
 msgid "{0} Pool Capacity Reached"
@@ -5898,7 +5898,7 @@ msgstr "{0}이(가) 주문 폼에서 선택되었습니다."
 
 #: src/pages/Stake/StakeV2.js
 #: src/pages/Stake/StakeV2.js
-msgid "{0} tokens have been converted to GMX from the {1} esGMX deposited for vesting."
+msgid "{0} tokens have been converted to DEX from the {1} esDEX deposited for vesting."
 msgstr "베스팅을 위해 예치된 {1} esGMX에서 {0} 토큰이 GMX로 변환되었습니다."
 
 #: src/components/Synthetics/ConfirmationBox/ConfirmationBox.tsx

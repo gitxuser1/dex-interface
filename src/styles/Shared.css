@@ -5,7 +5,7 @@ body,
   width: 100%;
   margin: 0;
   padding: 0;
-  color: white;
+  color: black;
   font-size: 10px;
   background-color: var(--main-bg-color);
 }
@@ -56,16 +56,16 @@ input {
 
 :root {
   --main-bg-color: #F6F6F6;
-  --dark-blue: #17182c;
-  --dark-blue-bg: #16182e;
+  --dark-blue: #fff;
+  --dark-blue-bg: #fff;
   --dark-blue-accent: #a0a3c4;
   --primary-btn-bg: #5FB888;
   --primary-btn-hover: #4d5ffa;
   --primary-btn-active: #5264fc;
   --dark-blue-hover: #808aff14;
-  --dark-blue-border: #ffffff29;
+  --dark-blue-border: #979797;
   --dark-blue-active: #818cef33;
-  --text-gray: rgba(255, 255, 255, 0.7);
+  --text-gray: black;
   --warning-yellow: rgb(243, 181, 12);
   --avax-red: #e84143;
   --arbitrum-blue: #28a0f0;
@@ -80,8 +80,13 @@ input {
   --font-xl: 3.4rem;
 }
 
+[data-rk] {
+  --rk-colors-modalText: #333!important;
+  --rk-colors-accentColor: #5FB888!important;
+}
+
 a {
-  color: white;
+  color: black;
 }
 
 .Card-title {
@@ -101,7 +106,7 @@ input[type="number"] {
 
 input {
   font-size: 2rem;
-  color: white;
+  color: black;
   outline: none;
   background: none;
   border: none;
@@ -195,12 +200,12 @@ td {
 }
 
 .text-white {
-  color: white;
+  color: black;
 }
 
 .label,
 .label a {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 0.7);
 }
 
 ul {

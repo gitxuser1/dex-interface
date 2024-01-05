@@ -34,7 +34,7 @@ msgid "<0><1>{eventTitle}</1> from <2>{0} {indexName} <3>[{poolName}]</3> Posit
 msgstr ""
 
 #: src/components/Synthetics/GmList/GmList.tsx
-msgid "<0>APR is based on the Fees collected for the past {daysConsidered} days. It is an estimate as actual Fees are auto-compounded into the pool in real-time.</0><1>Check Pools performance against other LP Positions in <2>GMX Dune Dashboard</2>.</1>"
+msgid "<0>APR is based on the Fees collected for the past {daysConsidered} days. It is an estimate as actual Fees are auto-compounded into the pool in real-time.</0><1>Check Pools performance against other LP Positions in <2>DEX Dune Dashboard</2>.</1>"
 msgstr ""
 
 #: src/components/Synthetics/StatusNotification/GmStatusNotification.tsx
@@ -91,8 +91,8 @@ msgid "<0>The price that orders can be executed at may differ slightly from the 
 msgstr ""
 
 #: src/pages/Stake/StakeV2.js
-msgid "<0>This will withdraw and unreserve all tokens as well as pause vesting.<1/><2/>esGMX tokens that have been converted to GMX will remain as GMX tokens.<3/><4/>To claim GMX tokens without withdrawing, use the \"Claim\" button under the Total Rewards section.<5/><6/></0>"
-msgstr "<0>Это приведет к выводу и снятию с резерва всех токенов, а также приостановит вестниг.<1/><2/>токены esGMX, которые были конвертированы в GMX, останутся токенами GMX.<3/><4/>Чтобы получить токены GMX без вывода средств, используйте кнопку \"Заявка\" под разделом Общие Вознаграждения.<5/><6/></0>\""
+msgid "<0>This will withdraw and unreserve all tokens as well as pause vesting.<1/><2/>esDEX tokens that have been converted to DEX will remain as DEX tokens.<3/><4/>To claim DEX tokens without withdrawing, use the \"Claim\" button under the Total Rewards section.<5/><6/></0>"
+msgstr "<0>Это приведет к выводу и снятию с резерва всех токенов, а также приостановит вестниг.<1/><2/>токены esGMX, которые были конвертированы в GMX, останутся токенами GMX.<3/><4/>Чтобы получить токены DEX без вывода средств, используйте кнопку \"Заявка\" под разделом Общие Вознаграждения.<5/><6/></0>\""
 
 #: src/pages/Dashboard/DashboardV2.js
 msgid "<0>Total value of tokens in GLP pool ({chainName}).</0><1>This value may be higher on other websites due to the collateral of positions being included in the calculation.</1>"
@@ -309,12 +309,12 @@ msgid "Affiliates"
 msgstr ""
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "After claiming you will be able to vest a maximum of {0} esGMX at a ratio of {1} {stakingToken} to 1 esGMX."
-msgstr "После подачи заявки вы сможете получить максимум {0} esGMX в соотношении {1} {stakingToken} к 1 esGMX."
+msgid "After claiming you will be able to vest a maximum of {0} esDEX at a ratio of {1} {stakingToken} to 1 esGMX."
+msgstr "После подачи заявки вы сможете получить максимум {0} esDEX в соотношении {1} {stakingToken} к 1 esGMX."
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "After claiming, the esGMX tokens will be airdropped to your account on the selected network within 7 days."
-msgstr "После подачи заявки токены esGMX будут перечислены на ваш счет в выбранной сети в течение 7 дней."
+msgid "After claiming, the esDEX tokens will be airdropped to your account on the selected network within 7 days."
+msgstr "После подачи заявки токены esDEX будут перечислены на ваш счет в выбранной сети в течение 7 дней."
 
 #: src/components/ModalViews/RedirectModal.js
 msgid "Agree"
@@ -434,7 +434,7 @@ msgid "As there is not enough liquidity in GLP to swap {0} to {swapTokenSymbol},
 msgstr "Поскольку в GLP недостаточно ликвидности для обмена {0} на {swapTokenSymbol}, вы можете воспользоваться приведенной ниже опцией, чтобы сделать это:"
 
 #: src/pages/Dashboard/DashboardV2.js
-msgid "Assets Under Management: GMX staked (All chains) + GLP pool ({chainName}) +  GM Pools ({chainName})."
+msgid "Assets Under Management: DEX staked (All chains) + GLP pool ({chainName}) +  GM Pools ({chainName})."
 msgstr ""
 
 #: src/components/Glp/GlpSwap.js
@@ -594,39 +594,39 @@ msgid "Buy GMX"
 msgstr "Купить GMX"
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX from Traderjoe:"
+msgid "Buy DEX from Traderjoe:"
 msgstr ""
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX from Uniswap (make sure to select Arbitrum):"
+msgid "Buy DEX from Uniswap (make sure to select Arbitrum):"
 msgstr ""
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX from centralized exchanges:"
+msgid "Buy DEX from centralized exchanges:"
 msgstr ""
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX from centralized services"
+msgid "Buy DEX from centralized services"
 msgstr ""
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX from decentralized exchanges"
+msgid "Buy DEX from decentralized exchanges"
 msgstr ""
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX on {chainName}"
+msgid "Buy DEX on {chainName}"
 msgstr ""
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX using Decentralized Exchange Aggregators:"
+msgid "Buy DEX using Decentralized Exchange Aggregators:"
 msgstr ""
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX using FIAT gateways:"
+msgid "Buy DEX using FIAT gateways:"
 msgstr ""
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "Buy GMX using any token from any network:"
+msgid "Buy DEX using any token from any network:"
 msgstr ""
 
 #: src/pages/Buy/Buy.js
@@ -779,7 +779,7 @@ msgstr ""
 
 #: src/pages/Stake/StakeV2.js
 #: src/pages/Stake/StakeV2.js
-msgid "Claim GMX Rewards"
+msgid "Claim DEX Rewards"
 msgstr "Запрос на получение Вознаграждения GMX"
 
 #: src/components/Synthetics/ClaimHistoryRow/ClaimHistoryRow.tsx
@@ -805,7 +805,7 @@ msgstr "Запрос esGMX"
 
 #: src/pages/Stake/StakeV2.js
 #: src/pages/Stake/StakeV2.js
-msgid "Claim esGMX Rewards"
+msgid "Claim esDEX Rewards"
 msgstr "Запрос на получение Вознаграждения esGMX"
 
 #: src/pages/Stake/StakeV1.js
@@ -1101,8 +1101,8 @@ msgid "Continue"
 msgstr "Продолжить"
 
 #: src/pages/Stake/StakeV2.js
-msgid "Convert esGMX tokens to GMX tokens.<0/>Please read the <1>vesting details</1> before using the vaults."
-msgstr "Конвертируйте токены esGMX в токены GMX.<0/>Пожалуйста, ознакомьтесь с <1>деталями инвестирования</1> перед использованием хранилищ."
+msgid "Convert esDEX tokens to DEX tokens.<0/>Please read the <1>vesting details</1> before using the vaults."
+msgstr "Конвертируйте токены esDEX в токены GMX.<0/>Пожалуйста, ознакомьтесь с <1>деталями инвестирования</1> перед использованием хранилищ."
 
 #: src/pages/Stake/StakeV2.js
 #: src/pages/Stake/StakeV2.js
@@ -1252,7 +1252,7 @@ msgid "Dashboard"
 msgstr "Панель"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "Dashboard for GMX referral stats"
+msgid "Dashboard for DEX referral stats"
 msgstr "Панель для статистики рефералов GMX"
 
 #: src/pages/Ecosystem/Ecosystem.js
@@ -1457,7 +1457,7 @@ msgid "Earn"
 msgstr "Зарабатывать"
 
 #: src/pages/Stake/StakeV2.js
-msgid "Earn ARB tokens by purchasing GM tokens, trading, or migrating liquidity from GLP to GM. Only for GMX V2."
+msgid "Earn ARB tokens by purchasing GM tokens, trading, or migrating liquidity from GLP to GM. Only for DEX V2."
 msgstr ""
 
 #: src/components/Header/AppHeaderLinks.tsx
@@ -1699,8 +1699,8 @@ msgstr "Эскроуированный GMX"
 
 #: src/components/Glp/GlpSwap.js
 #: src/components/Stake/GMXAprTooltip.tsx
-msgid "Escrowed GMX APR"
-msgstr "Эскроуированный GMX APR"
+msgid "Escrowed DEX APR"
+msgstr "Эскроуированный DEX APR"
 
 #: src/components/Synthetics/TradeHistoryRow/utils.ts
 #: src/pages/OrdersOverview/OrdersOverview.js
@@ -1950,7 +1950,7 @@ msgid "GLP Vault"
 msgstr "Хранилище GLP"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GLP and GMX autocompounding vaults"
+msgid "GLP and DEX autocompounding vaults"
 msgstr ""
 
 #: src/pages/Ecosystem/Ecosystem.js
@@ -1962,7 +1962,7 @@ msgid "GLP buy disabled, pending {0} upgrade"
 msgstr "Покупка GLP приостановлена, ожидается {0} обновление"
 
 #: src/components/TokenCard/TokenCard.js
-msgid "GLP is the liquidity provider token for GMX V1 markets. Accrues 70% of the V1 markets generated fees."
+msgid "GLP is the liquidity provider token for DEX V1 markets. Accrues 70% of the V1 markets generated fees."
 msgstr ""
 
 #: src/components/Glp/GlpSwap.js
@@ -1990,117 +1990,117 @@ msgid "GM can be sold for {0} and {1} for this market up to the specified sellin
 msgstr ""
 
 #: src/components/TokenCard/TokenCard.js
-msgid "GM is the liquidity provider token for GMX V2 markets. Accrues 63% of the V2 markets generated fees."
+msgid "GM is the liquidity provider token for DEX V2 markets. Accrues 63% of the V2 markets generated fees."
 msgstr ""
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX Announcements and Updates"
+msgid "DEX Announcements and Updates"
 msgstr "Анонсы и Обновления GMX"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX Blueberry NFTs"
-msgstr "GMX Blueberry NFTs"
+msgid "DEX Blueberry NFTs"
+msgstr "DEX Blueberry NFTs"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX Governance Page"
+msgid "DEX Governance Page"
 msgstr "Страница Управления GMX"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX Pages"
+msgid "DEX Pages"
 msgstr "Страницы GMX"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX Perpetuals Data"
+msgid "DEX Perpetuals Data"
 msgstr "Данные по Бессрочным контрактам GMX"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX Proposals Voting page"
+msgid "DEX Proposals Voting page"
 msgstr "Страница Голосования по предложениям GMX"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX Stats Page"
+msgid "DEX Stats Page"
 msgstr "Страница Статистики GMX"
 
 #: src/pages/Actions/Actions.js
-msgid "GMX V1 actions for all accounts."
+msgid "DEX V1 actions for all accounts."
 msgstr ""
 
 #: src/pages/Actions/Actions.js
-msgid "GMX V1 information for account: {checkSummedAccount}"
+msgid "DEX V1 information for account: {checkSummedAccount}"
 msgstr ""
 
 #: src/pages/SyntheticsActions/SyntheticsActions.tsx
-msgid "GMX V2 actions for all accounts."
+msgid "DEX V2 actions for all accounts."
 msgstr ""
 
 #: src/pages/SyntheticsActions/SyntheticsActions.tsx
-msgid "GMX V2 information for account: {checkSummedAccount}"
+msgid "DEX V2 information for account: {checkSummedAccount}"
 msgstr ""
 
 #: src/pages/Stake/StakeV2.js
 #: src/pages/Stake/StakeV2.js
-msgid "GMX Vault"
+msgid "DEX Vault"
 msgstr "Хранилище GMX"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX Weekly Updates"
+msgid "DEX Weekly Updates"
 msgstr "Еженедельные Обновления MX"
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "GMX bonds can be bought on Bond Protocol with a discount and a small vesting period:"
+msgid "DEX bonds can be bought on Bond Protocol with a discount and a small vesting period:"
 msgstr ""
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX community discussion"
+msgid "DEX community discussion"
 msgstr "Обсуждения в сообществе GMX"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX dashboards and analytics."
-msgstr "Панели управления GMX и аналитика."
+msgid "DEX dashboards and analytics."
+msgstr "Панели управления DEX и аналитика."
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX ecosystem pages."
+msgid "DEX ecosystem pages."
 msgstr "Страницы экосистемы GMX."
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX explorer for stats and traders"
-msgstr "Проводник GMX для статистики и трейдеров"
+msgid "DEX explorer for stats and traders"
+msgstr "Проводник DEX для статистики и трейдеров"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX fundamentals"
+msgid "DEX fundamentals"
 msgstr "Фундаментальные показатели GMX"
 
 #: src/pages/Home/Home.js
-msgid "GMX is currently live on Arbitrum and Avalanche."
-msgstr "В настоящее время GMX работает на Arbitrum и Avalanche."
+msgid "DEX is currently live on Arbitrum and Avalanche."
+msgstr "В настоящее время DEX работает на Arbitrum и Avalanche."
 
 #: src/pages/Jobs/Jobs.js
-msgid "GMX is not actively looking for new hires at the moment. However, if you think you can contribute to the project, please email <0>jobs@gmx.io</0>."
-msgstr "В настоящее время GMX не ведет активного поиска новых сотрудников. Однако, если вы считаете, что можете внести свой вклад в проект, пожалуйста, напишите <0>jobs@gmx.io</0>."
+msgid "DEX is not actively looking for new hires at the moment. However, if you think you can contribute to the project, please email <0>jobs@gmx.io</0>."
+msgstr "В настоящее время DEX не ведет активного поиска новых сотрудников. Однако, если вы считаете, что можете внести свой вклад в проект, пожалуйста, напишите <0>jobs@gmx.io</0>."
 
 #: src/components/TokenCard/TokenCard.js
-msgid "GMX is the utility and governance token. Accrues 30% and 27% of V1 and V2 markets generated fees, respectively."
+msgid "DEX is the utility and governance token. Accrues 30% and 27% of V1 and V2 markets generated fees, respectively."
 msgstr ""
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX staking calculator"
+msgid "DEX staking calculator"
 msgstr "Калькулятор ставки GMX"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX staking calculator and guide"
+msgid "DEX staking calculator and guide"
 msgstr ""
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "GMX staking rewards updates and insights"
+msgid "DEX staking rewards updates and insights"
 msgstr "Обновления и информация о вознаграждениях за ставку GMX"
 
 #: src/pages/Stake/StakeV2.js
 #: src/pages/Stake/StakeV2.js
-msgid "GMX transfers not yet enabled"
-msgstr "Перевод GMX еще не активирован"
+msgid "DEX transfers not yet enabled"
+msgstr "Перевод DEX еще не активирован"
 
 #: src/components/Common/SEO.js
-msgid "GMX | Decentralized Perpetual Exchange"
+msgid "DEX | Decentralized Perpetual Exchange"
 msgstr ""
 
 #: src/components/Referrals/AddAffiliateCode.js
@@ -2112,7 +2112,7 @@ msgid "Generating shareable image..."
 msgstr "Создание изображения, доступного для совместного использования..."
 
 #: src/pages/Referrals/Referrals.tsx
-msgid "Get fee discounts and earn rebates through the GMX referral program.<0/>For more information, please read the <1>referral program details</1>."
+msgid "Get fee discounts and earn rebates through the DEX referral program.<0/>For more information, please read the <1>referral program details</1>."
 msgstr ""
 
 #: src/components/Header/HomeHeaderLinks.tsx
@@ -2414,7 +2414,7 @@ msgid "Leaderboard"
 msgstr "Таблица лидеров"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "Leaderboard for GMX traders"
+msgid "Leaderboard for DEX traders"
 msgstr "Таблица лидеров для трейдеров GMX"
 
 #: src/components/Exchange/PositionEditor.js
@@ -3116,8 +3116,8 @@ msgid "No claims yet"
 msgstr ""
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "No esGMX to claim"
-msgstr "Нет esGMX для получения компенсации"
+msgid "No esDEX to claim"
+msgstr "Нет esDEX для получения компенсации"
 
 #: src/components/Synthetics/UserIncentiveDistributionList/UserIncentiveDistributionList.tsx
 msgid "No incentives distribution history yet."
@@ -3142,8 +3142,8 @@ msgid "No open positions"
 msgstr "Нет открытых позиций"
 
 #: src/pages/Jobs/Jobs.js
-msgid "No open positions at GMX currently"
-msgstr "На данный момент на GMX нет открытых позиций"
+msgid "No open positions at DEX currently"
+msgstr "На данный момент на DEX нет открытых позиций"
 
 #: src/pages/OrdersOverview/OrdersOverview.js
 msgid "No position"
@@ -3433,8 +3433,8 @@ msgid "Please input a referral code to benefit from fee discounts."
 msgstr "Пожалуйста, введите реферальный код, чтобы воспользоваться скидками на комиссию."
 
 #: src/pages/BeginAccountTransfer/BeginAccountTransfer.js
-msgid "Please only use this for full account transfers.<0/>This will transfer all your GMX, esGMX, GLP and Multiplier Points to your new account.<1/>Transfers are only supported if the receiving account has not staked GMX or GLP tokens before.<2/>Transfers are one-way, you will not be able to transfer staked tokens back to the sending account."
-msgstr "Пожалуйста, используйте это только для полного перевода аккаунта.<0/>Это переведет все ваши GMX, esGMX, GLP и Множительные Баллы на новый аккаунт.<1/>Переводы поддерживаются только в том случае, если принимающий аккаунт не размещал токены GMX или GLP ранее.<2/>Переводы являются односторонними, вы не сможете перевести размещенные токены обратно на отправляющий аккаунт."
+msgid "Please only use this for full account transfers.<0/>This will transfer all your GMX, esGMX, GLP and Multiplier Points to your new account.<1/>Transfers are only supported if the receiving account has not staked DEX or GLP tokens before.<2/>Transfers are one-way, you will not be able to transfer staked tokens back to the sending account."
+msgstr "Пожалуйста, используйте это только для полного перевода аккаунта.<0/>Это переведет все ваши GMX, esGMX, GLP и Множительные Баллы на новый аккаунт.<1/>Переводы поддерживаются только в том случае, если принимающий аккаунт не размещал токены DEX или GLP ранее.<2/>Переводы являются односторонними, вы не сможете перевести размещенные токены обратно на отправляющий аккаунт."
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
 msgid "Please switch your network to Arbitrum."
@@ -3638,7 +3638,7 @@ msgid "Profit"
 msgstr "Прибыль"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "Projects developed by the GMX community. <0/>Please exercise caution when interacting with any app, apps are fully maintained by community developers."
+msgid "Projects developed by the DEX community. <0/>Please exercise caution when interacting with any app, apps are fully maintained by community developers."
 msgstr ""
 
 #: src/pages/Ecosystem/Ecosystem.js
@@ -3752,7 +3752,7 @@ msgid "Receiver has not staked GLP tokens before"
 msgstr "Получатель не размещал токены GLP ранее"
 
 #: src/pages/BeginAccountTransfer/BeginAccountTransfer.js
-msgid "Receiver has not staked GMX tokens before"
+msgid "Receiver has not staked DEX tokens before"
 msgstr "Получатель не размещал токены GLP ранее"
 
 #: src/components/Synthetics/AcceptablePriceImpactInputRow/AcceptablePriceImpactInputRow.tsx
@@ -3877,8 +3877,8 @@ msgid "Reserved for Vesting"
 msgstr "Зарезервировано для Вестинга"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "Returns calculator for GMX and GLP"
-msgstr "Калькулятор возвратов для GMX и GLP"
+msgid "Returns calculator for DEX and GLP"
+msgstr "Калькулятор возвратов для DEX и GLP"
 
 #: src/components/Referrals/ClaimAffiliatesModal/ClaimAffiliatesModal.tsx
 #: src/pages/Stake/StakeV1.js
@@ -4046,8 +4046,8 @@ msgid "Sender has withdrawn all tokens from GLP Vesting Vault"
 msgstr "Отправитель вывел все токены из Хранилища GLP Vault"
 
 #: src/pages/BeginAccountTransfer/BeginAccountTransfer.js
-msgid "Sender has withdrawn all tokens from GMX Vesting Vault"
-msgstr "Отправитель вывел все токены из Хранилища GMX Vault"
+msgid "Sender has withdrawn all tokens from DEX Vesting Vault"
+msgstr "Отправитель вывел все токены из Хранилища DEX Vault"
 
 #: src/components/Synthetics/StatusNotification/GmStatusNotification.tsx
 msgid "Sending Buy request"
@@ -4285,7 +4285,7 @@ msgid "Stake GMX"
 msgstr "Стакинг GMX"
 
 #: src/pages/Stake/StakeV2.js
-msgid "Stake GMX Rewards"
+msgid "Stake DEX Rewards"
 msgstr "Вознаграждения Стакинг GMX"
 
 #: src/pages/Stake/StakeV2.js
@@ -4297,7 +4297,7 @@ msgid "Stake esGMX"
 msgstr "Стакинг esGMX"
 
 #: src/pages/Stake/StakeV2.js
-msgid "Stake esGMX Rewards"
+msgid "Stake esDEX Rewards"
 msgstr "Вознаграждения Стакинг esGMX"
 
 #: src/pages/Stake/StakeV1.js
@@ -4573,11 +4573,11 @@ msgid "Telegram Groups"
 msgstr "Группы в Телеграмме "
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "Telegram bot for GMX Swaps monitoring"
+msgid "Telegram bot for DEX Swaps monitoring"
 msgstr ""
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "Telegram bot for GMX position updates"
+msgid "Telegram bot for DEX position updates"
 msgstr "Телеграмм-бот для обновления позиции GMX"
 
 #: src/pages/Ecosystem/Ecosystem.js
@@ -4590,8 +4590,8 @@ msgid "Terms and Conditions"
 msgstr "Правила и Условия"
 
 #: src/pages/Stake/StakeV1.js
-msgid "The <0>GMX migration</0> is in progress, please migrate your GMT, xGMT, GMT-USDG and xGMT-USDG tokens.<1/>USDG tokens will continue to function as before and do not need to be migrated."
-msgstr "Идет <0>GMX перенос</0>, пожалуйста, перенесите ваши токены GMT, xGMT, GMT-USDG и xGMT-USDG.<1/>Токены USDG будут продолжать функционировать как прежде и не нуждаются в переносе."
+msgid "The <0>DEX migration</0> is in progress, please migrate your GMT, xGMT, GMT-USDG and xGMT-USDG tokens.<1/>USDG tokens will continue to function as before and do not need to be migrated."
+msgstr "Идет <0>DEX перенос</0>, пожалуйста, перенесите ваши токены GMT, xGMT, GMT-USDG и xGMT-USDG.<1/>Токены USDG будут продолжать функционировать как прежде и не нуждаются в переносе."
 
 #: src/components/Synthetics/MarketCard/MarketCard.tsx
 msgid "The Available Liquidity will be the lesser of the difference between the maximum value and the current value for the Reserve and Open Interest."
@@ -4630,7 +4630,7 @@ msgid "The Max Execution Fee is overestimated by {maxExecutionFeeText}%. Upon ex
 msgstr ""
 
 #: src/App/App.js
-msgid "The Max Execution Fee is set to a higher value to handle potential increases in gas price during order execution. Any excess execution fee will be refunded to your account when the order is executed. Only applicable to GMX V2."
+msgid "The Max Execution Fee is set to a higher value to handle potential increases in gas price during order execution. Any excess execution fee will be refunded to your account when the order is executed. Only applicable to DEX V2."
 msgstr ""
 
 #: src/domain/synthetics/orders/utils.ts
@@ -4638,8 +4638,8 @@ msgid "The Order may not execute at the desired {priceText} as the current Price
 msgstr ""
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "The address of the esGMX (IOU) token is {esGmxIouAddress}."
-msgstr "Адрес токена esGMX называется {esGmxIouAddress}."
+msgid "The address of the esDEX (IOU) token is {esGmxIouAddress}."
+msgstr "Адрес токена esDEX называется {esGmxIouAddress}."
 
 #: src/components/Exchange/SwapBox.js
 msgid "The borrow fee is calculated as (assets borrowed) / (total assets in pool) * 0.01% per hour."
@@ -4650,12 +4650,12 @@ msgid "The current Price Impact is {0}. Consider using -0.30% Acceptable Price I
 msgstr ""
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "The esGMX (IOU) token is transferrable. You can add the token to your wallet and send it to another address to claim if you'd like."
-msgstr "Токен esGMX является переводимым. При желании вы можете добавить токен в свой кошелек и отправить его на другой адрес для предъявления заявки."
+msgid "The esDEX (IOU) token is transferrable. You can add the token to your wallet and send it to another address to claim if you'd like."
+msgstr "Токен esDEX является переводимым. При желании вы можете добавить токен в свой кошелек и отправить его на другой адрес для предъявления заявки."
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "The esGMX tokens can be staked or vested at any time."
-msgstr "Токены esGMX могут быть размещены или наделены правами в любое время."
+msgid "The esDEX tokens can be staked or vested at any time."
+msgstr "Токены esDEX могут быть размещены или наделены правами в любое время."
 
 #: src/lib/contracts/transactionErrors.tsx
 msgid "The mark price has changed, consider increasing your Allowed Slippage by clicking on the \"...\" icon next to your address."
@@ -4711,8 +4711,8 @@ msgid "The spread is > 1%, please ensure the trade details are acceptable before
 msgstr ""
 
 #: src/components/ModalViews/RedirectModal.js
-msgid "The website is a community deployed and maintained instance of the open source <0>GMX front end</0>, hosted and served on the distributed, peer-to-peer <1>IPFS network</1>."
-msgstr "Сайт представляет собой развернутый и поддерживаемый сообществом экземпляр открытого источника <0>GMX фронт-энда</0>, размещенный и обслуживаемый в распределенной, peer-to-peer <1>IPFS сети</1>."
+msgid "The website is a community deployed and maintained instance of the open source <0>DEX front end</0>, hosted and served on the distributed, peer-to-peer <1>IPFS network</1>."
+msgstr "Сайт представляет собой развернутый и поддерживаемый сообществом экземпляр открытого источника <0>DEX фронт-энда</0>, размещенный и обслуживаемый в распределенной, peer-to-peer <1>IPFS сети</1>."
 
 #: src/components/Exchange/SwapBox.js
 msgid "There are more longs than shorts, borrow fees for shorting is currently zero"
@@ -4804,7 +4804,7 @@ msgid "To complete the transfer, you must switch your connected account to {rece
 msgstr "Для завершения перевода необходимо переключить подключенный аккаунт на {receiver}."
 
 #: src/pages/BuyGMX/BuyGMX.tsx
-msgid "To purchase GMX on the {0} blockchain, please <0>change your network</0>."
+msgid "To purchase DEX on the {0} blockchain, please <0>change your network</0>."
 msgstr "msgstr"
 
 #: src/components/Glp/GlpSwap.js
@@ -4909,8 +4909,8 @@ msgid "Trade BTC, ETH, AVAX and other top cryptocurrencies with up to 50x levera
 msgstr "Торгуйте BTC, ETH, AVAX и другими популярными криптовалютами с кредитным плечом до 50x прямо из вашего кошелька."
 
 #: src/components/Exchange/ExchangeBanner.js
-msgid "Trade on GMX and win <0>$250.000</0> in prizes! Live until November 30th, <1>click here</1> to learn more."
-msgstr "Торгуйте на GMX и выиграйте <0>$250.000</0> в качестве призов! Действует до 30 ноября, <1> нажмите здесь</1>, чтобы узнать больше.\""
+msgid "Trade on DEX and win <0>$250.000</0> in prizes! Live until November 30th, <1>click here</1> to learn more."
+msgstr "Торгуйте на DEX и выиграйте <0>$250.000</0> в качестве призов! Действует до 30 ноября, <1> нажмите здесь</1>, чтобы узнать больше.\""
 
 #: src/components/Common/SEO.js
 msgid "Trade spot or perpetual BTC, ETH, AVAX and other top cryptocurrencies with up to 50x leverage directly from your wallet on Arbitrum and Avalanche."
@@ -5250,7 +5250,7 @@ msgid "V1 Avalanche Fuji"
 msgstr ""
 
 #: src/components/Referrals/AffiliatesStats.tsx
-msgid "V1 Rebates and V1/V2 esGMX are airdropped weekly. V2 Rebates are claimed manually."
+msgid "V1 Rebates and V1/V2 esDEX are airdropped weekly. V2 Rebates are claimed manually."
 msgstr ""
 
 #: src/components/Referrals/AffiliatesStats.tsx
@@ -5324,20 +5324,20 @@ msgid "Vest with GLP on Avalanche"
 msgstr "Вестинг GLP на Avalanche"
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "Vest with GMX on Arbitrum"
-msgstr "Вестинг GMX на Arbitrum"
+msgid "Vest with DEX on Arbitrum"
+msgstr "Вестинг DEX на Arbitrum"
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "Vest with GMX on Avalanche"
-msgstr "Вестинг GMX на Avalanche"
+msgid "Vest with DEX on Avalanche"
+msgstr "Вестинг DEX на Avalanche"
 
 #: src/pages/BeginAccountTransfer/BeginAccountTransfer.js
 msgid "Vested GLP not withdrawn"
 msgstr "Вестинг GLP не выведен"
 
 #: src/pages/BeginAccountTransfer/BeginAccountTransfer.js
-msgid "Vested GMX not withdrawn"
-msgstr "Вестинг GMX не выведен"
+msgid "Vested DEX not withdrawn"
+msgstr "Вестинг DEX не выведен"
 
 #: src/pages/Stake/StakeV2.js
 #: src/pages/Stake/StakeV2.js
@@ -5485,7 +5485,7 @@ msgid "Withdraw from GLP Vault"
 msgstr "Вывод из хранилища GLP"
 
 #: src/pages/Stake/StakeV2.js
-msgid "Withdraw from GMX Vault"
+msgid "Withdraw from DEX Vault"
 msgstr "Вывод из хранилища GMX"
 
 #: src/pages/Stake/StakeV2.js
@@ -5577,8 +5577,8 @@ msgid "You can check your claim history <0>here</0>."
 msgstr "Вы можете проверить историю своих обращений <0>здесь</0>."
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "You can currently vest a maximum of {0} esGMX tokens at a ratio of {1} {stakingToken} to 1 esGMX."
-msgstr "В настоящее время вы можете вестить максимум {0} токенов esGMX в соотношении {1} {stakingToken} к 1 esGMX."
+msgid "You can currently vest a maximum of {0} esDEX tokens at a ratio of {1} {stakingToken} to 1 esGMX."
+msgstr "В настоящее время вы можете вестить максимум {0} токенов esDEX в соотношении {1} {stakingToken} к 1 esGMX."
 
 #: src/components/Exchange/ConfirmationBox.js
 #: src/components/Synthetics/ConfirmationBox/ConfirmationBox.tsx
@@ -5678,7 +5678,7 @@ msgid "You have set a high Acceptable Price Impact. The current Price Impact is 
 msgstr ""
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "You have {0} esGMX (IOU) tokens."
+msgid "You have {0} esDEX (IOU) tokens."
 msgstr "У вас есть {0} токенов esGMX."
 
 #: src/pages/Stake/StakeV2.js
@@ -5710,8 +5710,8 @@ msgid "You will receive at least {toAmountText} if this order is executed. This 
 msgstr ""
 
 #: src/pages/ClaimEsGmx/ClaimEsGmx.js
-msgid "Your esGMX (IOU) balance will decrease by your claim amount after claiming, this is expected behaviour."
-msgstr "После подачи требования ваш баланс esGMX уменьшится на сумму вашего требования, это ожидаемое поведение."
+msgid "Your esDEX (IOU) balance will decrease by your claim amount after claiming, this is expected behaviour."
+msgstr "После подачи требования ваш баланс esDEX уменьшится на сумму вашего требования, это ожидаемое поведение."
 
 #: src/components/Exchange/ConfirmationBox.js
 #: src/components/Synthetics/ConfirmationBox/ConfirmationBox.tsx
@@ -5739,7 +5739,7 @@ msgid "collateral"
 msgstr "залог"
 
 #: src/pages/Ecosystem/Ecosystem.js
-msgid "esGMX OTC Market"
+msgid "esDEX OTC Market"
 msgstr ""
 
 #: src/pages/PositionsOverview/PositionsOverview.js
@@ -5833,8 +5833,8 @@ msgstr "{0} GLP проданы для {1} {2}!"
 
 #: src/pages/Stake/StakeV2.js
 #: src/pages/Stake/StakeV2.js
-msgid "{0} GMX tokens can be claimed, use the options under the Total Rewards section to claim them."
-msgstr "{0} токены GMX можно получить, используя опции в разделе Общие Вознаграждения, чтобы получить их."
+msgid "{0} DEX tokens can be claimed, use the options under the Total Rewards section to claim them."
+msgstr "{0} токены DEX можно получить, используя опции в разделе Общие Вознаграждения, чтобы получить их."
 
 #: src/components/Exchange/NoLiquidityErrorModal.tsx
 msgid "{0} Pool Capacity Reached"
@@ -5898,8 +5898,8 @@ msgstr "{0} выбран в форме ордера"
 
 #: src/pages/Stake/StakeV2.js
 #: src/pages/Stake/StakeV2.js
-msgid "{0} tokens have been converted to GMX from the {1} esGMX deposited for vesting."
-msgstr "{0} токены были конвертированы в GMX из {1} esGMX внесенные для вестинга."
+msgid "{0} tokens have been converted to DEX from the {1} esDEX deposited for vesting."
+msgstr "{0} токены были конвертированы в DEX из {1} esDEX внесенные для вестинга."
 
 #: src/components/Synthetics/ConfirmationBox/ConfirmationBox.tsx
 #: src/components/Synthetics/OrderItem/OrderItem.tsx

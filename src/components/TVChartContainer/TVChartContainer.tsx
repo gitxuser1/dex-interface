@@ -95,7 +95,7 @@ export default function TVChartContainer({
           .setLineStyle(1)
           .setLineLength(1)
           .setBodyFont(`normal 12pt "Relative", sans-serif`)
-          .setBodyTextColor("#fff")
+          .setBodyTextColor("#333")
           .setLineColor("#3a3e5e")
           .setBodyBackgroundColor("#3a3e5e")
           .setBodyBorderColor("#3a3e5e");
@@ -163,7 +163,7 @@ export default function TVChartContainer({
     tvWidgetRef.current!.onChartReady(function () {
       setChartReady(true);
       tvWidgetRef.current!.applyOverrides({
-        "paneProperties.background": "#16182e",
+        "paneProperties.background": "#fff",
         "paneProperties.backgroundType": "solid",
       });
       tvWidgetRef.current

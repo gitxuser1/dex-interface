@@ -17,10 +17,10 @@ export type EventData = {
 export const homeEventsData: EventData[] = [
   {
     id: "v2-live",
-    title: "GMX V2 beta is live",
+    title: "DEX V2 beta is live",
     isActive: true,
     validTill: "9 Sep 2023, 12:00",
-    bodyText: "GMX V2 beta is now available for public use.",
+    bodyText: "DEX V2 beta is now available for public use.",
     buttons: [
       {
         text: "Read More",
@@ -38,10 +38,10 @@ export const homeEventsData: EventData[] = [
 export const appEventsData: EventData[] = [
   {
     id: "v2-live",
-    title: "GMX V2 beta is live",
+    title: "DEX V2 beta is live",
     isActive: true,
     validTill: "9 Sep 2023, 12:00",
-    bodyText: "GMX V2 beta is now available for public use.",
+    bodyText: "DEX V2 beta is now available for public use.",
     buttons: [
       {
         text: "Read More",
@@ -135,10 +135,10 @@ export const appEventsData: EventData[] = [
   },
   {
     id: "ledger-issue",
-    title: "GMX is unaffected",
+    title: "DEX is unaffected",
     isActive: true,
     validTill: "15 Dec 2023, 16:00",
-    bodyText: ["The recent issue with Ledger Connect kit did not affect GMX."],
+    bodyText: ["The recent issue with Ledger Connect kit did not affect DEX."],
   },
   {
     id: "arbitrum-issue",

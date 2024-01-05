@@ -15,7 +15,7 @@ export default function BuyGMXGLP() {
           <PageTitle showNetworkIcon={false} isTop title={t`Buy Protocol Tokens`} />
           <TokenCard />
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </SEO>
   );

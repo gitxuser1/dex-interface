@@ -152,7 +152,7 @@ export default function ChartTokenSelector(props: Props) {
                     {selectedToken.symbol} {"/ USD"}
                   </span>
                 )}
-                <FaChevronDown fontSize={14} />
+                <FaChevronDown color="rgba(0, 0, 0, 1)" fontSize={14} />
               </button>
             </Popover.Button>
             <div className="chart-token-menu">
