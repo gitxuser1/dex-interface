@@ -81,7 +81,7 @@ function getVestingValues({ minRatio, amount, vestingDataItem }) {
 
   const ratioMultiplier = 10000;
   const maxVestableAmount = vestingDataItem.maxVestableAmount;
-  const nextMaxVestableEsDEX = maxVestableAmount.add(amount);
+  const nextMaxVestableEsGmx = maxVestableAmount.add(amount);
 
   const combinedAverageStakedAmount = vestingDataItem.combinedAverageStakedAmount;
   if (maxVestableAmount.gt(0)) {
