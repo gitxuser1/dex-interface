@@ -16,6 +16,7 @@
   font-size: var(--font-sm);
   opacity: 0.7;
   margin-right: 1.5rem;
+  color: rgba(255, 255, 255, 1);
 }
 .event-toast-container .toast-links a:hover {
   opacity: 1;

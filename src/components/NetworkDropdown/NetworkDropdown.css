@@ -111,14 +111,14 @@
 .network-option span {
   font-size: var(--font-base);
   letter-spacing: 0.29px;
-  color: #fff;
+  color: black;
 }
 
 .network-option-img-label {
   font-size: var(--font-md);
   line-height: 2rem;
   letter-spacing: 0.29px;
-  color: #fff;
+  color: black;
 }
 
 .dropdown-label {
