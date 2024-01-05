@@ -117,9 +117,9 @@ export default function BeginAccountTransfer(props) {
 
   const needApproval = gmxAllowance && gmxStaked && gmxStaked.gt(gmxAllowance);
 
-  const hasVestedDEX = gmxVesterBalance && gmxVesterBalance.gt(0);
+  const hasVestedGmx = gmxVesterBalance && gmxVesterBalance.gt(0);
   const hasVestedGlp = glpVesterBalance && glpVesterBalance.gt(0);
-  const hasStakedDEX =
+  const hasStakedGmx =
     (cumulativeGmxRewards && cumulativeGmxRewards.gt(0)) ||
     (transferredCumulativeGmxRewards && transferredCumulativeGmxRewards.gt(0));
   const hasStakedGlp =
@@ -143,7 +143,7 @@ export default function BeginAccountTransfer(props) {
     if (!ethers.utils.isAddress(receiver)) {
       return t`Invalid Receiver Address`;
     }
-    if (hasStakedDEX || hasStakedGlp) {
+    if (hasStakedGmx || hasStakedGlp) {
       return t`Invalid Receiver`;
     }
     if ((parsedReceiver || "").toString().toLowerCase() === (account || "").toString().toLowerCase()) {

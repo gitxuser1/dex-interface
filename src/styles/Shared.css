@@ -40,18 +40,18 @@ input {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #17182e;
+  background: #E8E8E8;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #a0a3c4;
+  background: rgba(160, 163, 196, 0.6);
   border-radius: 1.5rem;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #b3b4c2;
+  background: rgba(160, 163, 196, 0.6);
 }
 
 :root {
@@ -59,9 +59,9 @@ input {
   --dark-blue: #fff;
   --dark-blue-bg: #fff;
   --dark-blue-accent: #a0a3c4;
-  --primary-btn-bg: #5FB888;
-  --primary-btn-hover: #4d5ffa;
-  --primary-btn-active: #5264fc;
+  --primary-btn-bg: rgb(95, 184, 136);
+  --primary-btn-hover: rgba(95, 184, 136, 0.9);
+  --primary-btn-active: rgba(95, 184, 136, 0.9);
   --dark-blue-hover: #808aff14;
   --dark-blue-border: #979797;
   --dark-blue-active: #818cef33;
@@ -81,8 +81,8 @@ input {
 }
 
 [data-rk] {
-  --rk-colors-modalText: #333!important;
-  --rk-colors-accentColor: #5FB888!important;
+  --rk-colors-modalText: #333 !important;
+  --rk-colors-accentColor: #5FB888 !important;
 }
 
 a {

@@ -866,9 +866,9 @@ export default function GlpSwap(props) {
         <div className="App-card GlpSwap-stats-card">
           <div className="App-card-title">
             <div className="App-card-title-mark">
-              <div className="App-card-title-mark-icon">
+              {/* <div className="App-card-title-mark-icon">
                 <img width="40" src={glpIcon} alt="GLP" />
-              </div>
+              </div> */}
               <div className="App-card-title-mark-info">
                 <div className="App-card-title-mark-title">GLP</div>
                 <div className="App-card-title-mark-subtitle">GLP</div>

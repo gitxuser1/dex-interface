@@ -10,7 +10,14 @@
   --tv-color-toolbar-toggle-button-background-active: #3a3e5e;
   --tv-color-toolbar-toggle-button-background-active-hover: #3a3e5e;
   --tv-color-toolbar-button-background-expanded: var(--dark-blue-bg);
-  /* --tv-list-item-button-background-color: #20243f; */
+}
+
+.theme-light:root {
+  --tv-color-toolbar-button-text-active-hover: rgb(95, 184, 136);
+  --tv-color-toolbar-button-text-active: rgb(95, 184, 136);
+  --tv-list-item-button-background-color: #20243f;
+  --tv-color-toolbar-toggle-button-background-active-hover: rgb(95, 184, 136);
+  --tv-color-toolbar-toggle-button-background-active: rgb(95, 184, 136);
 }
 
 html.theme-dark .chart-page {

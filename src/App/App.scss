@@ -38,7 +38,7 @@ $app-card-padding: 1.5rem;
   height: 1.3rem;
   width: 100%;
   content: " ";
-  background: transparent linear-gradient(180deg, #00000030 0%, #00000000 100%) 0% 0% no-repeat padding-box;
+  background: transparent linear-gradient(180deg, #00000010 0%, #00000000 100%) 0% 0% no-repeat padding-box;
   position: absolute;
   bottom: -1.3rem;
   left: 0;
@@ -681,7 +681,7 @@ button.App-connect-wallet:hover {
 
 .App-header-container-left .a.active,
 .App-header-container-left a.active {
-  color: black;
+  color: var(--primary-btn-bg);
 }
 
 .Toastify {
@@ -1356,7 +1356,7 @@ button.App-button {
     height: 1.3rem;
     width: 100%;
     content: " ";
-    background: transparent linear-gradient(180deg, #00000030 0%, #00000000 100%) 0% 0% no-repeat padding-box;
+    background: transparent linear-gradient(180deg, #00000010 0%, #00000000 100%) 0% 0% no-repeat padding-box;
     position: absolute;
     bottom: -1.3rem;
     left: 0;

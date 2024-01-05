@@ -1515,7 +1515,7 @@ export default function StakeV2({ setPendingTxns }) {
           <div className="App-card StakeV2-gmx-card">
             <div className="App-card-title">
               <div className="inline-items-center">
-                <img className="mr-xs" alt="GMX" src={icons.gmx} height={20} />
+                {/* <img className="mr-xs" alt="GMX" src={icons.gmx} height={20} /> */}
                 GMX
               </div>
             </div>
@@ -1793,7 +1793,7 @@ export default function StakeV2({ setPendingTxns }) {
           <div className="App-card">
             <div className="App-card-title">
               <div className="inline-items-center">
-                <img className="mr-xs" alt="GLP" src={icons.glp} height={20} />
+                {/* <img className="mr-xs" alt="GLP" src={icons.glp} height={20} /> */}
                 GLP
               </div>
             </div>
@@ -1951,7 +1951,7 @@ export default function StakeV2({ setPendingTxns }) {
           <div className="App-card">
             <div className="App-card-title">
               <div className="inline-items-center">
-                <img className="mr-xs" alt="GLP" src={icons.esgmx} height={20} />
+                {/* <img className="mr-xs" alt="GLP" src={icons.esgmx} height={20} /> */}
                 <span>
                   <Trans>Escrowed GMX</Trans>
                 </span>
@@ -2077,7 +2077,7 @@ export default function StakeV2({ setPendingTxns }) {
             <div className="App-card StakeV2-gmx-card">
               <div className="App-card-title">
                 <div className="inline-items-center">
-                  <img className="mr-xs" alt="GMX" src={icons.gmx} height={20} />
+                  {/* <img className="mr-xs" alt="GMX" src={icons.gmx} height={20} /> */}
                   <Trans>DEX Vault</Trans>
                 </div>
               </div>
@@ -2194,7 +2194,7 @@ export default function StakeV2({ setPendingTxns }) {
             <div className="App-card StakeV2-gmx-card">
               <div className="App-card-title">
                 <div className="inline-items-center">
-                  <img className="mr-xs" alt="GLP" src={icons.glp} height={20} />
+                  {/* <img className="mr-xs" alt="GLP" src={icons.glp} height={20} /> */}
                   <Trans>GLP Vault</Trans>
                 </div>
               </div>
