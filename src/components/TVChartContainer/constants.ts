@@ -27,8 +27,8 @@ const chartOverrides = {
   "paneProperties.horzGridProperties.color": "#e0e3eb",
   "paneProperties.horzGridProperties.style": 2,
   "mainSeriesProperties.priceLineColor": "#3a3e5e",
-  "scalesProperties.textColor": "#fff",
-  "scalesProperties.lineColor": "#fff",
+  "scalesProperties.textColor": "#000",
+  "scalesProperties.lineColor": "#000",
   ...chartStyleOverrides,
 };
 
