@@ -74,7 +74,6 @@
     "eject": "react-scripts eject",
     "lint": "node node_modules/.bin/eslint src",
     "pre-commit": "npm run test -- --watchAll=false && npm run lint",
-    "prepare": "husky install && yarn lingui:prepare",
     "extract": "NODE_ENV=development lingui extract --clean",
     "compile": "lingui compile",
     "lingui:prepare": "NODE_ENV=development yarn extract && yarn compile",
@@ -128,6 +127,5 @@
       "eslint --fix --max-warnings=0 ./src",
       "prettier --write"
     ]
-  },
-  "packageManager": "yarn@3.1.0"
+  }
 }
