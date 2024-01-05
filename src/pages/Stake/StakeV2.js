@@ -461,7 +461,7 @@ function VesterDepositModal(props) {
           >
             <div className="Stake-modal-icons">
               <img className="mr-xs icon" width="25" src={icons.esgmx} alt="esGMX" />
-              esGMX
+              esWOW
             </div>
           </BuyInputSection>
 
@@ -470,7 +470,7 @@ function VesterDepositModal(props) {
               <div className="Exchange-info-label">
                 <Trans>Wallet</Trans>
               </div>
-              <div className="align-right">{formatAmount(balance, 18, 2, true)} esGMX</div>
+              <div className="align-right">{formatAmount(balance, 18, 2, true)} esWOW</div>
             </div>
             <div className="Exchange-info-row">
               <div className="Exchange-info-label">
@@ -494,12 +494,12 @@ function VesterDepositModal(props) {
                         <StatsTooltipRow
                           showDollar={false}
                           label={t`Deposited`}
-                          value={`${formatAmount(vestedAmount, 18, 2, true)} esGMX`}
+                          value={`${formatAmount(vestedAmount, 18, 2, true)} esWOW`}
                         />
                         <StatsTooltipRow
                           showDollar={false}
                           label={t`Max Capacity`}
-                          value={`${formatAmount(maxVestableAmount, 18, 2, true)} esGMX`}
+                          value={`${formatAmount(maxVestableAmount, 18, 2, true)} esWOW`}
                         />
                       </div>
                     );
@@ -540,7 +540,7 @@ function VesterDepositModal(props) {
                             <br />
                             <Trans>
                               You need a total of at least {formatAmount(nextReserveAmount, 18, 2, true)}{" "}
-                              {stakeTokenLabel} to vest {formatAmount(amount, 18, 2, true)} esGMX.
+                              {stakeTokenLabel} to vest {formatAmount(amount, 18, 2, true)} esWOW.
                             </Trans>
                           </>
                         )}
@@ -1490,7 +1490,7 @@ export default function StakeV2({ setPendingTxns }) {
         subtitle={
           <div>
             <Trans>
-              Stake <ExternalLink href="https://docs.gmx.io/docs/tokenomics/gmx-token">GMX</ExternalLink> and buy{" "}
+              Stake <ExternalLink href="https://docs.gmx.io/docs/tokenomics/gmx-token">WOW</ExternalLink> and buy{" "}
               <ExternalLink href="https://docs.gmx.io/docs/providing-liquidity/v2">GM</ExternalLink> or{" "}
               <ExternalLink href="https://docs.gmx.io/docs/providing-liquidity/v1">GLP</ExternalLink> to earn rewards.
             </Trans>
@@ -1516,7 +1516,7 @@ export default function StakeV2({ setPendingTxns }) {
             <div className="App-card-title">
               <div className="inline-items-center">
                 {/* <img className="mr-xs" alt="GMX" src={icons.gmx} height={20} /> */}
-                GMX
+                WOW
               </div>
             </div>
             <div className="App-card-divider"></div>
@@ -1603,7 +1603,7 @@ export default function StakeV2({ setPendingTxns }) {
                             showDollar={false}
                           />
                           <StatsTooltipRow
-                            label="Escrowed GMX"
+                            label="Escrowed WOW"
                             value={`${formatKeyAmount(
                               processedData,
                               "stakedGmxTrackerRewards",
@@ -1666,14 +1666,14 @@ export default function StakeV2({ setPendingTxns }) {
                       className="nowrap"
                       handle={
                         formatAmount(totalGmxStaked, 18, 0, true) +
-                        " GMX" +
+                        " WOW" +
                         ` ($${formatAmount(stakedGmxSupplyUsd, USD_DECIMALS, 0, true)})`
                       }
                       renderContent={() => (
                         <ChainsStatsTooltipRow
                           showDollar={false}
                           decimalsForConversion={18}
-                          symbol="GMX"
+                          symbol="WOW"
                           entries={{
                             "Staked on Arbitrum": arbitrumGmxStaked,
                             "Staked on Avalanche": avaxGmxStaked,
@@ -1699,7 +1699,7 @@ export default function StakeV2({ setPendingTxns }) {
               <div className="App-card-divider" />
               <div className="App-card-buttons m-0">
                 <Button variant="secondary" to="/buy_gmx">
-                  <Trans>Buy GMX</Trans>
+                  <Trans>Buy WOW</Trans>
                 </Button>
                 {active && (
                   <Button variant="secondary" onClick={() => showStakeGmxModal()}>
@@ -1735,7 +1735,7 @@ export default function StakeV2({ setPendingTxns }) {
                 </div>
               </div>
               <div className="App-card-row">
-                <div className="label">GMX</div>
+                <div className="label">WOW</div>
                 <div>
                   {formatKeyAmount(processedData, "totalVesterRewards", 18, 4, true)} ($
                   {formatKeyAmount(processedData, "totalVesterRewardsUsd", USD_DECIMALS, 2, true)})
@@ -1743,7 +1743,7 @@ export default function StakeV2({ setPendingTxns }) {
               </div>
               <div className="App-card-row">
                 <div className="label">
-                  <Trans>Escrowed GMX</Trans>
+                  <Trans>Escrowed WOW</Trans>
                 </div>
                 <div>
                   {formatKeyAmount(processedData, "totalEsGmxRewards", 18, 4, true)} ($
@@ -1889,7 +1889,7 @@ export default function StakeV2({ setPendingTxns }) {
                             showDollar={false}
                           />
                           <StatsTooltipRow
-                            label="Escrowed GMX"
+                            label="Escrowed WOW"
                             value={`${formatKeyAmount(
                               processedData,
                               "stakedGlpTrackerRewards",
@@ -1953,7 +1953,7 @@ export default function StakeV2({ setPendingTxns }) {
               <div className="inline-items-center">
                 {/* <img className="mr-xs" alt="GLP" src={icons.esgmx} height={20} /> */}
                 <span>
-                  <Trans>Escrowed GMX</Trans>
+                  <Trans>Escrowed WOW</Trans>
                 </span>
               </div>
             </div>
@@ -2096,13 +2096,13 @@ export default function StakeV2({ setPendingTxns }) {
                           <>
                             <StatsTooltipRow
                               showDollar={false}
-                              label="GMX"
+                              label="WOW"
                               value={formatAmount(processedData.gmxInStakedGmx, 18, 2, true)}
                             />
 
                             <StatsTooltipRow
                               showDollar={false}
-                              label="esGMX"
+                              label="esWOW"
                               value={formatAmount(processedData.esGmxInStakedGmx, 18, 2, true)}
                             />
                             <StatsTooltipRow
@@ -2160,7 +2160,7 @@ export default function StakeV2({ setPendingTxns }) {
                   </div>
                   <div>
                     <Tooltip
-                      handle={`${formatKeyAmount(vestingData, "gmxVesterClaimable", 18, 4, true)} GMX`}
+                      handle={`${formatKeyAmount(vestingData, "gmxVesterClaimable", 18, 4, true)} WOW`}
                       position="right-bottom"
                       renderContent={() => (
                         <Trans>
@@ -2250,7 +2250,7 @@ export default function StakeV2({ setPendingTxns }) {
                   </div>
                   <div>
                     <Tooltip
-                      handle={`${formatKeyAmount(vestingData, "glpVesterClaimable", 18, 4, true)} GMX`}
+                      handle={`${formatKeyAmount(vestingData, "glpVesterClaimable", 18, 4, true)} WOW`}
                       position="right-bottom"
                       renderContent={() => (
                         <Trans>
@@ -2291,7 +2291,7 @@ export default function StakeV2({ setPendingTxns }) {
               title={t`Incentives`}
               subtitle={
                 <Trans>
-                  Earn ARB tokens by purchasing GM tokens, trading, or migrating liquidity from GLP to GM. Only for GMX
+                  Earn ARB tokens by purchasing GM tokens, trading, or migrating liquidity from GLP to GM. Only for WOW
                   V2.
                 </Trans>
               }

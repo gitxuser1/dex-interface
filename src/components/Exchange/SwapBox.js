@@ -1862,8 +1862,8 @@ export default function SwapBox(props) {
   };
 
   const SWAP_LABELS = {
-    [LONG]: t`Long`,
-    [SHORT]: t`Short`,
+    // [LONG]: t`Long`,
+    // [SHORT]: t`Short`,
     [SWAP]: t`Swap`,
   };
 

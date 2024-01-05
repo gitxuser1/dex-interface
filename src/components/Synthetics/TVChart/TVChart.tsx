@@ -149,16 +149,16 @@ export function TVChart({
       if (marketInfo && nextTradeType) {
         const indexName = getMarketIndexName(marketInfo);
         const poolName = getMarketPoolName(marketInfo);
-        helperToast.success(
-          <Trans>
-            <span>{nextTradeType === TradeType.Long ? t`Long` : t`Short`}</span>{" "}
-            <div className="inline-flex">
-              <span>{indexName}</span>
-              <span className="subtext gm-toast">[{poolName}]</span>
-            </div>{" "}
-            <span>market selected</span>
-          </Trans>
-        );
+        // helperToast.success(
+        //   <Trans>
+        //     <span>{nextTradeType === TradeType.Long ? t`Long` : t`Short`}</span>{" "}
+        //     <div className="inline-flex">
+        //       <span>{indexName}</span>
+        //       <span className="subtext gm-toast">[{poolName}]</span>
+        //     </div>{" "}
+        //     <span>market selected</span>
+        //   </Trans>
+        // );
       }
     }
   }
@@ -237,9 +237,9 @@ export function TVChart({
             </div>
           </div>
         </div>
-        <div className="ExchangeChart-info VersionSwitch-wrapper">
+        {/* <div className="ExchangeChart-info VersionSwitch-wrapper">
           <VersionSwitch currentVersion={tradePageVersion} setCurrentVersion={setTradePageVersion} />
-        </div>
+        </div> */}
       </div>
       <div className="ExchangeChart-bottom App-box App-box-border">
         {chartToken && (

@@ -364,9 +364,9 @@ export default function ExchangeTVChart(props) {
             </div>
           </div>
         </div>
-        <div className="ExchangeChart-info VersionSwitch-wrapper">
+        {/* <div className="ExchangeChart-info VersionSwitch-wrapper">
           <VersionSwitch currentVersion={tradePageVersion} setCurrentVersion={setTradePageVersion} />
-        </div>
+        </div> */}
       </div>
       <div className="ExchangeChart-bottom App-box App-box-border">
         {availableNetworksForChart.includes(chainId) && chartToken.symbol && chainId ? (

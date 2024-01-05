@@ -159,7 +159,7 @@ function FullApp() {
 
   const [tradePageVersion, setTradePageVersion] = useLocalStorageSerializeKey(
     [chainId, TRADE_LINK_KEY],
-    getIsSyntheticsSupported(chainId) ? 2 : 1
+    1
   );
   const [redirectModalVisible, setRedirectModalVisible] = useState(false);
   const [shouldHideRedirectModal, setShouldHideRedirectModal] = useState(false);

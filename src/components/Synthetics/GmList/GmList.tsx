@@ -158,12 +158,16 @@ export function GmList({
                   if (!token || !indexToken || !longToken || !shortToken) {
                     return null;
                   }
-
+                  const name = getMarketIndexName({ indexToken, isSpotOnly: market?.isSpotOnly })
+                  if (!(name.startsWith('ETH') || name.startsWith('BTC'))) {
+                    return null;
+                  }
                   const totalSupply = token?.totalSupply;
                   const totalSupplyUsd = convertToUsd(totalSupply, token?.decimals, token?.prices?.minPrice);
                   const tokenIconName = market.isSpotOnly
                     ? getNormalizedTokenSymbol(longToken.symbol) + getNormalizedTokenSymbol(shortToken.symbol)
                     : getNormalizedTokenSymbol(indexToken.symbol);
+
 
                   return (
                     <tr key={token.address}>
@@ -275,6 +279,10 @@ export function GmList({
               const mintableInfo = market && token ? getMintableMarketTokens(market, token) : undefined;
 
               if (!indexToken || !longToken || !shortToken || !market) {
+                return null;
+              }
+              const name = getMarketIndexName({ indexToken, isSpotOnly: market?.isSpotOnly })
+              if (!(name.startsWith('ETH') || name.startsWith('BTC'))) {
                 return null;
               }
               const indexName = market && getMarketIndexName(market);

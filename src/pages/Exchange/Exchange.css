@@ -692,6 +692,7 @@ table.Exchange-list .Exchange-list-item-active {
 
 .Exchange-swap-box .Tab {
   margin-bottom: 1.05rem;
+  display: none;
 }
 
 .Exchange-swap-section {
@@ -995,8 +996,8 @@ table.Exchange-list-small td {
 
 .ExchangeChart-header {
   display: grid;
-  grid-template-columns: auto 116.32px;
-  grid-column-gap: 1rem;
+  /* grid-template-columns: auto 116.32px; */
+  /* grid-column-gap: 1rem; */
 }
 
 .VersionSwitch-wrapper {
@@ -1045,7 +1046,7 @@ table.Exchange-list-small td {
   }
 
   .ExchangeChart-header {
-    grid-template-columns: auto 103px;
+    /* grid-template-columns: auto 103px; */
   }
 
   .VersionSwitch-wrapper {
@@ -1212,7 +1213,7 @@ table.Exchange-list-small td {
 
 @media (max-width: 375px) {
   .ExchangeChart-header {
-    grid-column-gap: 0.5rem;
+    /* grid-column-gap: 0.5rem; */
   }
 
   .Exchange-list .Tooltip-popup,

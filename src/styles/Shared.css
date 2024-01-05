@@ -83,6 +83,7 @@ input {
 [data-rk] {
   --rk-colors-modalText: #333 !important;
   --rk-colors-accentColor: #5FB888 !important;
+  --rk-colors-closeButtonBackground: rgba(0, 0, 0, 0.3)!important;
 }
 
 a {

@@ -4,8 +4,8 @@ import { DecreasePositionSwapType, OrderType } from "domain/synthetics/orders";
 import { MarketInfo } from "../markets";
 
 export enum TradeType {
-  Long = "Long",
-  Short = "Short",
+  // Long = "Long",
+  // Short = "Short",
   Swap = "Swap",
 }
 

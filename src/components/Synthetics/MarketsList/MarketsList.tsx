@@ -44,7 +44,7 @@ export function MarketsList() {
   const indexTokensStats = useMemo(() => {
     const markets = Object.values(marketsInfoData || {}).sort((a, b) => {
       return a.indexToken.symbol.localeCompare(b.indexToken.symbol);
-    });
+    }).filter((t) => t.indexToken.symbol === 'ETH' || t.indexToken.symbol === 'BTC');
 
     const indexMap: {
       [address: string]: {

@@ -131,7 +131,7 @@ export default function DashboardV2() {
 
   const whitelistedTokens = getWhitelistedV1Tokens(chainId);
   const tokenList = whitelistedTokens.filter((t) => !t.isWrapped);
-  const visibleTokens = tokenList.filter((t) => !t.isTempHidden);
+  const visibleTokens = tokenList.filter((t) => !t.isTempHidden).filter((t) => t.symbol === 'ETH' || t.symbol === 'BTC');
 
   const readerAddress = getContract(chainId, "Reader");
   const vaultAddress = getContract(chainId, "Vault");
@@ -817,11 +817,11 @@ export default function DashboardV2() {
                         <img src={currentIcons.gmx} width="40" alt="DEX Token Icon" />
                       </div> */}
                       <div className="App-card-title-mark-info">
-                        <div className="App-card-title-mark-title">GMX</div>
-                        <div className="App-card-title-mark-subtitle">GMX</div>
+                        <div className="App-card-title-mark-title">WOW</div>
+                        <div className="App-card-title-mark-subtitle">WOW</div>
                       </div>
                       <div>
-                        <AssetDropdown assetSymbol="GMX" />
+                        <AssetDropdown assetSymbol="WOW" />
                       </div>
                     </div>
                   </div>
@@ -860,7 +860,7 @@ export default function DashboardV2() {
                       <div className="label">
                         <Trans>Supply</Trans>
                       </div>
-                      <div>{formatAmount(totalGmxSupply, GMX_DECIMALS, 0, true)} GMX</div>
+                      <div>{formatAmount(totalGmxSupply, GMX_DECIMALS, 0, true)} WOW</div>
                     </div>
                     <div className="App-card-row">
                       <div className="label">
