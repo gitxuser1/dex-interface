@@ -1,7 +1,7 @@
 import { Plural, Trans, t } from "@lingui/macro";
 import cx from "classnames";
 import Checkbox from "components/Checkbox/Checkbox";
-import Footer from "components/Footer/Footer";
+// import Footer from "components/Footer/Footer";
 import { ClaimModal } from "components/Synthetics/ClaimModal/ClaimModal";
 import { Claims } from "components/Synthetics/Claims/Claims";
 import { OrderList } from "components/Synthetics/OrderList/OrderList";

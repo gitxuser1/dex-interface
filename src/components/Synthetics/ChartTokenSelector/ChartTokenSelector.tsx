@@ -12,7 +12,7 @@ import { TradeFlags } from "domain/synthetics/trade/useTradeFlags";
 import { AvailableTokenOptions, TradeType } from "domain/synthetics/trade";
 import { getAvailableUsdLiquidityForPosition } from "domain/synthetics/markets";
 import { BigNumber } from "ethers";
-import { formatUsd } from "lib/numbers";
+// import { formatUsd } from "lib/numbers";
 import { PositionsInfoData } from "domain/synthetics/positions";
 import { convertTokenAddress } from "config/tokens";
 

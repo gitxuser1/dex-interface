@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "@lingui/macro";
-import Footer from "components/Footer/Footer";
+// import Footer from "components/Footer/Footer";
 import "./Buy.css";
 import TokenCard from "components/TokenCard/TokenCard";
 import SEO from "components/Common/SEO";

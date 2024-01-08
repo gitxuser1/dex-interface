@@ -2,7 +2,7 @@ import { Trans, t } from "@lingui/macro";
 import { useCallback, useMemo, useState } from "react";
 
 import Checkbox from "components/Checkbox/Checkbox";
-import Footer from "components/Footer/Footer";
+// import Footer from "components/Footer/Footer";
 import Modal from "components/Modal/Modal";
 import Tooltip from "components/Tooltip/Tooltip";
 
@@ -925,7 +925,7 @@ export default function StakeV2({ setPendingTxns }) {
   const { openConnectModal } = useConnectModal();
   const incentiveStats = useIncentiveStats(chainId);
 
-  const icons = getIcons(chainId);
+  // const icons = getIcons(chainId);
   const hasInsurance = true;
   const [isStakeModalVisible, setIsStakeModalVisible] = useState(false);
   const [stakeModalTitle, setStakeModalTitle] = useState("");

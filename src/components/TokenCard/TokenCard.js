@@ -18,9 +18,9 @@ import { useMarketTokensAPR } from "domain/synthetics/markets/useMarketTokensAPR
 import { mergeWith } from "lodash";
 import { formatPercentage } from "lib/numbers";
 
-const glpIcon = getIcon("common", "glp");
-const gmxIcon = getIcon("common", "gmx");
-const gmIcon = getIcon("common", "gm");
+// const glpIcon = getIcon("common", "glp");
+// const gmxIcon = getIcon("common", "gmx");
+// const gmIcon = getIcon("common", "gm");
 
 function calculateMaxApr(apr, incentiveApr) {
   const totalApr = mergeWith({}, apr, incentiveApr, (aprValue, incentiveAprValue) => aprValue?.add(incentiveAprValue));

@@ -13,7 +13,7 @@ import YieldToken from "abis/YieldToken.json";
 import YieldFarm from "abis/YieldFarm.json";
 
 import Modal from "components/Modal/Modal";
-import Footer from "components/Footer/Footer";
+// import Footer from "components/Footer/Footer";
 
 import "./Stake.css";
 import { t, Trans } from "@lingui/macro";

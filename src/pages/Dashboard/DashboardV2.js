@@ -17,7 +17,7 @@ import { getContract } from "config/contracts";
 import GlpManager from "abis/GlpManager.json";
 import ReaderV2 from "abis/ReaderV2.json";
 import VaultV2 from "abis/VaultV2.json";
-import Footer from "components/Footer/Footer";
+// import Footer from "components/Footer/Footer";
 
 import "./DashboardV2.css";
 

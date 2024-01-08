@@ -7,7 +7,7 @@ import { ethers } from "ethers";
 import useSWR from "swr";
 
 import { BsArrowRight } from "react-icons/bs";
-import { IoMdSwap } from "react-icons/io";
+// import { IoMdSwap } from "react-icons/io";
 
 import { ARBITRUM, IS_NETWORK_DISABLED, getChainName, getConstant, isSupportedChain } from "config/chains";
 import { getContract } from "config/contracts";
@@ -87,7 +87,7 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import useWallet from "lib/wallets/useWallet";
 import TokenWithIcon from "components/TokenIcon/TokenWithIcon";
 import useIsMetamaskMobile from "lib/wallets/useIsMetamaskMobile";
-import { MAX_METAMASK_MOBILE_DECIMALS } from "config/ui";
+// import { MAX_METAMASK_MOBILE_DECIMALS } from "config/ui";
 
 const SWAP_ICONS = {
   [LONG]: longImg,
@@ -121,7 +121,6 @@ export default function SwapBox(props) {
     setPendingPositions,
     infoTokens,
     fromTokenAddress,
-    setFromTokenAddress,
     toTokenAddress,
     setToTokenAddress,
     swapOption,
@@ -131,7 +130,6 @@ export default function SwapBox(props) {
     pendingTxns,
     setPendingTxns,
     tokenSelection,
-    setTokenSelection,
     setIsConfirming,
     isConfirming,
     isPendingConfirmation,
@@ -188,18 +186,18 @@ export default function SwapBox(props) {
   const isShort = swapOption === SHORT;
   const isSwap = swapOption === SWAP;
 
-  function getTokenLabel() {
-    switch (true) {
-      case isLong:
-        return t`Long`;
-      case isShort:
-        return t`Short`;
-      case isSwap:
-        return t`Receive`;
-      default:
-        return "";
-    }
-  }
+  // function getTokenLabel() {
+  //   switch (true) {
+  //     case isLong:
+  //       return t`Long`;
+  //     case isShort:
+  //       return t`Short`;
+  //     case isSwap:
+  //       return t`Receive`;
+  //     default:
+  //       return "";
+  //   }
+  // }
   const [leverageOption, setLeverageOption] = useLocalStorageSerializeKey(
     [chainId, "Exchange-swap-leverage-option"],
     "2"
@@ -250,7 +248,7 @@ export default function SwapBox(props) {
 
   const whitelistedTokens = getWhitelistedV1Tokens(chainId);
   const tokens = getV1Tokens(chainId);
-  const fromTokens = tokens;
+  // const fromTokens = tokens;
   const stableTokens = tokens.filter((token) => token.isStable);
   const indexTokens = whitelistedTokens.filter((token) => !token.isStable && !token.isWrapped);
   const shortableTokens = indexTokens.filter((token) => token.isShortable);
@@ -350,7 +348,7 @@ export default function SwapBox(props) {
   };
 
   const fromBalance = fromTokenInfo ? fromTokenInfo.balance : bigNumberify(0);
-  const toBalance = toTokenInfo ? toTokenInfo.balance : bigNumberify(0);
+  // const toBalance = toTokenInfo ? toTokenInfo.balance : bigNumberify(0);
 
   const fromAmount = parseValue(fromValue, fromToken && fromToken.decimals);
   const toAmount = parseValue(toValue, toToken && toToken.decimals);
@@ -999,15 +997,15 @@ export default function SwapBox(props) {
     return [false];
   };
 
-  const getToLabel = () => {
-    if (isSwap) {
-      return t`Receive`;
-    }
-    if (isLong) {
-      return t`Long`;
-    }
-    return t`Short`;
-  };
+  // const getToLabel = () => {
+  //   if (isSwap) {
+  //     return t`Receive`;
+  //   }
+  //   if (isLong) {
+  //     return t`Long`;
+  //   }
+  //   return t`Short`;
+  // };
 
   const getError = () => {
     if (isSwap) {
@@ -1148,54 +1146,54 @@ export default function SwapBox(props) {
     return t`Short ${toToken.symbol}`;
   };
 
-  const onSelectFromToken = (token) => {
-    setFromTokenAddress(swapOption, token.address);
-    setIsWaitingForApproval(false);
+  // const onSelectFromToken = (token) => {
+  //   setFromTokenAddress(swapOption, token.address);
+  //   setIsWaitingForApproval(false);
 
-    if (isShort && token.isStable) {
-      setShortCollateralAddress(token.address);
-    }
-  };
+  //   if (isShort && token.isStable) {
+  //     setShortCollateralAddress(token.address);
+  //   }
+  // };
 
   const onSelectShortCollateralAddress = (token) => {
     setShortCollateralAddress(token.address);
   };
 
-  const onSelectToToken = (token) => {
-    setToTokenAddress(swapOption, token.address);
-  };
+  // const onSelectToToken = (token) => {
+  //   setToTokenAddress(swapOption, token.address);
+  // };
 
-  const onFromValueChange = (e) => {
-    setAnchorOnFromAmount(true);
-    setFromValue(e.target.value);
-  };
+  // const onFromValueChange = (e) => {
+  //   setAnchorOnFromAmount(true);
+  //   setFromValue(e.target.value);
+  // };
 
-  const onToValueChange = (e) => {
-    setAnchorOnFromAmount(false);
-    setToValue(e.target.value);
-  };
+  // const onToValueChange = (e) => {
+  //   setAnchorOnFromAmount(false);
+  //   setToValue(e.target.value);
+  // };
 
-  const switchTokens = () => {
-    if (fromAmount && toAmount) {
-      if (anchorOnFromAmount) {
-        setToValue(formatAmountFree(fromAmount, fromToken.decimals, 8));
-      } else {
-        setFromValue(formatAmountFree(toAmount, toToken.decimals, 8));
-      }
-      setAnchorOnFromAmount(!anchorOnFromAmount);
-    }
-    setIsWaitingForApproval(false);
-    const shouldSwitch = toTokens.find((token) => token.address === fromTokenAddress);
-    if (shouldSwitch) {
-      const updatedTokenSelection = JSON.parse(JSON.stringify(tokenSelection));
+  // const switchTokens = () => {
+  //   if (fromAmount && toAmount) {
+  //     if (anchorOnFromAmount) {
+  //       setToValue(formatAmountFree(fromAmount, fromToken.decimals, 8));
+  //     } else {
+  //       setFromValue(formatAmountFree(toAmount, toToken.decimals, 8));
+  //     }
+  //     setAnchorOnFromAmount(!anchorOnFromAmount);
+  //   }
+  //   setIsWaitingForApproval(false);
+  //   const shouldSwitch = toTokens.find((token) => token.address === fromTokenAddress);
+  //   if (shouldSwitch) {
+  //     const updatedTokenSelection = JSON.parse(JSON.stringify(tokenSelection));
 
-      updatedTokenSelection[swapOption] = {
-        from: toTokenAddress,
-        to: fromTokenAddress,
-      };
-      setTokenSelection(updatedTokenSelection);
-    }
-  };
+  //     updatedTokenSelection[swapOption] = {
+  //       from: toTokenAddress,
+  //       to: fromTokenAddress,
+  //     };
+  //     setTokenSelection(updatedTokenSelection);
+  //   }
+  // };
 
   const wrap = async () => {
     setIsSubmitting(true);
@@ -1658,7 +1656,7 @@ export default function SwapBox(props) {
   };
 
   const isStopOrder = orderOption === STOP;
-  const showFromAndToSection = !isStopOrder;
+  // const showFromAndToSection = !isStopOrder;
   const showTriggerPriceSection = !isSwap && !isMarketOrder && !isStopOrder;
   const showTriggerRatioSection = isSwap && !isMarketOrder && !isStopOrder;
 
@@ -1781,27 +1779,27 @@ export default function SwapBox(props) {
     return fundingRate;
   }
 
-  function setFromValueToMaximumAvailable() {
-    if (!fromToken || !fromBalance) {
-      return;
-    }
+  // function setFromValueToMaximumAvailable() {
+  //   if (!fromToken || !fromBalance) {
+  //     return;
+  //   }
 
-    const maxAvailableAmount = fromToken.isNative ? fromBalance.sub(bigNumberify(DUST_BNB).mul(2)) : fromBalance;
-    const formattedMaxAvailableAmount = formatAmountFree(maxAvailableAmount, fromToken.decimals, fromToken.decimals);
-    const finalMaxAmount = isMetamaskMobile
-      ? limitDecimals(formattedMaxAvailableAmount, MAX_METAMASK_MOBILE_DECIMALS)
-      : formattedMaxAvailableAmount;
-    setFromValue(finalMaxAmount);
-    setAnchorOnFromAmount(true);
-  }
+  //   const maxAvailableAmount = fromToken.isNative ? fromBalance.sub(bigNumberify(DUST_BNB).mul(2)) : fromBalance;
+  //   const formattedMaxAvailableAmount = formatAmountFree(maxAvailableAmount, fromToken.decimals, fromToken.decimals);
+  //   const finalMaxAmount = isMetamaskMobile
+  //     ? limitDecimals(formattedMaxAvailableAmount, MAX_METAMASK_MOBILE_DECIMALS)
+  //     : formattedMaxAvailableAmount;
+  //   setFromValue(finalMaxAmount);
+  //   setAnchorOnFromAmount(true);
+  // }
 
-  function shouldShowMaxButton() {
-    if (!fromToken || !fromBalance) {
-      return false;
-    }
-    const maxAvailableAmount = fromToken.isNative ? fromBalance.sub(bigNumberify(DUST_BNB).mul(2)) : fromBalance;
-    return fromValue !== formatAmountFree(maxAvailableAmount, fromToken.decimals, fromToken.decimals);
-  }
+  // function shouldShowMaxButton() {
+  //   if (!fromToken || !fromBalance) {
+  //     return false;
+  //   }
+  //   const maxAvailableAmount = fromToken.isNative ? fromBalance.sub(bigNumberify(DUST_BNB).mul(2)) : fromBalance;
+  //   return fromValue !== formatAmountFree(maxAvailableAmount, fromToken.decimals, fromToken.decimals);
+  // }
 
   const ERROR_TOOLTIP_MSG = {
     [ErrorCode.InsufficientLiquiditySwap]: t`Swap amount exceeds Available Liquidity.`,

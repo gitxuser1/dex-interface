@@ -2,7 +2,7 @@ import { Trans, t } from "@lingui/macro";
 import Loader from "components/Common/Loader";
 import SEO from "components/Common/SEO";
 import ExternalLink from "components/ExternalLink/ExternalLink";
-import Footer from "components/Footer/Footer";
+// import Footer from "components/Footer/Footer";
 import AddAffiliateCode from "components/Referrals/AddAffiliateCode";
 import AffiliatesStats from "components/Referrals/AffiliatesStats";
 import JoinReferralCode from "components/Referrals/JoinReferralCode";

@@ -88,7 +88,7 @@ import { useHasLostFocus } from "lib/useHasPageLostFocus";
 import { MarketPoolsPage } from "pages/MarketPoolsPage/MarketPoolsPage";
 import SyntheticsActions from "pages/SyntheticsActions/SyntheticsActions";
 import { SyntheticsFallbackPage } from "pages/SyntheticsFallbackPage/SyntheticsFallbackPage";
-import { SyntheticsPage } from "pages/SyntheticsPage/SyntheticsPage";
+// import { SyntheticsPage } from "pages/SyntheticsPage/SyntheticsPage";
 import { SyntheticsStats } from "pages/SyntheticsStats/SyntheticsStats";
 import NumberInput from "components/NumberInput/NumberInput";
 import { watchNetwork } from "@wagmi/core";
@@ -162,7 +162,7 @@ function FullApp() {
     1
   );
   const tradePageVersion = 1;
-  console.log('tradePageVersion', tradePageVersion, [chainId, TRADE_LINK_KEY])
+  // console.log('tradePageVersion', tradePageVersion, [chainId, TRADE_LINK_KEY])
   const [redirectModalVisible, setRedirectModalVisible] = useState(false);
   const [shouldHideRedirectModal, setShouldHideRedirectModal] = useState(false);
   const [redirectPopupTimestamp, setRedirectPopupTimestamp] = useLocalStorage(REDIRECT_POPUP_TIMESTAMP_KEY);

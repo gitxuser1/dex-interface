@@ -1,7 +1,7 @@
 import { Trans, t } from "@lingui/macro";
 import cx from "classnames";
 import TVChartContainer, { ChartLine } from "components/TVChartContainer/TVChartContainer";
-import { VersionSwitch } from "components/VersionSwitch/VersionSwitch";
+// import { VersionSwitch } from "components/VersionSwitch/VersionSwitch";
 import { convertTokenAddress, getPriceDecimals, getToken, isChartAvailabeForToken } from "config/tokens";
 import { SUPPORTED_RESOLUTIONS_V2 } from "config/tradingview";
 import { OrdersInfoData, PositionOrderInfo, isIncreaseOrderType, isSwapOrderType } from "domain/synthetics/orders";
