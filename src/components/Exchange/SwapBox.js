@@ -74,7 +74,7 @@ import { getTokenInfo, getUsd } from "domain/tokens/utils";
 import { callContract, contractFetcher } from "lib/contracts";
 import { helperToast } from "lib/helperToast";
 import { useLocalStorageByChainId, useLocalStorageSerializeKey } from "lib/localStorage";
-import { bigNumberify, expandDecimals, formatAmount, formatAmountFree, limitDecimals, parseValue } from "lib/numbers";
+import { bigNumberify, expandDecimals, formatAmount, formatAmountFree, parseValue } from "lib/numbers";
 import { getLeverage } from "lib/positions/getLeverage";
 import getLiquidationPrice from "lib/positions/getLiquidationPrice";
 import { usePrevious } from "lib/usePrevious";
@@ -86,7 +86,7 @@ import { ErrorCode, ErrorDisplayType } from "./constants";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import useWallet from "lib/wallets/useWallet";
 import TokenWithIcon from "components/TokenIcon/TokenWithIcon";
-import useIsMetamaskMobile from "lib/wallets/useIsMetamaskMobile";
+// import useIsMetamaskMobile from "lib/wallets/useIsMetamaskMobile";
 // import { MAX_METAMASK_MOBILE_DECIMALS } from "config/ui";
 
 const SWAP_ICONS = {
@@ -158,7 +158,7 @@ export default function SwapBox(props) {
     minExecutionFeeErrorMessage,
   } = props;
   const { account, active, signer } = useWallet();
-  const isMetamaskMobile = useIsMetamaskMobile();
+  // const isMetamaskMobile = useIsMetamaskMobile();
   const [fromValue, setFromValue] = useState("");
   const [toValue, setToValue] = useState("");
   const [anchorOnFromAmount, setAnchorOnFromAmount] = useState(true);
@@ -347,7 +347,7 @@ export default function SwapBox(props) {
     );
   };
 
-  const fromBalance = fromTokenInfo ? fromTokenInfo.balance : bigNumberify(0);
+  // const fromBalance = fromTokenInfo ? fromTokenInfo.balance : bigNumberify(0);
   // const toBalance = toTokenInfo ? toTokenInfo.balance : bigNumberify(0);
 
   const fromAmount = parseValue(fromValue, fromToken && fromToken.decimals);

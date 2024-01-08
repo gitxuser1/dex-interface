@@ -6,7 +6,7 @@ import { isHomeSite } from "lib/legacy";
 
 import ExternalLink from "components/ExternalLink/ExternalLink";
 import { ARBITRUM, AVALANCHE } from "config/chains";
-import { getIcon } from "config/icons";
+// import { getIcon } from "config/icons";
 import { useChainId } from "lib/chains";
 import { switchNetwork } from "lib/wallets";
 import APRLabel from "../APRLabel/APRLabel";
