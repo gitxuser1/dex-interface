@@ -157,10 +157,12 @@ function FullApp() {
     setIsSettingsVisible(false);
   };
 
-  const [tradePageVersion, setTradePageVersion] = useLocalStorageSerializeKey(
+  const [, setTradePageVersion] = useLocalStorageSerializeKey(
     [chainId, TRADE_LINK_KEY],
     1
   );
+  const tradePageVersion = 1;
+  console.log('tradePageVersion', tradePageVersion, [chainId, TRADE_LINK_KEY])
   const [redirectModalVisible, setRedirectModalVisible] = useState(false);
   const [shouldHideRedirectModal, setShouldHideRedirectModal] = useState(false);
   const [redirectPopupTimestamp, setRedirectPopupTimestamp] = useLocalStorage(REDIRECT_POPUP_TIMESTAMP_KEY);
@@ -400,6 +402,23 @@ function FullApp() {
               <Route exact path="/">
                 <Redirect to="/trade" />
               </Route>
+              <Route exact path="/trade">
+                <Exchange
+                  ref={exchangeRef}
+                  savedShowPnlAfterFees={savedShowPnlAfterFees}
+                  savedIsPnlInLeverage={savedIsPnlInLeverage}
+                  setSavedIsPnlInLeverage={setSavedIsPnlInLeverage}
+                  savedSlippageAmount={settings.savedAllowedSlippage}
+                  setPendingTxns={setPendingTxns}
+                  pendingTxns={pendingTxns}
+                  savedShouldShowPositionLines={savedShouldShowPositionLines}
+                  setSavedShouldShowPositionLines={setSavedShouldShowPositionLines}
+                  savedShouldDisableValidationForTesting={savedShouldDisableValidationForTesting}
+                  tradePageVersion={tradePageVersion}
+                  setTradePageVersion={setTradePageVersion}
+                  openSettings={openSettings}
+                />
+              </Route>
               <Route exact path="/v1">
                 <Exchange
                   ref={exchangeRef}
@@ -444,7 +463,7 @@ function FullApp() {
                 )}
               </Route>
 
-              <Route exact path="/trade">
+              {/* <Route exact path="/trade">
                 {getIsSyntheticsSupported(chainId) ? (
                   <SyntheticsPage
                     savedIsPnlInLeverage={savedIsPnlInLeverage}
@@ -462,7 +481,7 @@ function FullApp() {
                 ) : (
                   <SyntheticsFallbackPage />
                 )}
-              </Route>
+              </Route> */}
               <Redirect from="/v2" to="/trade" />
               <Route exact path="/buy_glp">
                 <BuyGlp

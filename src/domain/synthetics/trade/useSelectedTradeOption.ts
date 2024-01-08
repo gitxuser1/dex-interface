@@ -65,7 +65,7 @@ export function useSelectedTradeOption(
   const [storedOptions, setStoredOptions] = useLocalStorageSerializeKey<StoredTradeOptions>(
     getSyntheticsTradeOptionsKey(chainId),
     {
-      tradeType: TradeType.Long,
+      tradeType: TradeType.Swap,
       tradeMode: TradeMode.Market,
       tokens: {},
       markets: {},
@@ -85,7 +85,7 @@ export function useSelectedTradeOption(
     }
 
     return {
-      [TradeType.Long]: [TradeMode.Market, TradeMode.Limit, TradeMode.Trigger],
+      [TradeType.Long]: [TradeMode.Limit, TradeMode.Trigger],
       [TradeType.Short]: [TradeMode.Market, TradeMode.Limit, TradeMode.Trigger],
       [TradeType.Swap]: [TradeMode.Market, TradeMode.Limit],
     }[tradeType];

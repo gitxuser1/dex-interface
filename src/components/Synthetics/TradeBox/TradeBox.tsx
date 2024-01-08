@@ -143,8 +143,8 @@ export type Props = {
 };
 
 const tradeTypeIcons = {
-  // [TradeType.Long]: longImg,
-  // [TradeType.Short]: shortImg,
+  [TradeType.Long]: longImg,
+  [TradeType.Short]: shortImg,
   [TradeType.Swap]: swapImg,
 };
 
@@ -197,8 +197,8 @@ export function TradeBox(p: Props) {
 
   const tradeTypeLabels = useMemo(() => {
     return {
-      // [TradeType.Long]: t`Long`,
-      // [TradeType.Short]: t`Short`,
+      [TradeType.Long]: t`Long`,
+      [TradeType.Short]: t`Short`,
       [TradeType.Swap]: t`Swap`,
     };
   }, []);

@@ -692,8 +692,13 @@ table.Exchange-list .Exchange-list-item-active {
 
 .Exchange-swap-box .Tab {
   margin-bottom: 1.05rem;
-  display: none;
+
+  /* display: none; */
 }
+
+/* .Exchange-swap-box .muted  {
+  display: none;
+} */
 
 .Exchange-swap-section {
   padding: 1.5rem;

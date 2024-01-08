@@ -206,7 +206,7 @@ export default function ChartTokenSelector(props: Props) {
                               </span>
                             </td>
 
-                            <td
+                            {/* <td
                               onClick={() => {
                                 onSelect({
                                   indexTokenAddress: token.address,
@@ -216,8 +216,8 @@ export default function ChartTokenSelector(props: Props) {
                               }}
                             >
                               {!isSwap && maxLongLiquidityPool ? formatUsd(maxLongLiquidityPool?.maxLongLiquidity) : ""}
-                            </td>
-                            <td
+                            </td> */}
+                            {/* <td
                               onClick={() => {
                                 onSelect({
                                   indexTokenAddress: token.address,
@@ -229,7 +229,7 @@ export default function ChartTokenSelector(props: Props) {
                               {!isSwap && maxShortLiquidityPool
                                 ? formatUsd(maxShortLiquidityPool?.maxShortLiquidity)
                                 : ""}
-                            </td>
+                            </td> */}
                           </Popover.Button>
                         );
                       })}

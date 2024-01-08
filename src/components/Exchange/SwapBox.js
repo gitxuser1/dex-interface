@@ -15,6 +15,7 @@ import * as Api from "domain/legacy";
 import {
   DUST_BNB,
   LEVERAGE_ORDER_OPTIONS,
+  LONG_ORDER_OPTIONS,
   LIMIT,
   LONG,
   MARGIN_FEE_BASIS_POINTS,
@@ -222,7 +223,7 @@ export default function SwapBox(props) {
   };
 
   const isMarketOrder = orderOption === MARKET;
-  const orderOptions = isSwap ? SWAP_ORDER_OPTIONS : LEVERAGE_ORDER_OPTIONS;
+  const orderOptions = isSwap ? SWAP_ORDER_OPTIONS : isLong ? LONG_ORDER_OPTIONS : LEVERAGE_ORDER_OPTIONS;
   const orderOptionLabels = { [STOP]: t`Trigger`, [MARKET]: t`Market`, [LIMIT]: t`Limit` };
 
   const [triggerPriceValue, setTriggerPriceValue] = useState("");
@@ -1862,8 +1863,8 @@ export default function SwapBox(props) {
   };
 
   const SWAP_LABELS = {
-    // [LONG]: t`Long`,
-    // [SHORT]: t`Short`,
+    [LONG]: t`Long`,
+    [SHORT]: t`Short`,
     [SWAP]: t`Swap`,
   };
 
@@ -1945,7 +1946,7 @@ export default function SwapBox(props) {
               />
             )}
           </div>
-          {showFromAndToSection && (
+          {/* {showFromAndToSection && (
             <React.Fragment>
               <BuyInputSection
                 topLeftLabel={t`Pay`}
@@ -2002,7 +2003,7 @@ export default function SwapBox(props) {
                 />
               </BuyInputSection>
             </React.Fragment>
-          )}
+          )} */}
           {showTriggerRatioSection && (
             <BuyInputSection
               topLeftLabel={t`Price`}

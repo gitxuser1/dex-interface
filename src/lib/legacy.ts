@@ -68,7 +68,8 @@ export const LIMIT = "Limit";
 export const STOP = "Stop";
 export const LEVERAGE_ORDER_OPTIONS = [MARKET, LIMIT, STOP];
 export const SWAP_ORDER_OPTIONS = [MARKET, LIMIT];
-export const SWAP_OPTIONS = [SWAP];
+export const LONG_ORDER_OPTIONS = [MARKET, LIMIT, STOP];
+export const SWAP_OPTIONS = [LONG, SHORT, SWAP];
 export const REFERRAL_CODE_QUERY_PARAM = "ref";
 export const MAX_REFERRAL_CODE_LENGTH = 20;
 
