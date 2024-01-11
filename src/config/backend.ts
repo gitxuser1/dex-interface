@@ -2,6 +2,10 @@ import { ARBITRUM, ARBITRUM_GOERLI, AVALANCHE, BCS_MAINNET } from "./chains";
 
 export const GMX_STATS_API_URL = "https://stats.gmx.io/api";
 
+export const DEX_STATS_API_URL = "https://quote.onetradefinance.co/xstock_api";
+
+export const REQUEST_API_URL = "https://api.onetradefinance.co/xstock_api_test";
+
 const BACKEND_URLS = {
   default: "https://gmx-server-mainnet.uw.r.appspot.com",
 

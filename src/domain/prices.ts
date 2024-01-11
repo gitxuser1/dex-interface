@@ -2,9 +2,10 @@ import { useMemo } from "react";
 import { gql } from "@apollo/client";
 import useSWR from "swr";
 import { ethers } from "ethers";
+import { format } from "date-fns";
 
 import { USD_DECIMALS, CHART_PERIODS } from "lib/legacy";
-import { GMX_STATS_API_URL } from "config/backend";
+import { DEX_STATS_API_URL } from "config/backend";
 import { chainlinkClient } from "lib/subgraph/clients";
 import { sleep } from "lib/sleep";
 import { formatAmount } from "lib/numbers";
@@ -75,14 +76,31 @@ export async function getLimitChartPricesFromStats(chainId, symbol, period, limi
     symbol = getNativeToken(chainId).symbol;
   }
 
-  const url = `${GMX_STATS_API_URL}/candles/${symbol}?preferableChainId=${chainId}&period=${period}&limit=${limit}`;
+  // const url = `${GMX_STATS_API_URL}/candles/${symbol}?preferableChainId=${chainId}&period=${period}&limit=${limit}`;
+  const url = `${DEX_STATS_API_URL}/a/quote/f/r`
 
   try {
-    const response = await fetch(url);
+    // const response = await fetch(url)
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "id": 209,
+      })
+    });
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const prices = await response.json().then(({ prices }) => prices);
+    // const prices = await response.json().then(({ prices }) => prices);
+    const prices = await response.json().then(({ data }) => ([{
+      "t": Math.floor(data.timestamp / 1000),
+      "o": data.o,
+      "c": data.c,
+      "h": data.h,
+      "l": data.l
+    }]));
     return prices.map(formatBarInfo);
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -96,7 +114,8 @@ export async function getChartPricesFromStats(chainId, symbol, period) {
 
   const timeDiff = CHART_PERIODS[period] * 3000;
   const from = Math.floor(Date.now() / 1000 - timeDiff);
-  const url = `${GMX_STATS_API_URL}/candles/${symbol}?preferableChainId=${chainId}&period=${period}&from=${from}&preferableSource=fast`;
+  // const url = `${GMX_STATS_API_URL}/candles/${symbol}?preferableChainId=${chainId}&period=${period}&from=${from}&preferableSource=fast`;
+  const url = `${DEX_STATS_API_URL}/a/agg/f/l`
 
   const TIMEOUT = 5000;
   const res: Response = await new Promise(async (resolve, reject) => {
@@ -110,7 +129,21 @@ export async function getChartPricesFromStats(chainId, symbol, period) {
     for (let i = 0; i < 3; i++) {
       if (done) return;
       try {
-        const res = await fetch(url);
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "tickerId": 209,
+            "multiplier": 5,
+            "timeSpan": "minute",
+            "adjusted":true,
+            "sort":"asc", 
+            "from": format(from * 1000, 'yyyy-MM-dd'),
+            "to": format(Math.floor(Date.now()), 'yyyy-MM-dd')
+          })
+        });
         resolve(res);
         return;
       } catch (ex) {
@@ -134,9 +167,9 @@ export async function getChartPricesFromStats(chainId, symbol, period) {
   if (updatedAt < OBSOLETE_THRESHOLD) {
     throw new Error(
       "chart data is obsolete, last price record at " +
-        new Date(updatedAt * 1000).toISOString() +
-        " now: " +
-        new Date().toISOString()
+      new Date(updatedAt * 1000).toISOString() +
+      " now: " +
+      new Date().toISOString()
     );
   }
 

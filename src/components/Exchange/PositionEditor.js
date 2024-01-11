@@ -195,13 +195,13 @@ export default function PositionEditor(props) {
       return [t`Withdraw disabled, pending ${getChainName(chainId)} upgrade`];
     }
 
-    if (!fromAmount) {
-      return [t`Enter an amount`];
-    }
+    // if (!fromAmount) {
+    //   return [t`Enter an amount`];
+    // }
 
-    if (fromAmount.lte(0)) {
-      return [t`Amount should be greater than zero`];
-    }
+    // if (fromAmount.lte(0)) {
+    //   return [t`Amount should be greater than zero`];
+    // }
 
     if (!isDeposit && fromAmount) {
       if (position.collateralAfterFee.sub(fromAmount).lt(MIN_ORDER_USD)) {

@@ -1,6 +1,6 @@
 import React from "react";
 import "@rainbow-me/rainbowkit/styles.css";
-import { connectorsForWallets, darkTheme, RainbowKitProvider, Theme, WalletList } from "@rainbow-me/rainbowkit";
+import { connectorsForWallets, RainbowKitProvider, Theme, WalletList, lightTheme } from "@rainbow-me/rainbowkit";
 import {
   ledgerWallet,
   safeWallet,
@@ -14,11 +14,12 @@ import {
   zerionWallet,
   okxWallet,
 } from "@rainbow-me/rainbowkit/wallets";
-import { configureChains, createClient, WagmiConfig } from "wagmi";
+import { Chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { arbitrum, arbitrumGoerli, avalanche, avalancheFuji } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import merge from "lodash/merge";
 import { isDevelopment } from "config/env";
+// import wowIcon from "img/wow.svg";
 import { coreWallet } from "./connecters/core/coreWallet";
 import { bitgetWallet } from "./connecters/bitgetWallet/bitgetWallet";
 import binanceWallet from "./connecters/binanceW3W/binanceWallet";
@@ -26,7 +27,32 @@ import binanceWallet from "./connecters/binanceW3W/binanceWallet";
 const WALLET_CONNECT_PROJECT_ID = "de24cddbaf2a68f027eae30d9bb5df58";
 const APP_NAME = "DEX";
 
-const walletTheme = merge(darkTheme(), {
+const wow: Chain = {
+  id: 1916,
+  name: 'WOW',
+  network: 'wow',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Wow',
+    symbol: 'WOW',
+  },
+  rpcUrls: {
+    public: { http: ['https://wow.wpf.cc'] },
+    default: { http: ['https://wow.wpf.cc'] },
+  },
+  blockExplorers: {
+    default: { name: 'WOW', url: 'https://www.wowearn.io/' },
+  },
+  // contracts: {
+    // multicall3: {
+    //   address: '0xca11bde05977b3631167028862be2a173976ca11',
+    //   blockCreated: 11_907_934,
+    // },
+  // },
+  testnet: false,
+};
+
+const walletTheme = merge(lightTheme(), {
   colors: {
     modalBackground: "#fff",
     accentColor: "#9da5f2",
@@ -39,7 +65,7 @@ const walletTheme = merge(darkTheme(), {
 } as Theme);
 
 const { chains, provider } = configureChains(
-  [arbitrum, avalanche, ...(isDevelopment() ? [arbitrumGoerli, avalancheFuji] : [])],
+  [wow, arbitrum, avalanche, ...(isDevelopment() ? [arbitrumGoerli, avalancheFuji] : [])],
   [publicProvider()]
 );
 

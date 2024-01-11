@@ -1,11 +1,22 @@
 import { Token } from "domain/tokens";
 import { ethers } from "ethers";
-import { ARBITRUM, ARBITRUM_GOERLI, AVALANCHE, AVALANCHE_FUJI } from "./chains";
+import { ARBITRUM, ARBITRUM_GOERLI, AVALANCHE, AVALANCHE_FUJI, WOW } from "./chains";
 import { getContract } from "./contracts";
 
 export const NATIVE_TOKEN_ADDRESS = ethers.constants.AddressZero;
 
 export const TOKENS: { [chainId: number]: Token[] } = {
+  [WOW]: [
+    {
+      name: "WOW",
+      symbol: "WOW",
+      decimals: 18,
+      priceDecimals: 3,
+      address: ethers.constants.AddressZero,
+      imageUrl: "https://assets.coingecko.com/coins/images/16547/small/photo_2023-03-29_21.47.00.jpeg?1680097630",
+      coingeckoUrl: "https://www.coingecko.com/en/coins/arbitrum",
+    },
+  ],
   [ARBITRUM]: [
     {
       name: "Ethereum",

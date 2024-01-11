@@ -724,12 +724,12 @@ export default function SwapBox(props) {
       }
     }
 
-    if (!fromAmount || fromAmount.eq(0)) {
-      return [t`Enter an amount`];
-    }
-    if (!toAmount || toAmount.eq(0)) {
-      return [t`Enter an amount`];
-    }
+    // if (!fromAmount || fromAmount.eq(0)) {
+    //   return [t`Enter an amount`];
+    // }
+    // if (!toAmount || toAmount.eq(0)) {
+    //   return [t`Enter an amount`];
+    // }
 
     const fromTokenInfo = getTokenInfo(infoTokens, fromTokenAddress);
     if (!fromTokenInfo || !fromTokenInfo.minPrice) {

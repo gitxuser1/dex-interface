@@ -4,7 +4,7 @@ import ConnectWalletButton from "../Common/ConnectWalletButton";
 
 import { Trans } from "@lingui/macro";
 import cx from "classnames";
-import { ARBITRUM, ARBITRUM_GOERLI, AVALANCHE, AVALANCHE_FUJI, getChainName } from "config/chains";
+import { ARBITRUM, ARBITRUM_GOERLI, AVALANCHE, AVALANCHE_FUJI, WOW, getChainName } from "config/chains";
 import { isDevelopment } from "config/env";
 import { getIcon } from "config/icons";
 import { useChainId } from "lib/chains";
@@ -36,6 +36,12 @@ const NETWORK_OPTIONS = [
     label: getChainName(AVALANCHE),
     value: AVALANCHE,
     icon: getIcon(AVALANCHE, "network"),
+    color: "#E841424D",
+  },
+  {
+    label: getChainName(WOW),
+    value: WOW,
+    icon: getIcon(WOW, "network"),
     color: "#E841424D",
   },
 ];

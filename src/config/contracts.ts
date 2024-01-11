@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { ARBITRUM, ARBITRUM_GOERLI, AVALANCHE, AVALANCHE_FUJI, BCS_MAINNET, BCS_TESTNET } from "./chains";
+import { ARBITRUM, ARBITRUM_GOERLI, AVALANCHE, AVALANCHE_FUJI, BCS_MAINNET, BCS_TESTNET, WOW } from "./chains";
 
 const { AddressZero } = ethers.constants;
 
@@ -11,6 +11,9 @@ export const XGMT_EXCLUDED_ACCOUNTS = [
 ];
 
 const CONTRACTS = {
+  [WOW]: {
+    USDG: AddressZero,
+  },
   [BCS_MAINNET]: {
     // bsc mainnet
     Treasury: "0xa44E7252a0C137748F523F112644042E5987FfC7",

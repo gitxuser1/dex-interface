@@ -55,7 +55,6 @@ export function getSwapError(p: {
   const {
     fromToken,
     toToken,
-    fromTokenAmount,
     fromUsd,
     toUsd,
     isLimit,
@@ -76,17 +75,17 @@ export function getSwapError(p: {
     return [t`Select different tokens`];
   }
 
-  if (!fromTokenAmount?.gt(0) || !fromUsd?.gt(0)) {
-    return [t`Enter an amount`];
-  }
+  // if (!fromTokenAmount?.gt(0) || !fromUsd?.gt(0)) {
+  //   return [t`Enter an amount`];
+  // }
 
   if (isLimit && !triggerRatio?.ratio.gt(0)) {
     return [t`Enter a  price`];
   }
 
-  if (fromTokenAmount.gt(fromToken.balance || BigNumber.from(0))) {
-    return [t`Insufficient ${fromToken?.symbol} balance`];
-  }
+  // if (fromTokenAmount.gt(fromToken.balance || BigNumber.from(0))) {
+  //   return [t`Insufficient ${fromToken?.symbol} balance`];
+  // }
 
   if (isWrapOrUnwrap) {
     return [undefined];
@@ -512,9 +511,9 @@ export function getGmSwapError(p: {
     return [t`Amount should be greater than zero`];
   }
 
-  if (!marketTokenAmount?.gt(0)) {
-    return [t`Enter an amount`];
-  }
+  // if (!marketTokenAmount?.gt(0)) {
+  //   return [t`Enter an amount`];
+  // }
 
   if (isDeposit) {
     if (longTokenAmount?.gt(longToken?.balance || 0)) {
@@ -525,9 +524,9 @@ export function getGmSwapError(p: {
       return [t`Insufficient ${shortToken?.symbol} balance`];
     }
   } else {
-    if (marketTokenAmount.gt(marketToken?.balance || 0)) {
-      return [t`Insufficient ${marketToken?.symbol} balance`];
-    }
+    // if (marketTokenAmount.gt(marketToken?.balance || 0)) {
+    //   return [t`Insufficient ${marketToken?.symbol} balance`];
+    // }
 
     if (longTokenUsd?.gt(longTokenLiquidityUsd || 0)) {
       return [t`Insufficient ${longToken?.symbol} liquidity`];

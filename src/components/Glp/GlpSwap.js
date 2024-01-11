@@ -529,12 +529,12 @@ export default function GlpSwap(props) {
       return [t`Redemption time not yet reached`];
     }
 
-    if (!swapAmount || swapAmount.eq(0)) {
-      return [t`Enter an amount`];
-    }
-    if (!glpAmount || glpAmount.eq(0)) {
-      return [t`Enter an amount`];
-    }
+    // if (!swapAmount || swapAmount.eq(0)) {
+    //   return [t`Enter an amount`];
+    // }
+    // if (!glpAmount || glpAmount.eq(0)) {
+    //   return [t`Enter an amount`];
+    // }
 
     if (isBuying) {
       const swapTokenInfo = getTokenInfo(infoTokens, swapTokenAddress);

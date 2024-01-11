@@ -12,6 +12,7 @@ export const BCS_MAINNET = 56;
 export const BCS_TESTNET = 97;
 export const ETH_MAINNET = 1;
 export const AVALANCHE = 43114;
+export const WOW = 1916;
 export const AVALANCHE_FUJI = 43113;
 export const ARBITRUM = 42161;
 export const ARBITRUM_GOERLI = 421613;
@@ -19,10 +20,10 @@ export const FEES_HIGH_BPS = 50;
 export const DEFAULT_ALLOWED_SLIPPAGE_BPS = 30;
 
 // TODO take it from web3
-export const DEFAULT_CHAIN_ID = ARBITRUM;
+export const DEFAULT_CHAIN_ID = WOW;
 export const CHAIN_ID = DEFAULT_CHAIN_ID;
 
-export const SUPPORTED_CHAIN_IDS = [ARBITRUM, AVALANCHE];
+export const SUPPORTED_CHAIN_IDS = [ARBITRUM, AVALANCHE, WOW];
 
 if (isDevelopment()) {
   SUPPORTED_CHAIN_IDS.push(AVALANCHE_FUJI, ARBITRUM_GOERLI);
@@ -31,6 +32,7 @@ if (isDevelopment()) {
 export const IS_NETWORK_DISABLED = {
   [ARBITRUM]: false,
   [AVALANCHE]: false,
+  [WOW]: false,
 };
 
 export const CHAIN_NAMES_MAP = {
@@ -38,6 +40,7 @@ export const CHAIN_NAMES_MAP = {
   [BCS_TESTNET]: "BSC Testnet",
   [ARBITRUM_GOERLI]: "Arbitrum Goerli",
   [ARBITRUM]: "Arbitrum",
+  [WOW]: "Wow",
   [AVALANCHE]: "Avalanche",
   [AVALANCHE_FUJI]: "Avalanche Fuji",
 };
@@ -52,6 +55,7 @@ export const MAX_GAS_PRICE_MAP = {
 };
 
 export const HIGH_EXECUTION_FEES_MAP = {
+  [WOW]: 3, // 3 USD
   [ARBITRUM]: 3, // 3 USD
   [AVALANCHE]: 3, // 3 USD
   [AVALANCHE_FUJI]: 3, // 3 USD
@@ -74,6 +78,10 @@ export const EXECUTION_FEE_CONFIG_V2: {
     defaultBufferBps?: number;
   };
 } = {
+  [WOW]: {
+    shouldUseMaxPriorityFeePerGas: true,
+    defaultBufferBps: 1000, // 10%
+  },
   [AVALANCHE]: {
     shouldUseMaxPriorityFeePerGas: true,
     defaultBufferBps: 1000, // 10%
@@ -192,6 +200,7 @@ export const RPC_PROVIDERS = {
     // "https://endpoints.omniatech.io/v1/arbitrum/goerli/public",
     // "https://arbitrum-goerli.public.blastapi.io",
   ],
+  [WOW]: ["https://wow.wpf.cc"],
   [AVALANCHE]: ["https://api.avax.network/ext/bc/C/rpc"],
   [AVALANCHE_FUJI]: [
     "https://avalanche-fuji-c-chain.publicnode.com",
@@ -247,6 +256,17 @@ export const NETWORK_METADATA: { [chainId: number]: NetworkMetadata } = {
     },
     rpcUrls: RPC_PROVIDERS[ARBITRUM_GOERLI],
     blockExplorerUrls: ["https://goerli.arbiscan.io/"],
+  }, 
+  [WOW]: {
+    chainId: "0x" + WOW.toString(16),
+    chainName: "Wow",
+    nativeCurrency: {
+      name: "WOW",
+      symbol: "WOW",
+      decimals: 18,
+    },
+    rpcUrls: RPC_PROVIDERS[WOW],
+    blockExplorerUrls: [getExplorerUrl(WOW)],
   },
   [ARBITRUM]: {
     chainId: "0x" + ARBITRUM.toString(16),
@@ -338,6 +358,8 @@ export function getExplorerUrl(chainId) {
     return "https://snowtrace.io/";
   } else if (chainId === AVALANCHE_FUJI) {
     return "https://testnet.snowtrace.io/";
+  } else if (chainId === WOW) {
+    return "https://www.wowearn.io/";
   }
   return "https://etherscan.io/";
 }
