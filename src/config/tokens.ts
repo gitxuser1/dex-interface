@@ -12,9 +12,23 @@ export const TOKENS: { [chainId: number]: Token[] } = {
       symbol: "WOW",
       decimals: 18,
       priceDecimals: 3,
+      isNative: true,
       address: ethers.constants.AddressZero,
+      isV1Available: false,
+      isShortable: true,
       imageUrl: "https://assets.coingecko.com/coins/images/16547/small/photo_2023-03-29_21.47.00.jpeg?1680097630",
       coingeckoUrl: "https://www.coingecko.com/en/coins/arbitrum",
+    },
+    {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+      address: ethers.constants.AddressZero,
+      isNative: false,
+      isShortable: true,
+      imageUrl: "https://assets.coingecko.com/coins/images/279/small/ethereum.png?1595348880",
+      coingeckoUrl: "https://www.coingecko.com/en/coins/ethereum",
+      isV1Available: true,
     },
   ],
   [ARBITRUM]: [
@@ -208,6 +222,7 @@ export const TOKENS: { [chainId: number]: Token[] } = {
       address: getContract(ARBITRUM, "GMX"),
       decimals: 18,
       isPlatformToken: true,
+      isSynthetic: true,
       imageUrl: "https://assets.coingecko.com/coins/images/18323/small/arbit.png?1631532468",
       coingeckoUrl: "https://www.coingecko.com/en/coins/gmx",
       explorerUrl: "https://arbiscan.io/address/0xfc5a1a6eb076a2c7ad06ed22c90d7e710e35ad0a",
@@ -864,7 +879,7 @@ export const TOKENS_BY_SYMBOL_MAP: { [chainId: number]: { [symbol: string]: Toke
 export const WRAPPED_TOKENS_MAP: { [chainId: number]: Token } = {};
 export const NATIVE_TOKENS_MAP: { [chainId: number]: Token } = {};
 
-const CHAIN_IDS = [ARBITRUM, ARBITRUM_GOERLI, AVALANCHE, AVALANCHE_FUJI];
+const CHAIN_IDS = [WOW, ARBITRUM, ARBITRUM_GOERLI, AVALANCHE, AVALANCHE_FUJI];
 
 for (let j = 0; j < CHAIN_IDS.length; j++) {
   const chainId = CHAIN_IDS[j];
@@ -900,6 +915,7 @@ for (let j = 0; j < CHAIN_IDS.length; j++) {
     }
   }
 
+  // console.log('NATIVE_TOKENS_MAP', NATIVE_TOKENS_MAP)
   NATIVE_TOKENS_MAP[chainId].wrappedAddress = wrappedTokenAddress;
 }
 
@@ -920,6 +936,7 @@ export function getV1Tokens(chainId: number) {
 }
 
 export function getV2Tokens(chainId: number) {
+  // console.log(V2_TOKENS)
   return V2_TOKENS[chainId];
 }
 

@@ -7,7 +7,7 @@ import { ethers } from "ethers";
 import useSWR from "swr";
 
 import { BsArrowRight } from "react-icons/bs";
-// import { IoMdSwap } from "react-icons/io";
+import { IoMdSwap } from "react-icons/io";
 
 import { ARBITRUM, IS_NETWORK_DISABLED, getChainName, getConstant, isSupportedChain } from "config/chains";
 import { getContract } from "config/contracts";
@@ -74,7 +74,7 @@ import { getTokenInfo, getUsd } from "domain/tokens/utils";
 import { callContract, contractFetcher } from "lib/contracts";
 import { helperToast } from "lib/helperToast";
 import { useLocalStorageByChainId, useLocalStorageSerializeKey } from "lib/localStorage";
-import { bigNumberify, expandDecimals, formatAmount, formatAmountFree, parseValue } from "lib/numbers";
+import { bigNumberify, expandDecimals, formatAmount, formatAmountFree, limitDecimals, parseValue } from "lib/numbers";
 import { getLeverage } from "lib/positions/getLeverage";
 import getLiquidationPrice from "lib/positions/getLiquidationPrice";
 import { usePrevious } from "lib/usePrevious";
@@ -86,8 +86,9 @@ import { ErrorCode, ErrorDisplayType } from "./constants";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import useWallet from "lib/wallets/useWallet";
 import TokenWithIcon from "components/TokenIcon/TokenWithIcon";
-// import useIsMetamaskMobile from "lib/wallets/useIsMetamaskMobile";
-// import { MAX_METAMASK_MOBILE_DECIMALS } from "config/ui";
+import useIsMetamaskMobile from "lib/wallets/useIsMetamaskMobile";
+import { MAX_METAMASK_MOBILE_DECIMALS } from "config/ui";
+import { TRADE_API_URL } from "config/backend";
 
 const SWAP_ICONS = {
   [LONG]: longImg,
@@ -156,9 +157,11 @@ export default function SwapBox(props) {
     minExecutionFee,
     minExecutionFeeUSD,
     minExecutionFeeErrorMessage,
+    setFromTokenAddress,
+    setTokenSelection,
   } = props;
-  const { account, active, signer } = useWallet();
-  // const isMetamaskMobile = useIsMetamaskMobile();
+  const { account, active, signer, balance } = useWallet();
+  const isMetamaskMobile = useIsMetamaskMobile();
   const [fromValue, setFromValue] = useState("");
   const [toValue, setToValue] = useState("");
   const [anchorOnFromAmount, setAnchorOnFromAmount] = useState(true);
@@ -186,18 +189,18 @@ export default function SwapBox(props) {
   const isShort = swapOption === SHORT;
   const isSwap = swapOption === SWAP;
 
-  // function getTokenLabel() {
-  //   switch (true) {
-  //     case isLong:
-  //       return t`Long`;
-  //     case isShort:
-  //       return t`Short`;
-  //     case isSwap:
-  //       return t`Receive`;
-  //     default:
-  //       return "";
-  //   }
-  // }
+  function getTokenLabel() {
+    switch (true) {
+      case isLong:
+        return t`Long`;
+      case isShort:
+        return t`Short`;
+      case isSwap:
+        return t`Receive`;
+      default:
+        return "";
+    }
+  }
   const [leverageOption, setLeverageOption] = useLocalStorageSerializeKey(
     [chainId, "Exchange-swap-leverage-option"],
     "2"
@@ -248,7 +251,7 @@ export default function SwapBox(props) {
 
   const whitelistedTokens = getWhitelistedV1Tokens(chainId);
   const tokens = getV1Tokens(chainId);
-  // const fromTokens = tokens;
+  const fromTokens = tokens;
   const stableTokens = tokens.filter((token) => token.isStable);
   const indexTokens = whitelistedTokens.filter((token) => !token.isStable && !token.isWrapped);
   const shortableTokens = indexTokens.filter((token) => token.isShortable);
@@ -347,11 +350,16 @@ export default function SwapBox(props) {
     );
   };
 
-  // const fromBalance = fromTokenInfo ? fromTokenInfo.balance : bigNumberify(0);
+  const fromBalance = fromTokenInfo ? fromTokenInfo.balance ??  balance.data?.value : balance.data?.value ?? bigNumberify(0);
   // const toBalance = toTokenInfo ? toTokenInfo.balance : bigNumberify(0);
 
+  useEffect(() => {
+    setFromValue('10')
+    // setFromValue(fromTokenInfo.balance?.toString() ?? '')
+  }, [fromTokenInfo.balance])
+
   const fromAmount = parseValue(fromValue, fromToken && fromToken.decimals);
-  const toAmount = parseValue(toValue, toToken && toToken.decimals);
+  const toAmount = parseValue(toValue, toToken && toToken.decimals) ?? bigNumberify(0);
 
   const isPotentialWrap = (fromToken.isNative && toToken.isWrapped) || (fromToken.isWrapped && toToken.isNative);
   const isWrapOrUnwrap = isSwap && isPotentialWrap;
@@ -724,26 +732,26 @@ export default function SwapBox(props) {
       }
     }
 
-    // if (!fromAmount || fromAmount.eq(0)) {
-    //   return [t`Enter an amount`];
-    // }
-    // if (!toAmount || toAmount.eq(0)) {
-    //   return [t`Enter an amount`];
-    // }
+    if (!fromAmount || fromAmount.eq(0)) {
+      return [t`Enter an amount`];
+    }
+    if (!toAmount || toAmount.eq(0)) {
+      return [t`Enter an amount`];
+    }
 
     const fromTokenInfo = getTokenInfo(infoTokens, fromTokenAddress);
     if (!fromTokenInfo || !fromTokenInfo.minPrice) {
       return [t`Incorrect network`];
     }
-    if (
-      !savedShouldDisableValidationForTesting &&
-      fromTokenInfo &&
-      fromTokenInfo.balance &&
-      fromAmount &&
-      fromAmount.gt(fromTokenInfo.balance)
-    ) {
-      return [t`Insufficient ${fromTokenInfo.symbol} balance`];
-    }
+    // if (
+    //   !savedShouldDisableValidationForTesting &&
+    //   fromTokenInfo &&
+    //   fromTokenInfo.balance &&
+    //   fromAmount &&
+    //   fromAmount.gt(fromTokenInfo.balance)
+    // ) {
+    //   return [t`Insufficient ${fromTokenInfo.symbol} balance`];
+    // }
 
     const toTokenInfo = getTokenInfo(infoTokens, toTokenAddress);
 
@@ -804,9 +812,9 @@ export default function SwapBox(props) {
       return [t`Page outdated, please refresh`];
     }
 
-    if (!toAmount || toAmount.eq(0)) {
-      return [t`Enter an amount`];
-    }
+    // if (!toAmount || toAmount.eq(0)) {
+    //   return [t`Enter an amount`];
+    // }
 
     let toTokenInfo = getTokenInfo(infoTokens, toTokenAddress);
     if (toTokenInfo && toTokenInfo.isStable) {
@@ -818,15 +826,15 @@ export default function SwapBox(props) {
     }
 
     const fromTokenInfo = getTokenInfo(infoTokens, fromTokenAddress);
-    if (
-      !savedShouldDisableValidationForTesting &&
-      fromTokenInfo &&
-      fromTokenInfo.balance &&
-      fromAmount &&
-      fromAmount.gt(fromTokenInfo.balance)
-    ) {
-      return [t`Insufficient ${fromTokenInfo.symbol} balance`];
-    }
+    // if (
+    //   !savedShouldDisableValidationForTesting &&
+    //   fromTokenInfo &&
+    //   fromTokenInfo.balance &&
+    //   fromAmount &&
+    //   fromAmount.gt(fromTokenInfo.balance)
+    // ) {
+    //   return [t`Insufficient ${fromTokenInfo.symbol} balance`];
+    // }
 
     if (leverage && leverage.eq(0)) {
       return [t`Enter an amount`];
@@ -857,7 +865,7 @@ export default function SwapBox(props) {
     }
 
     if (isLong) {
-      let requiredAmount = toAmount;
+      let requiredAmount = toAmount ?? bigNumberify(0);
       if (fromTokenAddress !== toTokenAddress) {
         const { amount: swapAmount } = getNextToAmount(
           chainId,
@@ -871,6 +879,7 @@ export default function SwapBox(props) {
           totalTokenWeights,
           isSwap
         );
+        // console.log('swapAmount',requiredAmount,  swapAmount)
         requiredAmount = requiredAmount.add(swapAmount);
 
         if (toToken && toTokenAddress !== USDG_ADDRESS) {
@@ -960,6 +969,7 @@ export default function SwapBox(props) {
           }
         }
       }
+      // console.log('shortCollateralToken', shortCollateralToken, !fromTokenInfo, toTokenInfo, !toTokenInfo.maxPrice, !shortCollateralToken.availableAmount)
       if (
         !shortCollateralToken ||
         !fromTokenInfo ||
@@ -971,6 +981,8 @@ export default function SwapBox(props) {
       }
 
       const sizeUsd = toAmount.mul(toTokenInfo.maxPrice).div(expandDecimals(1, toTokenInfo.decimals));
+
+      // console.log('sizeUsd', sizeUsd, toAmount)
       const sizeTokens = sizeUsd
         .mul(expandDecimals(1, shortCollateralToken.decimals))
         .div(shortCollateralToken.minPrice);
@@ -997,15 +1009,15 @@ export default function SwapBox(props) {
     return [false];
   };
 
-  // const getToLabel = () => {
-  //   if (isSwap) {
-  //     return t`Receive`;
-  //   }
-  //   if (isLong) {
-  //     return t`Long`;
-  //   }
-  //   return t`Short`;
-  // };
+  const getToLabel = () => {
+    if (isSwap) {
+      return t`Receive`;
+    }
+    if (isLong) {
+      return t`Long`;
+    }
+    return t`Short`;
+  };
 
   const getError = () => {
     if (isSwap) {
@@ -1022,7 +1034,10 @@ export default function SwapBox(props) {
     return (
       <OrdersToa
         setIsVisible={setOrdersToaOpen}
-        approveOrderBook={approveOrderBook}
+        approveOrderBook={async () => {
+          await preOrder(triggerPriceValue)
+          approveOrderBook()
+        }}
         isPluginApproving={isPluginApproving}
       />
     );
@@ -1146,54 +1161,54 @@ export default function SwapBox(props) {
     return t`Short ${toToken.symbol}`;
   };
 
-  // const onSelectFromToken = (token) => {
-  //   setFromTokenAddress(swapOption, token.address);
-  //   setIsWaitingForApproval(false);
+  const onSelectFromToken = (token) => {
+    setFromTokenAddress(swapOption, token.address);
+    setIsWaitingForApproval(false);
 
-  //   if (isShort && token.isStable) {
-  //     setShortCollateralAddress(token.address);
-  //   }
-  // };
+    if (isShort && token.isStable) {
+      setShortCollateralAddress(token.address);
+    }
+  };
 
   const onSelectShortCollateralAddress = (token) => {
     setShortCollateralAddress(token.address);
   };
 
-  // const onSelectToToken = (token) => {
-  //   setToTokenAddress(swapOption, token.address);
-  // };
+  const onSelectToToken = (token) => {
+    setToTokenAddress(swapOption, token.address);
+  };
 
-  // const onFromValueChange = (e) => {
-  //   setAnchorOnFromAmount(true);
-  //   setFromValue(e.target.value);
-  // };
+  const onFromValueChange = (e) => {
+    setAnchorOnFromAmount(true);
+    setFromValue(e.target.value);
+  };
 
   // const onToValueChange = (e) => {
   //   setAnchorOnFromAmount(false);
   //   setToValue(e.target.value);
   // };
 
-  // const switchTokens = () => {
-  //   if (fromAmount && toAmount) {
-  //     if (anchorOnFromAmount) {
-  //       setToValue(formatAmountFree(fromAmount, fromToken.decimals, 8));
-  //     } else {
-  //       setFromValue(formatAmountFree(toAmount, toToken.decimals, 8));
-  //     }
-  //     setAnchorOnFromAmount(!anchorOnFromAmount);
-  //   }
-  //   setIsWaitingForApproval(false);
-  //   const shouldSwitch = toTokens.find((token) => token.address === fromTokenAddress);
-  //   if (shouldSwitch) {
-  //     const updatedTokenSelection = JSON.parse(JSON.stringify(tokenSelection));
+  const switchTokens = () => {
+    if (fromAmount && toAmount) {
+      if (anchorOnFromAmount) {
+        setToValue(formatAmountFree(fromAmount, fromToken.decimals, 8));
+      } else {
+        setFromValue(formatAmountFree(toAmount, toToken.decimals, 8));
+      }
+      setAnchorOnFromAmount(!anchorOnFromAmount);
+    }
+    setIsWaitingForApproval(false);
+    const shouldSwitch = toTokens.find((token) => token.address === fromTokenAddress);
+    if (shouldSwitch) {
+      const updatedTokenSelection = JSON.parse(JSON.stringify(tokenSelection));
 
-  //     updatedTokenSelection[swapOption] = {
-  //       from: toTokenAddress,
-  //       to: fromTokenAddress,
-  //     };
-  //     setTokenSelection(updatedTokenSelection);
-  //   }
-  // };
+      updatedTokenSelection[swapOption] = {
+        from: toTokenAddress,
+        to: fromTokenAddress,
+      };
+      setTokenSelection(updatedTokenSelection);
+    }
+  };
 
   const wrap = async () => {
     setIsSubmitting(true);
@@ -1352,7 +1367,9 @@ export default function SwapBox(props) {
     if (path[0] === USDG_ADDRESS) {
       if (isLong) {
         const stableToken = getMostAbundantStableToken(chainId, infoTokens);
-        path.push(stableToken.address);
+        if (stableToken) {
+          path.push(stableToken.address);
+        }
       } else {
         path.push(shortCollateralAddress);
       }
@@ -1555,7 +1572,9 @@ export default function SwapBox(props) {
         setShortCollateralAddress(fromToken.address);
       } else {
         const stableToken = getMostAbundantStableToken(chainId, infoTokens);
-        setShortCollateralAddress(stableToken.address);
+        if (stableToken) {
+          setShortCollateralAddress(stableToken.address);
+        }
       }
     }
   };
@@ -1603,18 +1622,41 @@ export default function SwapBox(props) {
     });
   }
 
-  const onClickPrimary = () => {
+  const preOrder = async (price) => {
+    await fetch(TRADE_API_URL + '/order/pre/dex', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "address": account,
+        "transactionType": isLong ? "bid" : isShort ? 'ask' : '',// 买入bid / 卖出ask
+        "orderType": triggerPriceValue ? "limit" : "market",// 订单类型-限价单 limit /市价单 market
+        "tradeType": isLong ? "Long" : isShort ? 'Short' : '',// Spot-现货 Long-做多 Short-做空
+        "currency": "209",//currency 下单的永续合约的id
+        "size": fromValue,//购买份数，0.001 之类的
+        price,// 购买的价格-限价单必填
+        "marketType": 3, //dex 默认3
+        "lever": leverage.toString() //杠杆倍数
+      })
+    })
+  }
+
+  const onClickPrimary = async () => {
+    // console.log('onClickPrimary', isStopOrder, active, needPositionRouterApproval, needApproval, needOrderBookApproval)
     if (isStopOrder) {
       setOrderOption(MARKET);
       return;
     }
 
     if (!active) {
+      await preOrder()
       openConnectModal();
       return;
     }
 
     if (needPositionRouterApproval) {
+      await preOrder()
       approvePositionRouter({
         sentMsg: t`Enable leverage sent.`,
         failMsg: t`Enable leverage failed.`,
@@ -1656,7 +1698,7 @@ export default function SwapBox(props) {
   };
 
   const isStopOrder = orderOption === STOP;
-  // const showFromAndToSection = !isStopOrder;
+  const showFromAndToSection = !isStopOrder;
   const showTriggerPriceSection = !isSwap && !isMarketOrder && !isStopOrder;
   const showTriggerRatioSection = isSwap && !isMarketOrder && !isStopOrder;
 
@@ -1779,27 +1821,27 @@ export default function SwapBox(props) {
     return fundingRate;
   }
 
-  // function setFromValueToMaximumAvailable() {
-  //   if (!fromToken || !fromBalance) {
-  //     return;
-  //   }
+  function setFromValueToMaximumAvailable() {
+    if (!fromToken || !fromBalance) {
+      return;
+    }
 
-  //   const maxAvailableAmount = fromToken.isNative ? fromBalance.sub(bigNumberify(DUST_BNB).mul(2)) : fromBalance;
-  //   const formattedMaxAvailableAmount = formatAmountFree(maxAvailableAmount, fromToken.decimals, fromToken.decimals);
-  //   const finalMaxAmount = isMetamaskMobile
-  //     ? limitDecimals(formattedMaxAvailableAmount, MAX_METAMASK_MOBILE_DECIMALS)
-  //     : formattedMaxAvailableAmount;
-  //   setFromValue(finalMaxAmount);
-  //   setAnchorOnFromAmount(true);
-  // }
+    const maxAvailableAmount = fromToken.isNative ? fromBalance.sub(bigNumberify(DUST_BNB).mul(2)) : fromBalance;
+    const formattedMaxAvailableAmount = formatAmountFree(maxAvailableAmount, fromToken.decimals, fromToken.decimals);
+    const finalMaxAmount = isMetamaskMobile
+      ? limitDecimals(formattedMaxAvailableAmount, MAX_METAMASK_MOBILE_DECIMALS)
+      : formattedMaxAvailableAmount;
+    setFromValue(finalMaxAmount);
+    setAnchorOnFromAmount(true);
+  }
 
-  // function shouldShowMaxButton() {
-  //   if (!fromToken || !fromBalance) {
-  //     return false;
-  //   }
-  //   const maxAvailableAmount = fromToken.isNative ? fromBalance.sub(bigNumberify(DUST_BNB).mul(2)) : fromBalance;
-  //   return fromValue !== formatAmountFree(maxAvailableAmount, fromToken.decimals, fromToken.decimals);
-  // }
+  function shouldShowMaxButton() {
+    if (!fromToken || !fromBalance) {
+      return false;
+    }
+    const maxAvailableAmount = fromToken.isNative ? fromBalance.sub(bigNumberify(DUST_BNB).mul(2)) : fromBalance;
+    return fromValue !== formatAmountFree(maxAvailableAmount, fromToken.decimals, fromToken.decimals);
+  }
 
   const ERROR_TOOLTIP_MSG = {
     [ErrorCode.InsufficientLiquiditySwap]: t`Swap amount exceeds Available Liquidity.`,
@@ -1944,48 +1986,47 @@ export default function SwapBox(props) {
               />
             )}
           </div>
-          {/* {showFromAndToSection && (
+          {showFromAndToSection && (
             <React.Fragment>
-              <BuyInputSection
-                topLeftLabel={t`Pay`}
-                topLeftValue={fromUsdMin && `$${formatAmount(fromUsdMin, USD_DECIMALS, 2, true)}`}
-                topRightLabel={t`Balance`}
-                topRightValue={fromBalance && `${formatAmount(fromBalance, fromToken.decimals, 4, true)}`}
-                onClickTopRightLabel={setFromValueToMaximumAvailable}
-                showMaxButton={shouldShowMaxButton()}
-                inputValue={fromValue}
-                onInputValueChange={onFromValueChange}
-                onClickMax={setFromValueToMaximumAvailable}
-              >
-                <TokenSelector
-                  label={t`Pay`}
-                  chainId={chainId}
-                  tokenAddress={fromTokenAddress}
-                  onSelectToken={onSelectFromToken}
-                  tokens={fromTokens}
-                  infoTokens={infoTokens}
-                  showMintingCap={false}
-                  showTokenImgInDropdown={true}
-                  showSymbolImage
-                />
-              </BuyInputSection>
-              <div className="Exchange-swap-ball-container">
-                <button type="button" className="Exchange-swap-ball" onClick={switchTokens}>
-                  <IoMdSwap className="Exchange-swap-ball-icon" />
-                </button>
-              </div>
+              {false && (
+                <React.Fragment>
+                  <BuyInputSection
+                    topLeftLabel={t`Pay`}
+                    topLeftValue={fromUsdMin && `$${formatAmount(fromUsdMin, USD_DECIMALS, 2, true)}`}
+                    topRightLabel={t`Balance`}
+                    topRightValue={fromBalance && `${formatAmount(fromBalance, fromToken.decimals, 4, true)}`}
+                    onClickTopRightLabel={setFromValueToMaximumAvailable}
+                    showMaxButton={shouldShowMaxButton()}
+                    inputValue={fromValue}
+                    onInputValueChange={onFromValueChange}
+                    onClickMax={setFromValueToMaximumAvailable}
+                  >
+                    <TokenSelector
+                      label={t`Pay`}
+                      chainId={chainId}
+                      tokenAddress={fromTokenAddress}
+                      onSelectToken={onSelectFromToken}
+                      tokens={fromTokens}
+                      infoTokens={infoTokens}
+                      showMintingCap={false}
+                      showTokenImgInDropdown={true}
+                      showSymbolImage
+                    />
+                  </BuyInputSection>
+                  <div className="Exchange-swap-ball-container">
+                    <button type="button" className="Exchange-swap-ball" onClick={switchTokens}>
+                      <IoMdSwap className="Exchange-swap-ball-icon" />
+                    </button>
+                  </div>
+                </React.Fragment>
+              )}
               <BuyInputSection
                 topLeftLabel={getToLabel()}
-                topRightLabel={isSwap ? t`Balance` : t`Leverage`}
-                topLeftValue={toUsdMax && `$${formatAmount(toUsdMax, USD_DECIMALS, 2, true)}`}
-                topRightValue={
-                  isSwap
-                    ? formatAmount(toBalance, toToken.decimals, 4, true)
-                    : `${parseFloat(leverageOption).toFixed(2)}x`
-                }
+                topRightLabel={t`Balance`}
+                topRightValue={fromBalance && `${formatAmount(fromBalance, fromToken.decimals, 4, true)}`}
                 showMaxButton={false}
-                inputValue={toValue}
-                onInputValueChange={onToValueChange}
+                inputValue={fromValue}
+                onInputValueChange={onFromValueChange}
                 preventFocusOnLabelClick="right"
               >
                 <TokenSelector
@@ -2001,7 +2042,7 @@ export default function SwapBox(props) {
                 />
               </BuyInputSection>
             </React.Fragment>
-          )} */}
+          )}
           {showTriggerRatioSection && (
             <BuyInputSection
               topLeftLabel={t`Price`}

@@ -6,6 +6,8 @@ export const DEX_STATS_API_URL = "https://quote.onetradefinance.co/xstock_api";
 
 export const REQUEST_API_URL = "https://api.onetradefinance.co/xstock_api_test";
 
+export const TRADE_API_URL = "https://dextd.onetradefinance.co/exchange-engine";
+
 const BACKEND_URLS = {
   default: "https://gmx-server-mainnet.uw.r.appspot.com",
 

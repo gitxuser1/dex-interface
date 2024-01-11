@@ -92,6 +92,7 @@ export default function ExchangeTVChart(props) {
 
   useEffect(() => {
     const tmp = getChartToken(swapOption, fromToken, toToken, chainId);
+    // console.log('getChartToken', infoTokens, {swapOption, fromToken, toToken, chainId})
     setChartToken(tmp);
   }, [swapOption, fromToken, toToken, chainId]);
 

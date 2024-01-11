@@ -1,4 +1,4 @@
-import { ARBITRUM, AVALANCHE } from "config/chains";
+import { ARBITRUM, AVALANCHE, WOW } from "config/chains";
 import { formatTVDate, formatTVTime } from "lib/dates";
 
 const RED = "#fa3c58";
@@ -84,4 +84,4 @@ export const defaultChartProps = {
   },
 };
 
-export const availableNetworksForChart = [ARBITRUM, AVALANCHE];
+export const availableNetworksForChart = [WOW, ARBITRUM, AVALANCHE];

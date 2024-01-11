@@ -129,6 +129,7 @@ export async function getChartPricesFromStats(chainId, symbol, period) {
     for (let i = 0; i < 3; i++) {
       if (done) return;
       try {
+        // const res = await fetch(url);
         const res = await fetch(url, {
           method: 'POST',
           headers: {
@@ -141,7 +142,8 @@ export async function getChartPricesFromStats(chainId, symbol, period) {
             "adjusted":true,
             "sort":"asc", 
             "from": format(from * 1000, 'yyyy-MM-dd'),
-            "to": format(Math.floor(Date.now()), 'yyyy-MM-dd')
+            "to": format(Math.floor(Date.now()), 'yyyy-MM-dd'),
+            "pageSize": 500 
           })
         });
         resolve(res);
@@ -157,24 +159,32 @@ export async function getChartPricesFromStats(chainId, symbol, period) {
     throw new Error(`request failed ${res.status} ${res.statusText}`);
   }
   const json = await res.json();
-  let prices = json?.prices;
+  // let prices = json?.prices;
+  let prices = json?.data.results.map(data => ({
+    "t": Math.floor(data.t / 1000),
+    "o": data.o,
+    "c": data.c,
+    "h": data.h,
+    "l": data.l
+  }));
+  // console.log('prices', prices)
   if (!prices || prices.length < 1) {
     throw new Error(`not enough prices data: ${prices?.length}`);
   }
 
-  const OBSOLETE_THRESHOLD = Date.now() / 1000 - 60 * 30; // 30 min ago
-  const updatedAt = json?.updatedAt || 0;
-  if (updatedAt < OBSOLETE_THRESHOLD) {
-    throw new Error(
-      "chart data is obsolete, last price record at " +
-      new Date(updatedAt * 1000).toISOString() +
-      " now: " +
-      new Date().toISOString()
-    );
-  }
+  // const OBSOLETE_THRESHOLD = Date.now() / 1000 - 60 * 30; // 30 min ago
+  // const updatedAt = json?.updatedAt || 0;
+  // if (updatedAt < OBSOLETE_THRESHOLD) {
+  //   throw new Error(
+  //     "chart data is obsolete, last price record at " +
+  //     new Date(updatedAt * 1000).toISOString() +
+  //     " now: " +
+  //     new Date().toISOString()
+  //   );
+  // }
 
   prices = prices.map(formatBarInfo);
-
+  // console.log('prices', prices)
   return prices;
 }
 

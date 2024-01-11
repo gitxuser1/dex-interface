@@ -184,6 +184,9 @@
 .active-dot.Avalanche {
   background-color: #e84142;
 }
+.active-dot.Wow {
+  background-color: #0ecc83;
+}
 .network-dropdown-label {
   font-size: 1.25rem;
   margin-bottom: 0.8rem;

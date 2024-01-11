@@ -12,7 +12,58 @@ export const XGMT_EXCLUDED_ACCOUNTS = [
 
 const CONTRACTS = {
   [WOW]: {
+    // arbitrum testnet
+    Vault: AddressZero,
+    Router: AddressZero,
+    VaultReader: AddressZero,
+    Reader: AddressZero,
+    GlpManager: AddressZero,
+    RewardRouter: AddressZero,
+    RewardReader: AddressZero,
+    GlpRewardRouter: AddressZero,
+    NATIVE_TOKEN: AddressZero,
+    GLP: AddressZero,
+    GMX: AddressZero,
+    ES_GMX: AddressZero,
+    BN_GMX: AddressZero,
     USDG: AddressZero,
+    ES_GMX_IOU: AddressZero,
+
+    StakedGmxTracker: AddressZero,
+    BonusGmxTracker: AddressZero,
+    FeeGmxTracker: AddressZero,
+    StakedGlpTracker: AddressZero,
+    FeeGlpTracker: AddressZero,
+
+    StakedGmxDistributor: AddressZero,
+    StakedGlpDistributor: AddressZero,
+
+    GmxVester: AddressZero,
+    GlpVester: AddressZero,
+
+    OrderBook: AddressZero,
+    OrderExecutor: AddressZero,
+    OrderBookReader: AddressZero,
+
+    PositionRouter: AddressZero,
+    PositionManager: AddressZero,
+
+    TraderJoeGmxAvaxPool: AddressZero,
+    ReferralStorage: AddressZero,
+    ReferralReader: AddressZero,
+
+    // Synthetics
+    DataStore: AddressZero,
+    EventEmitter: AddressZero,
+    ExchangeRouter: AddressZero,
+    DepositVault: AddressZero,
+    WithdrawalVault: AddressZero,
+    OrderVault: AddressZero,
+    SyntheticsReader: AddressZero,
+    SyntheticsRouter: AddressZero,
+    Timelock: AddressZero,
+
+    Multicall: AddressZero,
   },
   [BCS_MAINNET]: {
     // bsc mainnet

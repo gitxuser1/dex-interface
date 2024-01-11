@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { TokensData } from "./types";
 import { useTokenBalances } from "./useTokenBalances";
 import { useTokenRecentPrices } from "./useTokenRecentPricesData";
+// import useWallet from "lib/wallets/useWallet";
 
 type TokensDataResult = {
   tokensData?: TokensData;
@@ -12,10 +13,13 @@ type TokensDataResult = {
 export function useTokensData(chainId: number): TokensDataResult {
   const tokenConfigs = getTokensMap(chainId);
   const { balancesData } = useTokenBalances(chainId);
+  // const { balance } = useWallet();
   const { pricesData, updatedAt: pricesUpdatedAt } = useTokenRecentPrices(chainId);
 
+  // console.log('pricesData', pricesData, balancesData, balance.data?.value)
+
   return useMemo(() => {
-    const tokenAddresses = getV2Tokens(chainId).map((token) => token.address);
+    const tokenAddresses = getV2Tokens(chainId).map((token) => token?.address);
 
     if (!pricesData) {
       return {

@@ -134,7 +134,7 @@ export default function useTVDatafeed({ dataProvider }: Props) {
               return;
             }
             const bars = await tvDataProvider.current?.getBars(chainId, ticker, resolution, isStable, periodParams);
-
+            // console.log('bars', bars)
             const noData = !bars || bars.length === 0;
             onHistoryCallback(bars, { noData });
           } catch {

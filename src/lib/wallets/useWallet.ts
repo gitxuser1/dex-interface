@@ -1,4 +1,4 @@
-import { useAccount, useNetwork, useSigner } from "wagmi";
+import { useAccount, useNetwork, useSigner, useBalance } from "wagmi";
 import { useState } from 'react'
 import { REQUEST_API_URL } from "config/backend";
 import { useThrottleFn } from 'react-use';
@@ -7,6 +7,7 @@ let lock = false
 
 export default function useWallet() {
   const { address, isConnected, connector } = useAccount();
+  const balance = useBalance({address})
   const { chain } = useNetwork();
   const { data: signer } = useSigner();
   const [user] = useState(null)
@@ -36,6 +37,7 @@ export default function useWallet() {
 
   return {
     account: address,
+    balance,
     active: isConnected,
     connector,
     chainId: chain?.id,
