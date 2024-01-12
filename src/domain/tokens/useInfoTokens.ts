@@ -1,9 +1,9 @@
-import VaultReader from "abis/VaultReader.json";
-import { DEX_STATS_API_URL, getServerUrl } from "config/backend";
+// import VaultReader from "abis/VaultReader.json";
+import { DEX_STATS_API_URL } from "config/backend";
 import { getContract } from "config/contracts";
 import { getV1Tokens, getWhitelistedV1Tokens } from "config/tokens";
 import { BigNumber, Signer } from "ethers";
-import { contractFetcher } from "lib/contracts";
+// import { contractFetcher } from "lib/contracts";
 import { DEFAULT_MAX_USDG_AMOUNT, MAX_PRICE_DEVIATION_BASIS_POINTS, USD_DECIMALS, USDG_ADDRESS } from "lib/legacy";
 import { BASIS_POINTS_DIVISOR } from "config/factors";
 import { bigNumberify, expandDecimals } from "lib/numbers";
@@ -21,16 +21,16 @@ export function useInfoTokens(
   vaultPropsLength?: number
 ) {
   const tokens = getV1Tokens(chainId);
-  const vaultReaderAddress = getContract(chainId, "VaultReader");
-  const vaultAddress = getContract(chainId, "Vault");
-  const positionRouterAddress = getContract(chainId, "PositionRouter");
+  // const vaultReaderAddress = getContract(chainId, "VaultReader");
+  // const vaultAddress = getContract(chainId, "Vault");
+  // const positionRouterAddress = getContract(chainId, "PositionRouter");
   const nativeTokenAddress = getContract(chainId, "NATIVE_TOKEN");
 
   const whitelistedTokens = getWhitelistedV1Tokens(chainId);
-  const whitelistedTokenAddresses = whitelistedTokens.map((token) => token.address);
+  // const whitelistedTokenAddresses = whitelistedTokens.map((token) => token.address);
 
   // console.log('vaultTokenInfo', signer, VaultReader)
-  const url = `${DEX_STATS_API_URL}/a/quote/f/r`
+  // const url = `${DEX_STATS_API_URL}/a/quote/f/r`
   // const { data: vaultTokenInfo } = useSWR<BigNumber[], any>(
   //   // [`useInfoTokens:${active}`, chainId, vaultReaderAddress, "getVaultTokenInfoV4"],
   //   url,
@@ -221,7 +221,7 @@ function setTokenUsingIndexPrices(
 
   const indexPrice = indexPrices[tokenAddress];
 
-  console.log('indexPrice', indexPrice, tokenAddress)
+  // console.log('indexPrice', indexPrice, tokenAddress)
 
   if (!indexPrice) {
     return;
