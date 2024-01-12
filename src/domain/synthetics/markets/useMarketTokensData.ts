@@ -98,6 +98,7 @@ export function useMarketTokensData(chainId: number, p: { isDeposit: boolean }):
           },
         };
 
+        // console.log('requests', requests)
         return requests;
       }, {}),
     parseResponse: (res) =>

@@ -1,5 +1,5 @@
 import VaultReader from "abis/VaultReader.json";
-import { getServerUrl } from "config/backend";
+import { DEX_STATS_API_URL, getServerUrl } from "config/backend";
 import { getContract } from "config/contracts";
 import { getV1Tokens, getWhitelistedV1Tokens } from "config/tokens";
 import { BigNumber, Signer } from "ethers";
@@ -10,6 +10,7 @@ import { bigNumberify, expandDecimals } from "lib/numbers";
 import useSWR from "swr";
 import { InfoTokens, Token, TokenInfo } from "./types";
 import { getSpread } from "./utils";
+import { zeroAddress } from "viem";
 
 export function useInfoTokens(
   signer: Signer | undefined,
@@ -28,27 +29,49 @@ export function useInfoTokens(
   const whitelistedTokens = getWhitelistedV1Tokens(chainId);
   const whitelistedTokenAddresses = whitelistedTokens.map((token) => token.address);
 
-  const { data: vaultTokenInfo } = useSWR<BigNumber[], any>(
-    [`useInfoTokens:${active}`, chainId, vaultReaderAddress, "getVaultTokenInfoV4"],
-    {
-      fetcher: contractFetcher(signer, VaultReader, [
-        vaultAddress,
-        positionRouterAddress,
-        nativeTokenAddress,
-        expandDecimals(1, 18),
-        whitelistedTokenAddresses,
-      ]) as any,
-    }
-  );
+  // console.log('vaultTokenInfo', signer, VaultReader)
+  const url = `${DEX_STATS_API_URL}/a/quote/f/r`
+  // const { data: vaultTokenInfo } = useSWR<BigNumber[], any>(
+  //   // [`useInfoTokens:${active}`, chainId, vaultReaderAddress, "getVaultTokenInfoV4"],
+  //   url,
+  //   {
+  //     fetcher: async () => {
 
-  const indexPricesUrl = getServerUrl(chainId, "/prices");
+  //     }
+  //     // fetcher: contractFetcher(signer, VaultReader, [
+  //     //   vaultAddress,
+  //     //   positionRouterAddress,
+  //     //   nativeTokenAddress,
+  //     //   expandDecimals(1, 18),
+  //     //   whitelistedTokenAddresses,
+  //     // ]) as any,
+  //   }
+  // );
 
-  const { data: indexPrices } = useSWR(indexPricesUrl, {
+  // const indexPricesUrl = getServerUrl(chainId, "/prices");
+  const indexPricesUrl = `${DEX_STATS_API_URL}/a/quote/f/r`;
+
+  const { data: res } = useSWR(indexPricesUrl, {
     // @ts-ignore spread args incorrect type
-    fetcher: (url) => fetch(url).then((res) => res.json()),
+    fetcher: (url) => fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "id": 209,
+      })
+    }).then((res) => res.json()),
     refreshInterval: 500,
     refreshWhenHidden: true,
   });
+
+  const close = bigNumberify(Math.pow(10, 12) * res?.data.c || 0)!
+  const open = bigNumberify(Math.pow(10, 12) * res?.data.o || 0)!
+  const hight = bigNumberify(Math.pow(10, 12) * res?.data.h || 0)!
+  const low = bigNumberify(Math.pow(10, 12) * res?.data.l || 0)!
+
+  const vaultTokenInfo = res && [close, open, hight, low]
 
   return {
     infoTokens: getInfoTokens(
@@ -58,7 +81,9 @@ export function useInfoTokens(
       vaultTokenInfo,
       fundingRateInfo,
       vaultPropsLength,
-      indexPrices,
+      {
+        [zeroAddress]: close!
+      },
       nativeTokenAddress
     ),
   };
@@ -98,27 +123,29 @@ function getInfoTokens(
   for (let i = 0; i < whitelistedTokens.length; i++) {
     const token = JSON.parse(JSON.stringify(whitelistedTokens[i])) as TokenInfo;
 
+    // console.log('token', token, vaultTokenInfo)
+
     if (vaultTokenInfo) {
-      token.poolAmount = vaultTokenInfo[i * vaultPropsLength];
-      token.reservedAmount = vaultTokenInfo[i * vaultPropsLength + 1];
+      token.poolAmount = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength];
+      token.reservedAmount = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 1];
       token.availableAmount = token.poolAmount.sub(token.reservedAmount);
-      token.usdgAmount = vaultTokenInfo[i * vaultPropsLength + 2];
-      token.redemptionAmount = vaultTokenInfo[i * vaultPropsLength + 3];
-      token.weight = vaultTokenInfo[i * vaultPropsLength + 4];
-      token.bufferAmount = vaultTokenInfo[i * vaultPropsLength + 5];
-      token.maxUsdgAmount = vaultTokenInfo[i * vaultPropsLength + 6];
-      token.globalShortSize = vaultTokenInfo[i * vaultPropsLength + 7];
-      token.maxGlobalShortSize = vaultTokenInfo[i * vaultPropsLength + 8];
-      token.maxGlobalLongSize = vaultTokenInfo[i * vaultPropsLength + 9];
-      token.minPrice = vaultTokenInfo[i * vaultPropsLength + 10];
-      token.maxPrice = vaultTokenInfo[i * vaultPropsLength + 11];
+      token.usdgAmount = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 2];
+      token.redemptionAmount = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 3];
+      token.weight = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 4];
+      token.bufferAmount = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 5];
+      token.maxUsdgAmount = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 6];
+      token.globalShortSize = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 7];
+      token.maxGlobalShortSize = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 8];
+      token.maxGlobalLongSize = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 9];
+      token.minPrice = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 10];
+      token.maxPrice = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 11];
       token.spread = getSpread({
         minPrice: token.minPrice,
         maxPrice: token.maxPrice,
       });
-      token.guaranteedUsd = vaultTokenInfo[i * vaultPropsLength + 12];
-      token.maxPrimaryPrice = vaultTokenInfo[i * vaultPropsLength + 13];
-      token.minPrimaryPrice = vaultTokenInfo[i * vaultPropsLength + 14];
+      token.guaranteedUsd = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 12];
+      token.maxPrimaryPrice = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 13];
+      token.minPrimaryPrice = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 14];
 
       // save minPrice and maxPrice as setTokenUsingIndexPrices may override it
       token.contractMinPrice = token.minPrice;
@@ -193,6 +220,8 @@ function setTokenUsingIndexPrices(
   const tokenAddress = token.isNative ? nativeTokenAddress : token.address;
 
   const indexPrice = indexPrices[tokenAddress];
+
+  console.log('indexPrice', indexPrice, tokenAddress)
 
   if (!indexPrice) {
     return;

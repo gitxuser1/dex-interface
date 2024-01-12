@@ -914,17 +914,19 @@ export default function SwapBox(props) {
         }
       }
 
-      if (toTokenInfo && toTokenInfo.maxPrice) {
-        const sizeUsd = toAmount.mul(toTokenInfo.maxPrice).div(expandDecimals(1, toTokenInfo.decimals));
-        if (
-          toTokenInfo.maxGlobalLongSize &&
-          toTokenInfo.maxGlobalLongSize.gt(0) &&
-          toTokenInfo.maxAvailableLong &&
-          sizeUsd.gt(toTokenInfo.maxAvailableLong)
-        ) {
-          return [t`Max ${toTokenInfo.symbol} long exceeded`];
-        }
-      }
+      // console.log('long exceeded', toTokenInfo, toTokenInfo.maxPrice)
+      // if (toTokenInfo && toTokenInfo.maxPrice) {
+      //   const sizeUsd = toAmount.mul(toTokenInfo.maxPrice).div(expandDecimals(1, toTokenInfo.decimals));
+      //   console.log('long exceeded', sizeUsd.toString(), toTokenInfo.maxAvailableLong.toString())
+      //   if (
+      //     toTokenInfo.maxGlobalLongSize &&
+      //     toTokenInfo.maxGlobalLongSize.gt(0) &&
+      //     toTokenInfo.maxAvailableLong &&
+      //     sizeUsd.gt(toTokenInfo.maxAvailableLong)
+      //   ) {
+      //     return [t`Max ${toTokenInfo.symbol} long exceeded`];
+      //   }
+      // }
     }
 
     if (isShort) {

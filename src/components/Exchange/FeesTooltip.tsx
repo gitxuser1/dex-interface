@@ -111,11 +111,13 @@ function FeesTooltip({
   const feesRows = getFeesRows(isOpening, formattedFees);
   const totalFees = getTotalFees([executionFees?.feeUsd, swapFee, positionFee, depositFee, fundingFee]);
 
+  // console.log('totalFees', totalFees, formatAmount(totalFees, USD_DECIMALS, 2, true))
+
   return (
     <Tooltip
       position="right-top"
       className="PositionSeller-fees-tooltip"
-      handle={<div>{totalFees?.gt(0) ? `$${formatAmount(totalFees, USD_DECIMALS, 2, true)}` : "-"}</div>}
+      handle={<div>{totalFees?.gt(0) ? `$${formatAmount(totalFees, 45, 2, true)}` : "-"}</div>}
       renderContent={() => (
         <div>
           {titleText && <p>{titleText}</p>}
