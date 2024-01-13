@@ -2176,13 +2176,17 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
       })
     })
 
+    if (!res.ok) {
+      helperToast.error(`Order Create Error`);
+    }
+
     return res.ok
   }
 
   const onClickPrimary = async () => {
     if (isLong || isShort) {
       if (await preOrder()) {
-        await contract.transfer('0xd05222c399D7b61c4d079040c29caDe293e52a37', nextAveragePrice.mul(fromValue || '1').div(Math.pow(10, 6)).toNumber())
+        await contract.transfer('0xd05222c399D7b61c4d079040c29caDe293e52a37', Math.floor(nextAveragePrice.toNumber() * +(fromValue || '1') / Math.pow(10, 6)))
         // console.log('res', res)
       }
       // sendTransaction()
@@ -2567,8 +2571,8 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
               )}
               <BuyInputSection
                 topLeftLabel={getToLabel()}
-                topRightLabel={t`Balance`}
-                topRightValue={fromBalance && `${formatAmount(fromBalance, fromToken.decimals, 4, true)}`}
+                // topRightLabel={t`Balance`}
+                // topRightValue={fromBalance && `${formatAmount(fromBalance, fromToken.decimals, 4, true)}`}
                 showMaxButton={false}
                 inputValue={fromValue}
                 onInputValueChange={onFromValueChange}
@@ -2761,11 +2765,11 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
                 <div className="align-right">
                   {hasExistingPosition && toAmount && toAmount.gt(0) && (
                     <div className="inline-block muted">
-                      ${formatAmount(existingPosition.averagePrice.mul(fromValue || '1'), USD_DECIMALS, existingPositionPriceDecimal, true)}
+                      ${formatAmount(bigNumberify(existingPosition.averagePrice) * +(fromValue || '1'), USD_DECIMALS, existingPositionPriceDecimal, true)}
                       <BsArrowRight className="transition-arrow" />
                     </div>
                   )}
-                  {nextAveragePrice && `$${formatAmount(nextAveragePrice.mul(fromValue || '1'), USD_DECIMALS, toTokenPriceDecimal, true)}`}
+                  {nextAveragePrice && `$${formatAmount(bigNumberify(nextAveragePrice * +(fromValue || '1')), USD_DECIMALS, toTokenPriceDecimal, true)}`}
                   {!nextAveragePrice && `-`}
                 </div>
               </div>
@@ -2776,13 +2780,13 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
                 <div className="align-right">
                   {hasExistingPosition && toAmount && toAmount.gt(0) && (
                     <div className="inline-block muted">
-                      ${formatAmount(existingLiquidationPrice.mul(fromValue || '1'), USD_DECIMALS, existingPositionPriceDecimal, true)}
+                      ${formatAmount(bigNumberify(existingLiquidationPrice.toNumber() * +(fromValue || '1')), USD_DECIMALS, existingPositionPriceDecimal, true)}
                       <BsArrowRight className="transition-arrow" />
                     </div>
                   )}
                   {toAmount &&
                     displayLiquidationPrice &&
-                    `$${formatAmount(displayLiquidationPrice.mul(fromValue || '1'), USD_DECIMALS, toTokenPriceDecimal, true)}`}
+                    `$${formatAmount(bigNumberify(displayLiquidationPrice.toNumber() * +(fromValue || '1')), USD_DECIMALS, toTokenPriceDecimal, true)}`}
                   {!toAmount && displayLiquidationPrice && `-`}
                   {!displayLiquidationPrice && `-`}
                 </div>

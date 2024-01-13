@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { sample } from "lodash";
 import { NetworkMetadata } from "lib/wallets";
-import { isDevelopment } from "./env";
+// import { isDevelopment } from "./env";
 
 const { parseEther } = ethers.utils;
 
@@ -23,15 +23,15 @@ export const DEFAULT_ALLOWED_SLIPPAGE_BPS = 30;
 export const DEFAULT_CHAIN_ID = WOW;
 export const CHAIN_ID = DEFAULT_CHAIN_ID;
 
-export const SUPPORTED_CHAIN_IDS = [ARBITRUM, AVALANCHE, WOW];
+export const SUPPORTED_CHAIN_IDS = [WOW];
 
-if (isDevelopment()) {
-  SUPPORTED_CHAIN_IDS.push(AVALANCHE_FUJI, ARBITRUM_GOERLI);
-}
+// if (isDevelopment()) {
+//   SUPPORTED_CHAIN_IDS.push(AVALANCHE_FUJI, ARBITRUM_GOERLI);
+// }
 
 export const IS_NETWORK_DISABLED = {
-  [ARBITRUM]: false,
-  [AVALANCHE]: false,
+  [ARBITRUM]: true,
+  [AVALANCHE]: true,
   [WOW]: false,
 };
 
