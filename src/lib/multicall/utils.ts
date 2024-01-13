@@ -1,11 +1,12 @@
 import CustomErrors from "abis/CustomErrors.json";
-import { ARBITRUM, ARBITRUM_GOERLI, AVALANCHE, AVALANCHE_FUJI, getFallbackRpcUrl, getRpcUrl } from "config/chains";
+import { ARBITRUM, ARBITRUM_GOERLI, AVALANCHE, AVALANCHE_FUJI, WOW, getFallbackRpcUrl, getRpcUrl } from "config/chains";
 import { PublicClient, createPublicClient, http } from "viem";
 import { arbitrum, arbitrumGoerli, avalanche, avalancheFuji } from "viem/chains";
 import { MulticallRequestConfig, MulticallResult } from "./types";
 
 import { sleep } from "lib/sleep";
 import { Signer } from "ethers";
+import { wow } from "lib/wallets/WalletProvider";
 
 export const MAX_TIMEOUT = 20000;
 
@@ -14,6 +15,7 @@ const CHAIN_BY_CHAIN_ID = {
   [ARBITRUM_GOERLI]: arbitrumGoerli,
   [ARBITRUM]: arbitrum,
   [AVALANCHE]: avalanche,
+  [WOW]: wow,
 };
 
 const BATCH_CONFIGS = {
@@ -30,6 +32,18 @@ const BATCH_CONFIGS = {
     },
   },
   [AVALANCHE]: {
+    http: {
+      batchSize: 0,
+      wait: 0,
+    },
+    client: {
+      multicall: {
+        batchSize: 1024 * 1024,
+        wait: 0,
+      },
+    },
+  },
+  [WOW]: {
     http: {
       batchSize: 0,
       wait: 0,

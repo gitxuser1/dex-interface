@@ -5,6 +5,7 @@ import {
   AVALANCHE,
   AVALANCHE_FUJI,
   FALLBACK_PROVIDERS,
+  WOW,
   getAlchemyWsUrl,
   getFallbackRpcUrl,
   getRpcUrl,
@@ -31,6 +32,10 @@ export function getProvider(signer: Signer | undefined, chainId: number) {
 export function getWsProvider(chainId: number): WebSocketProvider | JsonRpcProvider | undefined {
   if (chainId === ARBITRUM) {
     return new ethers.providers.WebSocketProvider(getAlchemyWsUrl());
+  }
+
+  if (chainId === WOW) {
+    return new ethers.providers.WebSocketProvider("wss://wow.wpf.cc");
   }
 
   if (chainId === AVALANCHE) {

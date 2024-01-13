@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { gql } from "@apollo/client";
 import useSWR from "swr";
 import { ethers } from "ethers";
-import { format } from "date-fns";
+// import { format } from "date-fns";
 
 import { USD_DECIMALS, CHART_PERIODS } from "lib/legacy";
 import { DEX_STATS_API_URL } from "config/backend";
@@ -112,10 +112,10 @@ export async function getLimitChartPricesFromStats(chainId, symbol, period, limi
 export async function getChartPricesFromStats(chainId, symbol, period) {
   symbol = getNormalizedTokenSymbol(symbol);
 
-  const timeDiff = CHART_PERIODS[period] * 3000;
-  const from = Math.floor(Date.now() / 1000 - timeDiff);
+  // const timeDiff = CHART_PERIODS[period] * 3000;
+  // const from = Math.floor(Date.now() / 1000 - timeDiff);
   // const url = `${GMX_STATS_API_URL}/candles/${symbol}?preferableChainId=${chainId}&period=${period}&from=${from}&preferableSource=fast`;
-  const url = `${DEX_STATS_API_URL}/a/agg/f/l`
+  const url = `${DEX_STATS_API_URL}/a/agg/s/c`
 
   const TIMEOUT = 5000;
   const res: Response = await new Promise(async (resolve, reject) => {
@@ -136,14 +136,10 @@ export async function getChartPricesFromStats(chainId, symbol, period) {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            "tickerId": 209,
-            "multiplier": 5,
-            "timeSpan": "minute",
-            "adjusted":true,
-            "sort":"asc", 
-            "from": format(from * 1000, 'yyyy-MM-dd'),
-            "to": format(Math.floor(Date.now()), 'yyyy-MM-dd'),
-            "pageSize": 500 
+            "instId": "ETH-USDT",
+            "bar": "5m",
+            "after": Math.floor(Date.now()),
+            "limit": 100 
           })
         });
         resolve(res);

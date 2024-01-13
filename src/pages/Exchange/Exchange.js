@@ -25,8 +25,8 @@ import { getContract } from "config/contracts";
 
 import Reader from "abis/ReaderV2.json";
 import Router from "abis/Router.json";
-import Token from "abis/Token.json";
-import VaultV2 from "abis/VaultV2.json";
+// import Token from "abis/Token.json";
+// import VaultV2 from "abis/VaultV2.json";
 
 import Checkbox from "components/Checkbox/Checkbox";
 import ExchangeBanner from "components/Exchange/ExchangeBanner";
@@ -399,10 +399,10 @@ export const Exchange = forwardRef((props, ref) => {
   const vaultAddress = getContract(chainId, "Vault");
   const positionRouterAddress = getContract(chainId, "PositionRouter");
   const readerAddress = getContract(chainId, "Reader");
-  const usdgAddress = getContract(chainId, "USDG");
+  // const usdgAddress = getContract(chainId, "USDG");
 
   const whitelistedTokens = getWhitelistedV1Tokens(chainId);
-  const whitelistedTokenAddresses = whitelistedTokens.map((token) => token.address);
+  // const whitelistedTokenAddresses = whitelistedTokens.map((token) => token.address);
 
   const positionQuery = getPositionQuery(whitelistedTokens, nativeTokenAddress);
 
@@ -473,10 +473,10 @@ export const Exchange = forwardRef((props, ref) => {
 
   const tokens = getV1Tokens(chainId);
 
-  const tokenAddresses = tokens.map((token) => token.address);
-  const { data: tokenBalances } = useSWR(active && [active, chainId, readerAddress, "getTokenBalances", account], {
-    fetcher: contractFetcher(signer, Reader, [tokenAddresses]),
-  });
+  // const tokenAddresses = tokens.map((token) => token.address);
+  // const { data: tokenBalances } = useSWR(active && [active, chainId, readerAddress, "getTokenBalances", account], {
+  //   fetcher: contractFetcher(signer, Reader, [tokenAddresses]),
+  // });
 
   const { data: positionData, error: positionDataError } = useSWR(
     active && [active, chainId, readerAddress, "getPositions", vaultAddress, account],
@@ -491,20 +491,24 @@ export const Exchange = forwardRef((props, ref) => {
 
   const positionsDataIsLoading = active && !positionData && !positionDataError;
 
-  const { data: fundingRateInfo } = useSWR([active, chainId, readerAddress, "getFundingRates"], {
-    fetcher: contractFetcher(signer, Reader, [vaultAddress, nativeTokenAddress, whitelistedTokenAddresses]),
-  });
+  // const { data: fundingRateInfo } = useSWR([active, chainId, readerAddress, "getFundingRates"], {
+  //   fetcher: contractFetcher(signer, Reader, [vaultAddress, nativeTokenAddress, whitelistedTokenAddresses]),
+  // });
 
-  const { data: totalTokenWeights } = useSWR(
-    [`Exchange:totalTokenWeights:${active}`, chainId, vaultAddress, "totalTokenWeights"],
-    {
-      fetcher: contractFetcher(signer, VaultV2),
-    }
-  );
+  // const { data: totalTokenWeights } = useSWR(
+  //   [`Exchange:totalTokenWeights:${active}`, chainId, vaultAddress, "totalTokenWeights"],
+  //   {
+  //     fetcher: contractFetcher(signer, VaultV2),
+  //   }
+  // );
 
-  const { data: usdgSupply } = useSWR([`Exchange:usdgSupply:${active}`, chainId, usdgAddress, "totalSupply"], {
-    fetcher: contractFetcher(signer, Token),
-  });
+  const totalTokenWeights = undefined;
+
+  // const { data: usdgSupply } = useSWR([`Exchange:usdgSupply:${active}`, chainId, usdgAddress, "totalSupply"], {
+  //   fetcher: contractFetcher(signer, Token),
+  // });
+
+  const usdgSupply = undefined;
 
   const orderBookAddress = getContract(chainId, "OrderBook");
   const routerAddress = getContract(chainId, "Router");
@@ -522,7 +526,7 @@ export const Exchange = forwardRef((props, ref) => {
     }
   );
 
-  const { infoTokens } = useInfoTokens(signer, chainId, active, tokenBalances, fundingRateInfo);
+  const { infoTokens } = useInfoTokens(signer, chainId, active);
   const { minExecutionFee, minExecutionFeeUSD, minExecutionFeeErrorMessage } = useExecutionFee(
     signer,
     active,

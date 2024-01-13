@@ -17,6 +17,7 @@ import {
 import { Chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { arbitrum, arbitrumGoerli, avalanche, avalancheFuji } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import merge from "lodash/merge";
 import { isDevelopment } from "config/env";
 // import wowIcon from "img/wow.svg";
@@ -27,28 +28,28 @@ import binanceWallet from "./connecters/binanceW3W/binanceWallet";
 const WALLET_CONNECT_PROJECT_ID = "de24cddbaf2a68f027eae30d9bb5df58";
 const APP_NAME = "DEX";
 
-const wow: Chain = {
+export const wow: Chain = {
   id: 1916,
   name: 'WOW',
-  network: 'wow',
+  network: 'WOW',
   nativeCurrency: {
     decimals: 18,
-    name: 'Wow',
+    name: 'WOW',
     symbol: 'WOW',
   },
   rpcUrls: {
-    public: { http: ['https://wow.wpf.cc'] },
-    default: { http: ['https://wow.wpf.cc'] },
+    public: { http: ['https://rpc.wowearn.io'] },
+    default: { http: ['https://rpc.wowearn.io'] },
   },
   blockExplorers: {
     default: { name: 'WOW', url: 'https://www.wowearn.io/' },
   },
-  // contracts: {
+  contracts: {
     // multicall3: {
-    //   address: '0xca11bde05977b3631167028862be2a173976ca11',
-    //   blockCreated: 11_907_934,
+      // address: '0x5ACF4a178641d8A74e670A146b789ADccd3FCb24',
+      // blockCreated: 11_907_934,
     // },
-  // },
+  },
   testnet: false,
 };
 
@@ -66,7 +67,11 @@ const walletTheme = merge(lightTheme(), {
 
 const { chains, provider } = configureChains(
   [wow, arbitrum, avalanche, ...(isDevelopment() ? [arbitrumGoerli, avalancheFuji] : [])],
-  [publicProvider()]
+  [jsonRpcProvider({
+    rpc: () => ({
+      http: `https://rpc.wowearn.io`,
+    }),
+  }), publicProvider()]
 );
 
 const recommendedWalletList: WalletList = [

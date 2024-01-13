@@ -78,7 +78,7 @@ import {
 import { TOAST_AUTO_CLOSE_TIME, WS_LOST_FOCUS_TIMEOUT } from "config/ui";
 import { SettingsContextProvider, useSettings } from "context/SettingsContext/SettingsContextProvider";
 import { SyntheticsEventsProvider } from "context/SyntheticsEvents";
-import { useWebsocketProvider, WebsocketContextProvider } from "context/WebsocketContext/WebsocketContextProvider";
+import { useWebsocketProvider } from "context/WebsocketContext/WebsocketContextProvider";
 import { useChainId } from "lib/chains";
 import { helperToast } from "lib/helperToast";
 import { defaultLocale, dynamicActivate } from "lib/i18n";
@@ -717,13 +717,13 @@ function App() {
       <SettingsContextProvider>
         <SEO>
           <Router>
-            <WebsocketContextProvider>
+            {/* <WebsocketContextProvider> */}
               <SyntheticsEventsProvider>
                 <I18nProvider i18n={i18n}>
                   <FullApp />
                 </I18nProvider>
               </SyntheticsEventsProvider>
-            </WebsocketContextProvider>
+            {/* </WebsocketContextProvider> */}
           </Router>
         </SEO>
       </SettingsContextProvider>

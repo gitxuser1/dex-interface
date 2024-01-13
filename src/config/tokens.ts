@@ -30,6 +30,17 @@ export const TOKENS: { [chainId: number]: Token[] } = {
       coingeckoUrl: "https://www.coingecko.com/en/coins/ethereum",
       isV1Available: true,
     },
+    {
+      name: "Tether",
+      symbol: "USDT",
+      decimals: 6,
+      address: "0x5ACF4a178641d8A74e670A146b789ADccd3FCb24",
+      isStable: true,
+      imageUrl: "https://assets.coingecko.com/coins/images/325/thumb/Tether-logo.png?1598003707",
+      explorerUrl: "https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
+      coingeckoUrl: "https://www.coingecko.com/en/coins/tether",
+      isV1Available: true,
+    },
   ],
   [ARBITRUM]: [
     {
