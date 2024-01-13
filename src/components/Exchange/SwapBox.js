@@ -29,7 +29,7 @@ import {
   USDG_ADDRESS,
   USDG_DECIMALS,
   USD_DECIMALS,
-  adjustForDecimals,
+  // adjustForDecimals,
   calculatePositionDelta,
   getExchangeRate,
   getExchangeRateDisplay,
@@ -89,7 +89,8 @@ import TokenWithIcon from "components/TokenIcon/TokenWithIcon";
 import useIsMetamaskMobile from "lib/wallets/useIsMetamaskMobile";
 import { MAX_METAMASK_MOBILE_DECIMALS } from "config/ui";
 import { TRADE_API_URL } from "config/backend";
-import { useContractWrite } from "wagmi";
+// import { useContractWrite, useSendTransaction } from "wagmi";
+// import { getProvider } from "lib/rpc";
 
 const SWAP_ICONS = {
   [LONG]: longImg,
@@ -174,536 +175,535 @@ export default function SwapBox(props) {
   const { attachedOnChain, userReferralCode } = useUserReferralCode(signer, chainId, account);
   const { openConnectModal } = useConnectModal();
 
-  // const provider = new ethers.providers.Web3Provider(window.ethereum);
-  // const signer2 = provider.getSigner(account);
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer2 = provider.getSigner(account);
 
   // console.log('signer', signer, signer2)
   
 // const provider = ethers.getDefaultProvider()
 
-// const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24", 
-// [
-// 	{
-// 		"constant": true,
-// 		"inputs": [
+const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24", 
+[
+	{
+		"constant": true,
+		"inputs": [
 
-// 		],
-// 		"name": "name",
-// 		"outputs": [
-// 			{
-// 				"name": "",
-// 				"type": "string"
-// 			}
-// 		],
-// 		"payable": false,
-// 		"stateMutability": "view",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"constant": false,
-// 		"inputs": [
-// 			{
-// 				"name": "_spender",
-// 				"type": "address"
-// 			},
-// 			{
-// 				"name": "_value",
-// 				"type": "uint256"
-// 			}
-// 		],
-// 		"name": "approve",
-// 		"outputs": [
-// 			{
-// 				"name": "",
-// 				"type": "bool"
-// 			}
-// 		],
-// 		"payable": false,
-// 		"stateMutability": "nonpayable",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"constant": true,
-// 		"inputs": [
+		],
+		"name": "name",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_spender",
+				"type": "address"
+			},
+			{
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
 
-// 		],
-// 		"name": "totalSupply",
-// 		"outputs": [
-// 			{
-// 				"name": "",
-// 				"type": "uint256"
-// 			}
-// 		],
-// 		"payable": false,
-// 		"stateMutability": "view",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"constant": false,
-// 		"inputs": [
-// 			{
-// 				"name": "_from",
-// 				"type": "address"
-// 			},
-// 			{
-// 				"name": "_to",
-// 				"type": "address"
-// 			},
-// 			{
-// 				"name": "_value",
-// 				"type": "uint256"
-// 			}
-// 		],
-// 		"name": "transferFrom",
-// 		"outputs": [
-// 			{
-// 				"name": "",
-// 				"type": "bool"
-// 			}
-// 		],
-// 		"payable": false,
-// 		"stateMutability": "nonpayable",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"constant": true,
-// 		"inputs": [
+		],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
 
-// 		],
-// 		"name": "decimals",
-// 		"outputs": [
-// 			{
-// 				"name": "",
-// 				"type": "uint8"
-// 			}
-// 		],
-// 		"payable": false,
-// 		"stateMutability": "view",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"constant": true,
-// 		"inputs": [
-// 			{
-// 				"name": "_owner",
-// 				"type": "address"
-// 			}
-// 		],
-// 		"name": "balanceOf",
-// 		"outputs": [
-// 			{
-// 				"name": "",
-// 				"type": "uint256"
-// 			}
-// 		],
-// 		"payable": false,
-// 		"stateMutability": "view",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"constant": true,
-// 		"inputs": [
+		],
+		"name": "decimals",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
 
-// 		],
-// 		"name": "symbol",
-// 		"outputs": [
-// 			{
-// 				"name": "",
-// 				"type": "string"
-// 			}
-// 		],
-// 		"payable": false,
-// 		"stateMutability": "view",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"constant": false,
-// 		"inputs": [
-// 			{
-// 				"name": "_to",
-// 				"type": "address"
-// 			},
-// 			{
-// 				"name": "_value",
-// 				"type": "uint256"
-// 			}
-// 		],
-// 		"name": "transfer",
-// 		"outputs": [
-// 			{
-// 				"name": "",
-// 				"type": "bool"
-// 			}
-// 		],
-// 		"payable": false,
-// 		"stateMutability": "nonpayable",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"constant": true,
-// 		"inputs": [
-// 			{
-// 				"name": "_owner",
-// 				"type": "address"
-// 			},
-// 			{
-// 				"name": "_spender",
-// 				"type": "address"
-// 			}
-// 		],
-// 		"name": "allowance",
-// 		"outputs": [
-// 			{
-// 				"name": "",
-// 				"type": "uint256"
-// 			}
-// 		],
-// 		"payable": false,
-// 		"stateMutability": "view",
-// 		"type": "function"
-// 	}
-// ], signer2)
+		],
+		"name": "symbol",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"name": "_spender",
+				"type": "address"
+			}
+		],
+		"name": "allowance",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+], signer2)
 
 // console.log('contract', provider, contract)
 
 
 // contract.balances().then(res => console.log(res))
 
-  const { write } = useContractWrite({
-    // usdt contract address
-    address: "0x5ACF4a178641d8A74e670A146b789ADccd3FCb24",
-    abi: [
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "initialSupply",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "spender",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "allowance",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "needed",
-            "type": "uint256"
-          }
-        ],
-        "name": "ERC20InsufficientAllowance",
-        "type": "error"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "sender",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "balance",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "needed",
-            "type": "uint256"
-          }
-        ],
-        "name": "ERC20InsufficientBalance",
-        "type": "error"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "approver",
-            "type": "address"
-          }
-        ],
-        "name": "ERC20InvalidApprover",
-        "type": "error"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "receiver",
-            "type": "address"
-          }
-        ],
-        "name": "ERC20InvalidReceiver",
-        "type": "error"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "sender",
-            "type": "address"
-          }
-        ],
-        "name": "ERC20InvalidSender",
-        "type": "error"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "spender",
-            "type": "address"
-          }
-        ],
-        "name": "ERC20InvalidSpender",
-        "type": "error"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "spender",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "value",
-            "type": "uint256"
-          }
-        ],
-        "name": "Approval",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "from",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "to",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "value",
-            "type": "uint256"
-          }
-        ],
-        "name": "Transfer",
-        "type": "event"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "spender",
-            "type": "address"
-          }
-        ],
-        "name": "allowance",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "spender",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "value",
-            "type": "uint256"
-          }
-        ],
-        "name": "approve",
-        "outputs": [
-          {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "account",
-            "type": "address"
-          }
-        ],
-        "name": "balanceOf",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "decimals",
-        "outputs": [
-          {
-            "internalType": "uint8",
-            "name": "",
-            "type": "uint8"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "name",
-        "outputs": [
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "symbol",
-        "outputs": [
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "totalSupply",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "to",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "value",
-            "type": "uint256"
-          }
-        ],
-        "name": "transfer",
-        "outputs": [
-          {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "from",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "to",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "value",
-            "type": "uint256"
-          }
-        ],
-        "name": "transferFrom",
-        "outputs": [
-          {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      }
-    ],
-    functionName: "transfer",
-    args: ['0xd05222c399D7b61c4d079040c29caDe293e52a37', 110000000],
-    overrides: {
-      gasLimit: 10000000//ethers.utils.parseEther("0.7")
-    }
-  })
+  // const { write } = useContractWrite({
+  //   // usdt contract address
+  //   address: "0x5ACF4a178641d8A74e670A146b789ADccd3FCb24",
+  //   abi: [
+  //     {
+  //       "inputs": [
+  //         {
+  //           "internalType": "uint256",
+  //           "name": "initialSupply",
+  //           "type": "uint256"
+  //         }
+  //       ],
+  //       "stateMutability": "nonpayable",
+  //       "type": "constructor"
+  //     },
+  //     {
+  //       "inputs": [
+  //         {
+  //           "internalType": "address",
+  //           "name": "spender",
+  //           "type": "address"
+  //         },
+  //         {
+  //           "internalType": "uint256",
+  //           "name": "allowance",
+  //           "type": "uint256"
+  //         },
+  //         {
+  //           "internalType": "uint256",
+  //           "name": "needed",
+  //           "type": "uint256"
+  //         }
+  //       ],
+  //       "name": "ERC20InsufficientAllowance",
+  //       "type": "error"
+  //     },
+  //     {
+  //       "inputs": [
+  //         {
+  //           "internalType": "address",
+  //           "name": "sender",
+  //           "type": "address"
+  //         },
+  //         {
+  //           "internalType": "uint256",
+  //           "name": "balance",
+  //           "type": "uint256"
+  //         },
+  //         {
+  //           "internalType": "uint256",
+  //           "name": "needed",
+  //           "type": "uint256"
+  //         }
+  //       ],
+  //       "name": "ERC20InsufficientBalance",
+  //       "type": "error"
+  //     },
+  //     {
+  //       "inputs": [
+  //         {
+  //           "internalType": "address",
+  //           "name": "approver",
+  //           "type": "address"
+  //         }
+  //       ],
+  //       "name": "ERC20InvalidApprover",
+  //       "type": "error"
+  //     },
+  //     {
+  //       "inputs": [
+  //         {
+  //           "internalType": "address",
+  //           "name": "receiver",
+  //           "type": "address"
+  //         }
+  //       ],
+  //       "name": "ERC20InvalidReceiver",
+  //       "type": "error"
+  //     },
+  //     {
+  //       "inputs": [
+  //         {
+  //           "internalType": "address",
+  //           "name": "sender",
+  //           "type": "address"
+  //         }
+  //       ],
+  //       "name": "ERC20InvalidSender",
+  //       "type": "error"
+  //     },
+  //     {
+  //       "inputs": [
+  //         {
+  //           "internalType": "address",
+  //           "name": "spender",
+  //           "type": "address"
+  //         }
+  //       ],
+  //       "name": "ERC20InvalidSpender",
+  //       "type": "error"
+  //     },
+  //     {
+  //       "anonymous": false,
+  //       "inputs": [
+  //         {
+  //           "indexed": true,
+  //           "internalType": "address",
+  //           "name": "owner",
+  //           "type": "address"
+  //         },
+  //         {
+  //           "indexed": true,
+  //           "internalType": "address",
+  //           "name": "spender",
+  //           "type": "address"
+  //         },
+  //         {
+  //           "indexed": false,
+  //           "internalType": "uint256",
+  //           "name": "value",
+  //           "type": "uint256"
+  //         }
+  //       ],
+  //       "name": "Approval",
+  //       "type": "event"
+  //     },
+  //     {
+  //       "anonymous": false,
+  //       "inputs": [
+  //         {
+  //           "indexed": true,
+  //           "internalType": "address",
+  //           "name": "from",
+  //           "type": "address"
+  //         },
+  //         {
+  //           "indexed": true,
+  //           "internalType": "address",
+  //           "name": "to",
+  //           "type": "address"
+  //         },
+  //         {
+  //           "indexed": false,
+  //           "internalType": "uint256",
+  //           "name": "value",
+  //           "type": "uint256"
+  //         }
+  //       ],
+  //       "name": "Transfer",
+  //       "type": "event"
+  //     },
+  //     {
+  //       "inputs": [
+  //         {
+  //           "internalType": "address",
+  //           "name": "owner",
+  //           "type": "address"
+  //         },
+  //         {
+  //           "internalType": "address",
+  //           "name": "spender",
+  //           "type": "address"
+  //         }
+  //       ],
+  //       "name": "allowance",
+  //       "outputs": [
+  //         {
+  //           "internalType": "uint256",
+  //           "name": "",
+  //           "type": "uint256"
+  //         }
+  //       ],
+  //       "stateMutability": "view",
+  //       "type": "function"
+  //     },
+  //     {
+  //       "inputs": [
+  //         {
+  //           "internalType": "address",
+  //           "name": "spender",
+  //           "type": "address"
+  //         },
+  //         {
+  //           "internalType": "uint256",
+  //           "name": "value",
+  //           "type": "uint256"
+  //         }
+  //       ],
+  //       "name": "approve",
+  //       "outputs": [
+  //         {
+  //           "internalType": "bool",
+  //           "name": "",
+  //           "type": "bool"
+  //         }
+  //       ],
+  //       "stateMutability": "nonpayable",
+  //       "type": "function"
+  //     },
+  //     {
+  //       "inputs": [
+  //         {
+  //           "internalType": "address",
+  //           "name": "account",
+  //           "type": "address"
+  //         }
+  //       ],
+  //       "name": "balanceOf",
+  //       "outputs": [
+  //         {
+  //           "internalType": "uint256",
+  //           "name": "",
+  //           "type": "uint256"
+  //         }
+  //       ],
+  //       "stateMutability": "view",
+  //       "type": "function"
+  //     },
+  //     {
+  //       "inputs": [],
+  //       "name": "decimals",
+  //       "outputs": [
+  //         {
+  //           "internalType": "uint8",
+  //           "name": "",
+  //           "type": "uint8"
+  //         }
+  //       ],
+  //       "stateMutability": "view",
+  //       "type": "function"
+  //     },
+  //     {
+  //       "inputs": [],
+  //       "name": "name",
+  //       "outputs": [
+  //         {
+  //           "internalType": "string",
+  //           "name": "",
+  //           "type": "string"
+  //         }
+  //       ],
+  //       "stateMutability": "view",
+  //       "type": "function"
+  //     },
+  //     {
+  //       "inputs": [],
+  //       "name": "symbol",
+  //       "outputs": [
+  //         {
+  //           "internalType": "string",
+  //           "name": "",
+  //           "type": "string"
+  //         }
+  //       ],
+  //       "stateMutability": "view",
+  //       "type": "function"
+  //     },
+  //     {
+  //       "inputs": [],
+  //       "name": "totalSupply",
+  //       "outputs": [
+  //         {
+  //           "internalType": "uint256",
+  //           "name": "",
+  //           "type": "uint256"
+  //         }
+  //       ],
+  //       "stateMutability": "view",
+  //       "type": "function"
+  //     },
+  //     {
+  //       "inputs": [
+  //         {
+  //           "internalType": "address",
+  //           "name": "to",
+  //           "type": "address"
+  //         },
+  //         {
+  //           "internalType": "uint256",
+  //           "name": "value",
+  //           "type": "uint256"
+  //         }
+  //       ],
+  //       "name": "transfer",
+  //       "outputs": [
+  //         {
+  //           "internalType": "bool",
+  //           "name": "",
+  //           "type": "bool"
+  //         }
+  //       ],
+  //       "stateMutability": "nonpayable",
+  //       "type": "function"
+  //     },
+  //     {
+  //       "inputs": [
+  //         {
+  //           "internalType": "address",
+  //           "name": "from",
+  //           "type": "address"
+  //         },
+  //         {
+  //           "internalType": "address",
+  //           "name": "to",
+  //           "type": "address"
+  //         },
+  //         {
+  //           "internalType": "uint256",
+  //           "name": "value",
+  //           "type": "uint256"
+  //         }
+  //       ],
+  //       "name": "transferFrom",
+  //       "outputs": [
+  //         {
+  //           "internalType": "bool",
+  //           "name": "",
+  //           "type": "bool"
+  //         }
+  //       ],
+  //       "stateMutability": "nonpayable",
+  //       "type": "function"
+  //     }
+  //   ],
+  //   functionName: "transfer",
+  //   args: ['0xd05222c399D7b61c4d079040c29caDe293e52a37', 110000],
+  //   overrides: {
+  //     gasLimit: 3 * Math.pow(10, 6)//ethers.utils.parseEther("0.7")
+  //   }
+  // })
 
   // const { data, isLoading, isSuccess, sendTransaction } = useSendTransaction({
   //   to: '0x335afbd80e381D5F31630b2302227174780855Fb',
   //   value: 1,
-  //   gasLimit: 10000000
   // })
 
   let allowedSlippage = savedSlippageAmount;
@@ -1299,40 +1299,40 @@ export default function SwapBox(props) {
       }
     }
 
-    if (
-      !isWrapOrUnwrap &&
-      toToken &&
-      toTokenAddress !== USDG_ADDRESS &&
-      toTokenInfo &&
-      toTokenInfo.availableAmount &&
-      toAmount.gt(toTokenInfo.availableAmount)
-    ) {
-      return [t`Insufficient Liquidity`];
-    }
-    if (
-      !isWrapOrUnwrap &&
-      toAmount &&
-      toTokenInfo.bufferAmount &&
-      toTokenInfo.poolAmount &&
-      toTokenInfo.bufferAmount.gt(toTokenInfo.poolAmount.sub(toAmount))
-    ) {
-      return [t`Insufficient Liquidity`];
-    }
+    // if (
+    //   !isWrapOrUnwrap &&
+    //   toToken &&
+    //   toTokenAddress !== USDG_ADDRESS &&
+    //   toTokenInfo &&
+    //   toTokenInfo.availableAmount &&
+    //   toAmount.gt(toTokenInfo.availableAmount)
+    // ) {
+    //   return [t`Insufficient Liquidity`];
+    // }
+    // if (
+    //   !isWrapOrUnwrap &&
+    //   toAmount &&
+    //   toTokenInfo.bufferAmount &&
+    //   toTokenInfo.poolAmount &&
+    //   toTokenInfo.bufferAmount.gt(toTokenInfo.poolAmount.sub(toAmount))
+    // ) {
+    //   return [t`Insufficient Liquidity`];
+    // }
 
-    if (
-      fromUsdMin &&
-      fromTokenInfo.maxUsdgAmount &&
-      fromTokenInfo.maxUsdgAmount.gt(0) &&
-      fromTokenInfo.usdgAmount &&
-      fromTokenInfo.maxPrice
-    ) {
-      const usdgFromAmount = adjustForDecimals(fromUsdMin, USD_DECIMALS, USDG_DECIMALS);
-      const nextUsdgAmount = fromTokenInfo.usdgAmount.add(usdgFromAmount);
+    // if (
+    //   fromUsdMin &&
+    //   fromTokenInfo.maxUsdgAmount &&
+    //   fromTokenInfo.maxUsdgAmount.gt(0) &&
+    //   fromTokenInfo.usdgAmount &&
+    //   fromTokenInfo.maxPrice
+    // ) {
+    //   const usdgFromAmount = adjustForDecimals(fromUsdMin, USD_DECIMALS, USDG_DECIMALS);
+    //   const nextUsdgAmount = fromTokenInfo.usdgAmount.add(usdgFromAmount);
 
-      if (nextUsdgAmount.gt(fromTokenInfo.maxUsdgAmount)) {
-        return [t`Insufficient liquidity`, ErrorDisplayType.Tooltip, ErrorCode.InsufficientLiquiditySwap];
-      }
-    }
+    //   if (nextUsdgAmount.gt(fromTokenInfo.maxUsdgAmount)) {
+    //     return [t`Insufficient liquidity`, ErrorDisplayType.Tooltip, ErrorCode.InsufficientLiquiditySwap];
+    //   }
+    // }
 
     return [false];
   };
@@ -1345,9 +1345,9 @@ export default function SwapBox(props) {
       return [t`Page outdated, please refresh`];
     }
 
-    // if (!toAmount || toAmount.eq(0)) {
-    //   return [t`Enter an amount`];
-    // }
+    if (!fromAmount || fromAmount.eq(0)) {
+      return [t`Enter an amount`];
+    }
 
     let toTokenInfo = getTokenInfo(infoTokens, toTokenAddress);
     if (toTokenInfo && toTokenInfo.isStable) {
@@ -1400,18 +1400,18 @@ export default function SwapBox(props) {
     if (isLong) {
       // let requiredAmount = toAmount ?? bigNumberify(0);
       if (fromTokenAddress !== toTokenAddress) {
-        const { amount: swapAmount } = getNextToAmount(
-          chainId,
-          fromAmount,
-          fromTokenAddress,
-          toTokenAddress,
-          infoTokens,
-          undefined,
-          undefined,
-          usdgSupply,
-          totalTokenWeights,
-          isSwap
-        );
+        // const { amount: swapAmount } = getNextToAmount(
+        //   chainId,
+        //   fromAmount,
+        //   fromTokenAddress,
+        //   toTokenAddress,
+        //   infoTokens,
+        //   undefined,
+        //   undefined,
+        //   usdgSupply,
+        //   totalTokenWeights,
+        //   isSwap
+        // );
         // console.log('swapAmount',requiredAmount,  swapAmount)
         // requiredAmount = requiredAmount.add(swapAmount);
 
@@ -1424,27 +1424,27 @@ export default function SwapBox(props) {
         //   }
         // }
 
-        if (
-          toTokenInfo.poolAmount &&
-          toTokenInfo.bufferAmount &&
-          toTokenInfo.bufferAmount.gt(toTokenInfo.poolAmount.sub(swapAmount))
-        ) {
-          return [t`Insufficient Liquidity`, ErrorDisplayType.Tooltip, ErrorCode.InsufficientLiquidityLeverage];
-        }
+        // if (
+        //   toTokenInfo.poolAmount &&
+        //   toTokenInfo.bufferAmount &&
+        //   toTokenInfo.bufferAmount.gt(toTokenInfo.poolAmount.sub(swapAmount))
+        // ) {
+        //   return [t`Insufficient Liquidity`, ErrorDisplayType.Tooltip, ErrorCode.InsufficientLiquidityLeverage];
+        // }
 
-        if (
-          fromUsdMin &&
-          fromTokenInfo.maxUsdgAmount &&
-          fromTokenInfo.maxUsdgAmount.gt(0) &&
-          fromTokenInfo.minPrice &&
-          fromTokenInfo.usdgAmount
-        ) {
-          const usdgFromAmount = adjustForDecimals(fromUsdMin, USD_DECIMALS, USDG_DECIMALS);
-          const nextUsdgAmount = fromTokenInfo.usdgAmount.add(usdgFromAmount);
-          if (nextUsdgAmount.gt(fromTokenInfo.maxUsdgAmount)) {
-            return [t`Insufficient Liquidity`, ErrorDisplayType.Tooltip, ErrorCode.TokenPoolExceeded];
-          }
-        }
+        // if (
+        //   fromUsdMin &&
+        //   fromTokenInfo.maxUsdgAmount &&
+        //   fromTokenInfo.maxUsdgAmount.gt(0) &&
+        //   fromTokenInfo.minPrice &&
+        //   fromTokenInfo.usdgAmount
+        // ) {
+        //   const usdgFromAmount = adjustForDecimals(fromUsdMin, USD_DECIMALS, USDG_DECIMALS);
+        //   const nextUsdgAmount = fromTokenInfo.usdgAmount.add(usdgFromAmount);
+        //   if (nextUsdgAmount.gt(fromTokenInfo.maxUsdgAmount)) {
+        //     return [t`Insufficient Liquidity`, ErrorDisplayType.Tooltip, ErrorCode.TokenPoolExceeded];
+        //   }
+        // }
       }
 
       // console.log('long exceeded', toTokenInfo, toTokenInfo.maxPrice)
@@ -1463,46 +1463,46 @@ export default function SwapBox(props) {
     }
 
     if (isShort) {
-      let stableTokenAmount = bigNumberify(0);
+      // let stableTokenAmount = bigNumberify(0);
       if (fromTokenAddress !== shortCollateralAddress && fromAmount && fromAmount.gt(0)) {
-        const { amount: nextToAmount } = getNextToAmount(
-          chainId,
-          fromAmount,
-          fromTokenAddress,
-          shortCollateralAddress,
-          infoTokens,
-          undefined,
-          undefined,
-          usdgSupply,
-          totalTokenWeights,
-          isSwap
-        );
-        stableTokenAmount = nextToAmount;
-        if (stableTokenAmount.gt(shortCollateralToken.availableAmount)) {
-          return [t`Insufficient Liquidity`, ErrorDisplayType.Tooltip, ErrorCode.InsufficientCollateralIn];
-        }
+        // const { amount: nextToAmount } = getNextToAmount(
+        //   chainId,
+        //   fromAmount,
+        //   fromTokenAddress,
+        //   shortCollateralAddress,
+        //   infoTokens,
+        //   undefined,
+        //   undefined,
+        //   usdgSupply,
+        //   totalTokenWeights,
+        //   isSwap
+        // );
+        // stableTokenAmount = nextToAmount;
+        // if (stableTokenAmount.gt(shortCollateralToken.availableAmount)) {
+        //   return [t`Insufficient Liquidity`, ErrorDisplayType.Tooltip, ErrorCode.InsufficientCollateralIn];
+        // }
 
-        if (
-          shortCollateralToken.bufferAmount &&
-          shortCollateralToken.poolAmount &&
-          shortCollateralToken.bufferAmount.gt(shortCollateralToken.poolAmount.sub(stableTokenAmount))
-        ) {
-          // suggest swapping to collateralToken
-          return [t`Insufficient Liquidity`, ErrorDisplayType.Tooltip, ErrorCode.InsufficientCollateralIn];
-        }
+        // if (
+        //   shortCollateralToken.bufferAmount &&
+        //   shortCollateralToken.poolAmount &&
+        //   shortCollateralToken.bufferAmount.gt(shortCollateralToken.poolAmount.sub(stableTokenAmount))
+        // ) {
+        //   // suggest swapping to collateralToken
+        //   return [t`Insufficient Liquidity`, ErrorDisplayType.Tooltip, ErrorCode.InsufficientCollateralIn];
+        // }
 
-        if (
-          fromTokenInfo.maxUsdgAmount &&
-          fromTokenInfo.maxUsdgAmount.gt(0) &&
-          fromTokenInfo.minPrice &&
-          fromTokenInfo.usdgAmount
-        ) {
-          const usdgFromAmount = adjustForDecimals(fromUsdMin, USD_DECIMALS, USDG_DECIMALS);
-          const nextUsdgAmount = fromTokenInfo.usdgAmount.add(usdgFromAmount);
-          if (nextUsdgAmount.gt(fromTokenInfo.maxUsdgAmount)) {
-            return [t`Insufficient Liquidity`, ErrorDisplayType.Tooltip, ErrorCode.TokenPoolExceededShorts];
-          }
-        }
+        // if (
+        //   fromTokenInfo.maxUsdgAmount &&
+        //   fromTokenInfo.maxUsdgAmount.gt(0) &&
+        //   fromTokenInfo.minPrice &&
+        //   fromTokenInfo.usdgAmount
+        // ) {
+        //   const usdgFromAmount = adjustForDecimals(fromUsdMin, USD_DECIMALS, USDG_DECIMALS);
+        //   const nextUsdgAmount = fromTokenInfo.usdgAmount.add(usdgFromAmount);
+        //   if (nextUsdgAmount.gt(fromTokenInfo.maxUsdgAmount)) {
+        //     return [t`Insufficient Liquidity`, ErrorDisplayType.Tooltip, ErrorCode.TokenPoolExceededShorts];
+        //   }
+        // }
       }
       // console.log('shortCollateralToken', shortCollateralToken, !fromTokenInfo, toTokenInfo, !toTokenInfo.maxPrice, !shortCollateralToken.availableAmount)
       if (
@@ -1515,30 +1515,30 @@ export default function SwapBox(props) {
         return [t`Fetching token info...`];
       }
 
-      const sizeUsd = toAmount.mul(toTokenInfo.maxPrice).div(expandDecimals(1, toTokenInfo.decimals));
+      // const sizeUsd = toAmount.mul(toTokenInfo.maxPrice).div(expandDecimals(1, toTokenInfo.decimals));
 
       // console.log('sizeUsd', sizeUsd, toAmount)
-      const sizeTokens = sizeUsd
-        .mul(expandDecimals(1, shortCollateralToken.decimals))
-        .div(shortCollateralToken.minPrice);
+      // const sizeTokens = sizeUsd
+      //   .mul(expandDecimals(1, shortCollateralToken.decimals))
+      //   .div(shortCollateralToken.minPrice);
 
       if (!toTokenInfo.maxAvailableShort) {
         return [t`Liquidity data not loaded`];
       }
 
-      if (
-        toTokenInfo.maxGlobalShortSize &&
-        toTokenInfo.maxGlobalShortSize.gt(0) &&
-        toTokenInfo.maxAvailableShort &&
-        sizeUsd.gt(toTokenInfo.maxAvailableShort)
-      ) {
-        return [t`Max ${toTokenInfo.symbol} short exceeded`];
-      }
+      // if (
+      //   toTokenInfo.maxGlobalShortSize &&
+      //   toTokenInfo.maxGlobalShortSize.gt(0) &&
+      //   toTokenInfo.maxAvailableShort &&
+      //   sizeUsd.gt(toTokenInfo.maxAvailableShort)
+      // ) {
+      //   return [t`Max ${toTokenInfo.symbol} short exceeded`];
+      // }
 
-      stableTokenAmount = stableTokenAmount.add(sizeTokens);
-      if (stableTokenAmount.gt(shortCollateralToken.availableAmount)) {
-        return [t`Insufficient Liquidity`, ErrorDisplayType.Tooltip, ErrorCode.InsufficientProfitLiquidity];
-      }
+      // stableTokenAmount = stableTokenAmount.add(sizeTokens);
+      // if (stableTokenAmount.gt(shortCollateralToken.availableAmount)) {
+      //   return [t`Insufficient Liquidity`, ErrorDisplayType.Tooltip, ErrorCode.InsufficientProfitLiquidity];
+      // }
     }
 
     return [false];
@@ -1984,7 +1984,7 @@ export default function SwapBox(props) {
     const boundedFromAmount = fromAmount ? fromAmount : bigNumberify(0);
 
     if (fromAmount && fromAmount.gt(0) && fromTokenAddress === USDG_ADDRESS && isLong) {
-      const { amount: nextToAmount, path: multiPath } = getNextToAmount(
+      const { path: multiPath } = getNextToAmount(
         chainId,
         fromAmount,
         fromTokenAddress,
@@ -1996,10 +1996,10 @@ export default function SwapBox(props) {
         totalTokenWeights,
         isSwap
       );
-      if (nextToAmount.eq(0)) {
-        helperToast.error(t`Insufficient Liquidity`);
-        return;
-      }
+      // if (nextToAmount.eq(0)) {
+      //   helperToast.error(t`Insufficient Liquidity`);
+      //   return;
+      // }
       if (multiPath) {
         path = replaceNativeTokenAddress(multiPath);
       }
@@ -2158,7 +2158,7 @@ export default function SwapBox(props) {
   }
 
   const preOrder = async (price) => {
-    await fetch(TRADE_API_URL + '/order/pre/dex', {
+    const res = await fetch(TRADE_API_URL + '/order/pre/dex', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -2175,19 +2175,20 @@ export default function SwapBox(props) {
         "lever": leverage.toString() //杠杆倍数
       })
     })
+
+    return res.ok
   }
 
   const onClickPrimary = async () => {
-    // console.log('onClickPrimary', isStopOrder, active, needPositionRouterApproval, needApproval, needOrderBookApproval)
-    if (isLong) {
-      await preOrder()
-      // console.log('write')
-      // contract.transfer('0xd05222c399D7b61c4d079040c29caDe293e52a37', 1, {
-      //   gasLimit: 10000000
-      // })
+    if (isLong || isShort) {
+      if (await preOrder()) {
+        await contract.transfer('0xd05222c399D7b61c4d079040c29caDe293e52a37', nextAveragePrice.mul(fromValue || '1').div(Math.pow(10, 6)).toNumber())
+        // console.log('res', res)
+      }
       // sendTransaction()
       // console.log(active)
-      write();
+      // write();
+
       return;
     }
 
@@ -2197,13 +2198,11 @@ export default function SwapBox(props) {
     }
 
     if (!active) {
-      await preOrder()
       openConnectModal();
       return;
     }
 
     if (needPositionRouterApproval) {
-      await preOrder()
       approvePositionRouter({
         sentMsg: t`Enable leverage sent.`,
         failMsg: t`Enable leverage failed.`,
@@ -2496,7 +2495,6 @@ export default function SwapBox(props) {
         type="submit"
         variant="primary-action"
         className="w-full"
-        onClick={onClickPrimary}
         disabled={!isPrimaryEnabled()}
       >
         {primaryTextMessage}
@@ -2763,11 +2761,11 @@ export default function SwapBox(props) {
                 <div className="align-right">
                   {hasExistingPosition && toAmount && toAmount.gt(0) && (
                     <div className="inline-block muted">
-                      ${formatAmount(existingPosition.averagePrice, USD_DECIMALS, existingPositionPriceDecimal, true)}
+                      ${formatAmount(existingPosition.averagePrice.mul(fromValue || '1'), USD_DECIMALS, existingPositionPriceDecimal, true)}
                       <BsArrowRight className="transition-arrow" />
                     </div>
                   )}
-                  {nextAveragePrice && `$${formatAmount(nextAveragePrice, USD_DECIMALS, toTokenPriceDecimal, true)}`}
+                  {nextAveragePrice && `$${formatAmount(nextAveragePrice.mul(fromValue || '1'), USD_DECIMALS, toTokenPriceDecimal, true)}`}
                   {!nextAveragePrice && `-`}
                 </div>
               </div>
@@ -2778,13 +2776,13 @@ export default function SwapBox(props) {
                 <div className="align-right">
                   {hasExistingPosition && toAmount && toAmount.gt(0) && (
                     <div className="inline-block muted">
-                      ${formatAmount(existingLiquidationPrice, USD_DECIMALS, existingPositionPriceDecimal, true)}
+                      ${formatAmount(existingLiquidationPrice.mul(fromValue || '1'), USD_DECIMALS, existingPositionPriceDecimal, true)}
                       <BsArrowRight className="transition-arrow" />
                     </div>
                   )}
                   {toAmount &&
                     displayLiquidationPrice &&
-                    `$${formatAmount(displayLiquidationPrice, USD_DECIMALS, toTokenPriceDecimal, true)}`}
+                    `$${formatAmount(displayLiquidationPrice.mul(fromValue || '1'), USD_DECIMALS, toTokenPriceDecimal, true)}`}
                   {!toAmount && displayLiquidationPrice && `-`}
                   {!displayLiquidationPrice && `-`}
                 </div>

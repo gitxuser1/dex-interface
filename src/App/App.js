@@ -324,6 +324,8 @@ function FullApp() {
 
   const { wsProvider } = useWebsocketProvider();
 
+  // console.log('wsProvider', wsProvider)
+
   const vaultAddress = getContract(chainId, "Vault");
   const positionRouterAddress = getContract(chainId, "PositionRouter");
 

@@ -5,7 +5,6 @@ import {
   AVALANCHE,
   AVALANCHE_FUJI,
   FALLBACK_PROVIDERS,
-  WOW,
   getAlchemyWsUrl,
   getFallbackRpcUrl,
   getRpcUrl,
@@ -34,9 +33,9 @@ export function getWsProvider(chainId: number): WebSocketProvider | JsonRpcProvi
     return new ethers.providers.WebSocketProvider(getAlchemyWsUrl());
   }
 
-  if (chainId === WOW) {
-    return new ethers.providers.WebSocketProvider("wss://wow.wpf.cc");
-  }
+  // if (chainId === WOW) {
+  //   return new ethers.providers.WebSocketProvider("wss://wow.wpf.cc");
+  // }
 
   if (chainId === AVALANCHE) {
     return new ethers.providers.WebSocketProvider("wss://api.avax.network/ext/bc/C/ws");
@@ -75,7 +74,6 @@ export function useJsonRpcProvider(chainId: number) {
       const rpcUrl = getRpcUrl(chainId);
 
       if (!rpcUrl) return;
-
       const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
 
       await provider.ready;

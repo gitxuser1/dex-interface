@@ -5,7 +5,7 @@ import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useSt
 import useSWR from "swr";
 
 import { getConstant, getExplorerUrl } from "config/chains";
-import { approvePlugin, cancelMultipleOrders, useExecutionFee } from "domain/legacy";
+import { approvePlugin, cancelMultipleOrders } from "domain/legacy";
 import {
   LONG,
   MARGIN_FEE_BASIS_POINTS,
@@ -527,12 +527,12 @@ export const Exchange = forwardRef((props, ref) => {
   );
 
   const { infoTokens } = useInfoTokens(signer, chainId, active);
-  const { minExecutionFee, minExecutionFeeUSD, minExecutionFeeErrorMessage } = useExecutionFee(
-    signer,
-    active,
-    chainId,
-    infoTokens
-  );
+  // const { minExecutionFee, minExecutionFeeUSD, minExecutionFeeErrorMessage } = useExecutionFee(
+  //   signer,
+  //   active,
+  //   chainId,
+  //   infoTokens
+  // );
 
   useEffect(() => {
     const fromToken = getTokenInfo(infoTokens, fromTokenAddress);
@@ -884,9 +884,9 @@ export const Exchange = forwardRef((props, ref) => {
             setMarket={setMarket}
             orders={orders}
             showPnlAfterFees={savedShowPnlAfterFees}
-            minExecutionFee={minExecutionFee}
-            minExecutionFeeUSD={minExecutionFeeUSD}
-            minExecutionFeeErrorMessage={minExecutionFeeErrorMessage}
+            // minExecutionFee={minExecutionFee}
+            // minExecutionFeeUSD={minExecutionFeeUSD}
+            // minExecutionFeeErrorMessage={minExecutionFeeErrorMessage}
             usdgSupply={usdgSupply}
             totalTokenWeights={totalTokenWeights}
             openSettings={openSettings}
@@ -996,9 +996,9 @@ export const Exchange = forwardRef((props, ref) => {
               totalTokenWeights={totalTokenWeights}
               usdgSupply={usdgSupply}
               savedShouldDisableValidationForTesting={savedShouldDisableValidationForTesting}
-              minExecutionFee={minExecutionFee}
-              minExecutionFeeUSD={minExecutionFeeUSD}
-              minExecutionFeeErrorMessage={minExecutionFeeErrorMessage}
+              // minExecutionFee={minExecutionFee}
+              // minExecutionFeeUSD={minExecutionFeeUSD}
+              // minExecutionFeeErrorMessage={minExecutionFeeErrorMessage}
               positions={positions}
             />
           )}

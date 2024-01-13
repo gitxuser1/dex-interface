@@ -1,7 +1,7 @@
 import Davatar from "@davatar/react";
 import { Menu } from "@headlessui/react";
 import { t, Trans } from "@lingui/macro";
-import { ETH_MAINNET } from "config/chains";
+import { WOW } from "config/chains";
 import copy from "img/ic_copy_16.svg";
 import externalLinkIcon from "img/ic_new_link_16.svg";
 import disconnect from "img/ic_sign_out_16.svg";
@@ -25,7 +25,7 @@ function AddressDropdown({ account, accountUrl, disconnectAccountAndCloseSetting
   const breakpoint = useBreakpoint();
   const [, copyToClipboard] = useCopyToClipboard();
   const { ensName } = useENS(account);
-  const { provider: ethereumProvider } = useJsonRpcProvider(ETH_MAINNET);
+  const { provider: ethereumProvider } = useJsonRpcProvider(WOW);
   const displayAddressLength = breakpoint === "S" ? 9 : 13;
 
   return (

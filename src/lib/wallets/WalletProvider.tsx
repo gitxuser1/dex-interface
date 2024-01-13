@@ -42,14 +42,14 @@ export const wow: Chain = {
     default: { http: ['https://rpc.wowearn.io'] },
   },
   blockExplorers: {
-    default: { name: 'WOW', url: 'https://www.wowearn.io/' },
+    default: { name: 'WOW', url: 'https://www.wowearn.io' },
   },
-  contracts: {
+  // contracts: {
     // multicall3: {
       // address: '0x5ACF4a178641d8A74e670A146b789ADccd3FCb24',
       // blockCreated: 11_907_934,
     // },
-  },
+  // },
   testnet: false,
 };
 
