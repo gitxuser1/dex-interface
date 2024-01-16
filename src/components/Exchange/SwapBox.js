@@ -89,7 +89,7 @@ import TokenWithIcon from "components/TokenIcon/TokenWithIcon";
 import useIsMetamaskMobile from "lib/wallets/useIsMetamaskMobile";
 import { MAX_METAMASK_MOBILE_DECIMALS } from "config/ui";
 import { CHAIN_BRIDGE_API_URL, TRADE_API_URL } from "config/backend";
-// import { useContractWrite, useSendTransaction } from "wagmi";
+import { useSwitchNetwork } from "wagmi";
 // import { getProvider } from "lib/rpc";
 
 const SWAP_ICONS = {
@@ -176,6 +176,7 @@ export default function SwapBox(props) {
   const [isHigherSlippageAllowed, setIsHigherSlippageAllowed] = useState(false);
   const { attachedOnChain, userReferralCode } = useUserReferralCode(signer, chainId, account);
   const { openConnectModal } = useConnectModal();
+  const { switchNetworkAsync } = useSwitchNetwork()
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer2 = provider.getSigner(account);
@@ -844,6 +845,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
 
   const swapFromTokens = [
     {
+      "chainId": 1,
       "net": "ETH",
       "name": "Tether",
       "symbol": "USDT(ETH)",
@@ -853,6 +855,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
       "isV1Available": true
     },
     {
+      "chainId": 56,
       "net": "BSC",
       "name": "Tether",
       "symbol": "USDT(BSC)",
@@ -862,6 +865,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
       "isV1Available": true
     },
     {
+      "chainId": 42161,
       "net": "ARB",
       "name": "Tether",
       "symbol": "USDT(ARB)",
@@ -871,6 +875,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
       "isV1Available": true
     },
     {
+      "chainId": 1916,
       "net": "WOW",
       "name": "Tether",
       "symbol": "USDT(WOW)",
@@ -882,6 +887,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
   ]
   const swapToTokens = [
     {
+      "chainId": 1,
       "net": "ETH",
       "name": "Tether",
       "symbol": "USDT(ETH)",
@@ -891,6 +897,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
       "isV1Available": true
     },
     {
+      "chainId": 56,
       "net": "BSC",
       "name": "Tether",
       "symbol": "USDT(BSC)",
@@ -900,6 +907,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
       "isV1Available": true
     },
     {
+      "chainId": 42161,
       "net": "ARB",
       "name": "Tether",
       "symbol": "USDT(ARB)",
@@ -909,6 +917,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
       "isV1Available": true
     },
     {
+      "chainId": 1916,
       "net": "WOW",
       "name": "Tether",
       "symbol": "USDT(WOW)",
@@ -921,24 +930,28 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
 
   const swapInfoTokens = useMemo(() => ({
     '0xdac17f958d2ee523a2206206994597c13d831ec7': {
+      "chainId": 1,
       "name": "Tether",
       "symbol": "USDT(ETH)",
       "decimals": 6,
       "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
     },
     '0x55d398326f99059ff775485246999027b3197955': {
+      "chainId": 56,
       "name": "Tether",
       "symbol": "USDT(BSC)",
       "decimals": 6,
       "address": "0x55d398326f99059ff775485246999027b3197955",
     },
     '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9': {
+      "chainId": 42161,
       "name": "Tether",
       "symbol": "USDT(ARB)",
       "decimals": 6,
       "address": "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9",
     },
     '0x5ACF4a178641d8A74e670A146b789ADccd3FCb24': {
+      "chainId": 1916,
       "name": "Tether",
       "symbol": "USDT(WOW)",
       "decimals": 6,
@@ -2383,6 +2396,191 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
 
     if (isSwap) {
       const res = await preCreateSwapOrder()
+      if (chainId !== fromToken.chainId) {
+        await switchNetworkAsync(fromToken.chainId)
+      }
+      const contract = new ethers.Contract(swapFromTokenAddress, 
+[
+	{
+		"constant": true,
+		"inputs": [
+
+		],
+		"name": "name",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_spender",
+				"type": "address"
+			},
+			{
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+
+		],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+
+		],
+		"name": "decimals",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+
+		],
+		"name": "symbol",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"name": "_spender",
+				"type": "address"
+			}
+		],
+		"name": "allowance",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+], signer2)
       await contract.transfer(res.fromReceiver, Math.floor(fromValue * Math.pow(10, 6)))
       
       // if (fromTokenAddress === AddressZero && toTokenAddress === nativeTokenAddress) {
