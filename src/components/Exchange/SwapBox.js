@@ -9,7 +9,7 @@ import useSWR from "swr";
 import { BsArrowRight } from "react-icons/bs";
 import { IoMdSwap } from "react-icons/io";
 
-import { ARBITRUM, IS_NETWORK_DISABLED, getChainName, getConstant, isSupportedChain } from "config/chains";
+import { ARBITRUM, IS_NETWORK_DISABLED, getChainName, getConstant } from "config/chains";
 import { getContract } from "config/contracts";
 import * as Api from "domain/legacy";
 import {
@@ -88,7 +88,7 @@ import useWallet from "lib/wallets/useWallet";
 import TokenWithIcon from "components/TokenIcon/TokenWithIcon";
 import useIsMetamaskMobile from "lib/wallets/useIsMetamaskMobile";
 import { MAX_METAMASK_MOBILE_DECIMALS } from "config/ui";
-import { TRADE_API_URL } from "config/backend";
+import { CHAIN_BRIDGE_API_URL, TRADE_API_URL } from "config/backend";
 // import { useContractWrite, useSendTransaction } from "wagmi";
 // import { getProvider } from "lib/rpc";
 
@@ -171,6 +171,8 @@ export default function SwapBox(props) {
   const [isWaitingForApproval, setIsWaitingForApproval] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [modalError, setModalError] = useState(false);
+  const [swapFromTokenAddress, setSwapFromTokenAddress] = useState('0x5ACF4a178641d8A74e670A146b789ADccd3FCb24');
+  const [swapToTokenAddress, setSwapToTokenAddress] = useState('0xdac17f958d2ee523a2206206994597c13d831ec7');
   const [isHigherSlippageAllowed, setIsHigherSlippageAllowed] = useState(false);
   const { attachedOnChain, userReferralCode } = useUserReferralCode(signer, chainId, account);
   const { openConnectModal } = useConnectModal();
@@ -705,7 +707,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
   //   to: '0x335afbd80e381D5F31630b2302227174780855Fb',
   //   value: 1,
   // })
-
+  
   let allowedSlippage = savedSlippageAmount;
   if (isHigherSlippageAllowed) {
     allowedSlippage = DEFAULT_HIGHER_SLIPPAGE_AMOUNT;
@@ -784,7 +786,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
 
   const whitelistedTokens = getWhitelistedV1Tokens(chainId);
   const tokens = getV1Tokens(chainId);
-  const fromTokens = tokens;
+  // const fromTokens = tokens;
   const stableTokens = tokens.filter((token) => token.isStable);
   const indexTokens = whitelistedTokens.filter((token) => !token.isStable && !token.isWrapped);
   const shortableTokens = indexTokens.filter((token) => token.isShortable);
@@ -840,14 +842,119 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
 
   const { data: hasOutdatedUi } = Api.useHasOutdatedUi();
 
-  const fromToken = getToken(chainId, fromTokenAddress);
-  const toToken = getToken(chainId, toTokenAddress);
-  const shortCollateralToken = getTokenInfo(infoTokens, shortCollateralAddress);
+  const swapFromTokens = [
+    {
+      "net": "ETH",
+      "name": "Tether",
+      "symbol": "USDT(ETH)",
+      "decimals": 6,
+      "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+      "isStable": true,
+      "isV1Available": true
+    },
+    {
+      "net": "BSC",
+      "name": "Tether",
+      "symbol": "USDT(BSC)",
+      "decimals": 6,
+      "address": "0x55d398326f99059ff775485246999027b3197955",
+      "isStable": true,
+      "isV1Available": true
+    },
+    {
+      "net": "ARB",
+      "name": "Tether",
+      "symbol": "USDT(ARB)",
+      "decimals": 6,
+      "address": "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9",
+      "isStable": true,
+      "isV1Available": true
+    },
+    {
+      "net": "WOW",
+      "name": "Tether",
+      "symbol": "USDT(WOW)",
+      "decimals": 6,
+      "address": "0x5ACF4a178641d8A74e670A146b789ADccd3FCb24",
+      "isStable": true,
+      "isV1Available": true
+    }
+  ]
+  const swapToTokens = [
+    {
+      "net": "ETH",
+      "name": "Tether",
+      "symbol": "USDT(ETH)",
+      "decimals": 6,
+      "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+      "isStable": true,
+      "isV1Available": true
+    },
+    {
+      "net": "BSC",
+      "name": "Tether",
+      "symbol": "USDT(BSC)",
+      "decimals": 6,
+      "address": "0x55d398326f99059ff775485246999027b3197955",
+      "isStable": true,
+      "isV1Available": true
+    },
+    {
+      "net": "ARB",
+      "name": "Tether",
+      "symbol": "USDT(ARB)",
+      "decimals": 6,
+      "address": "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9",
+      "isStable": true,
+      "isV1Available": true
+    },
+    {
+      "net": "WOW",
+      "name": "Tether",
+      "symbol": "USDT(WOW)",
+      "decimals": 6,
+      "address": "0x5ACF4a178641d8A74e670A146b789ADccd3FCb24",
+      "isStable": true,
+      "isV1Available": true
+    }
+  ]
+
+  const swapInfoTokens = useMemo(() => ({
+    '0xdac17f958d2ee523a2206206994597c13d831ec7': {
+      "name": "Tether",
+      "symbol": "USDT(ETH)",
+      "decimals": 6,
+      "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+    },
+    '0x55d398326f99059ff775485246999027b3197955': {
+      "name": "Tether",
+      "symbol": "USDT(BSC)",
+      "decimals": 6,
+      "address": "0x55d398326f99059ff775485246999027b3197955",
+    },
+    '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9': {
+      "name": "Tether",
+      "symbol": "USDT(ARB)",
+      "decimals": 6,
+      "address": "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9",
+    },
+    '0x5ACF4a178641d8A74e670A146b789ADccd3FCb24': {
+      "name": "Tether",
+      "symbol": "USDT(WOW)",
+      "decimals": 6,
+      "address": "0x5ACF4a178641d8A74e670A146b789ADccd3FCb24",
+    }
+  }), [])
+
+  const fromToken = isSwap ? swapFromTokens.find(item => item.address === swapFromTokenAddress)  : getToken(chainId, fromTokenAddress);
+  const toToken = isSwap ?  swapToTokens.find(item => item.address === swapToTokenAddress) : getToken(chainId, toTokenAddress);
+  
+  const shortCollateralToken = getTokenInfo(isSwap ? swapInfoTokens : infoTokens, shortCollateralAddress) || {};
   const toTokenPriceDecimal = getPriceDecimals(chainId, toToken.symbol);
   const existingPositionPriceDecimal = getPriceDecimals(chainId, existingPosition?.indexToken?.symbol);
 
-  const fromTokenInfo = getTokenInfo(infoTokens, fromTokenAddress);
-  const toTokenInfo = getTokenInfo(infoTokens, toTokenAddress);
+  const fromTokenInfo = getTokenInfo(isSwap ? swapInfoTokens : infoTokens, isSwap ? swapFromTokenAddress : fromTokenAddress);
+  const toTokenInfo = getTokenInfo(isSwap ? swapInfoTokens : infoTokens, isSwap ? swapToTokenAddress : toTokenAddress);
 
   const renderAvailableLongLiquidity = () => {
     if (!isLong) {
@@ -1134,7 +1241,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
         return;
       }
 
-      const fromTokenInfo = getTokenInfo(infoTokens, fromTokenAddress);
+      const fromTokenInfo = getTokenInfo(isSwap ? swapInfoTokens : infoTokens, isSwap ? swapFromTokenAddress : fromTokenAddress);
       if (fromTokenInfo && fromTokenInfo.minPrice && toUsdMax && toUsdMax.gt(0)) {
         const leverageMultiplier = parseInt(leverageOption * BASIS_POINTS_DIVISOR);
 
@@ -1201,6 +1308,8 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
     chainId,
     collateralTokenAddress,
     indexTokenAddress,
+    swapFromTokenAddress,
+    swapInfoTokens
   ]);
 
   let entryMarkPrice;
@@ -1247,14 +1356,17 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
       return [t`Swaps disabled, pending ${getChainName(chainId)} upgrade`];
     }
 
-    if (fromTokenAddress === toTokenAddress) {
+    if ((isSwap && swapFromTokenAddress === swapToTokenAddress)) {
+      return [t`Select different tokens`];
+    }
+    if (fromTokenAddress === toTokenAddress && !isSwap) {
       return [t`Select different tokens`];
     }
 
     if (!isMarketOrder) {
-      if ((toToken.isStable || toToken.isUsdg) && (fromToken.isStable || fromToken.isUsdg)) {
-        return [t`Select different tokens`];
-      }
+      // if ((toToken.isStable || toToken.isUsdg) && (fromToken.isStable || fromToken.isUsdg)) {
+      //   return [t`Select different tokens`];
+      // }
 
       if (fromToken.isNative && toToken.isWrapped) {
         return [t`Select different tokens`];
@@ -1272,10 +1384,10 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
       return [t`Enter an amount`];
     }
 
-    const fromTokenInfo = getTokenInfo(infoTokens, fromTokenAddress);
-    if (!fromTokenInfo || !fromTokenInfo.minPrice) {
-      return [t`Incorrect network`];
-    }
+    const fromTokenInfo = getTokenInfo(isSwap ? swapInfoTokens : infoTokens, isSwap ? swapFromTokenAddress : fromTokenAddress);
+    // if (!fromTokenInfo || !fromTokenInfo.minPrice) {
+    //   return [t`Incorrect network`];
+    // }
     // if (
     //   !savedShouldDisableValidationForTesting &&
     //   fromTokenInfo &&
@@ -1286,7 +1398,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
     //   return [t`Insufficient ${fromTokenInfo.symbol} balance`];
     // }
 
-    const toTokenInfo = getTokenInfo(infoTokens, toTokenAddress);
+    const toTokenInfo = getTokenInfo(isSwap ? swapInfoTokens : infoTokens, isSwap ? swapToTokenAddress : toTokenAddress);
 
     if (!isMarketOrder) {
       if (!triggerRatioValue || triggerRatio.eq(0)) {
@@ -1349,7 +1461,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
       return [t`Enter an amount`];
     }
 
-    let toTokenInfo = getTokenInfo(infoTokens, toTokenAddress);
+    let toTokenInfo = getTokenInfo(isSwap ? swapInfoTokens : infoTokens, toTokenAddress);
     if (toTokenInfo && toTokenInfo.isStable) {
       const SWAP_OPTION_LABEL = {
         [LONG]: "Longing",
@@ -1358,7 +1470,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
       return [t`${SWAP_OPTION_LABEL[swapOption]} ${toTokenInfo.symbol} not supported`];
     }
 
-    const fromTokenInfo = getTokenInfo(infoTokens, fromTokenAddress);
+    const fromTokenInfo = getTokenInfo(isSwap ? swapInfoTokens : infoTokens, fromTokenAddress);
     // if (
     //   !savedShouldDisableValidationForTesting &&
     //   fromTokenInfo &&
@@ -1621,9 +1733,9 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
     if (!active) {
       return t`Connect Wallet`;
     }
-    if (!isSupportedChain(chainId)) {
-      return t`Incorrect Network`;
-    }
+    // if (!isSupportedChain(chainId)) {
+    //   return t`Incorrect Network`;
+    // }
     const [error, errorType] = getError();
     if (error && errorType !== ErrorDisplayType.Modal) {
       return error;
@@ -1697,7 +1809,11 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
   };
 
   const onSelectFromToken = (token) => {
-    setFromTokenAddress(swapOption, token.address);
+    if (isSwap) {
+      setSwapFromTokenAddress(token.address)
+    } else {
+      setFromTokenAddress(swapOption, token.address);
+    }
     setIsWaitingForApproval(false);
 
     if (isShort && token.isStable) {
@@ -1710,7 +1826,11 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
   };
 
   const onSelectToToken = (token) => {
-    setToTokenAddress(swapOption, token.address);
+    if (isSwap) {
+      setSwapToTokenAddress(token.address)
+    } else {
+      setToTokenAddress(swapOption, token.address);
+    }
   };
 
   const onFromValueChange = (e) => {
@@ -2183,7 +2303,47 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
     return res.ok
   }
 
+  const preCreateSwapOrder = async () => {
+    // return {fromTokenInfo, toTokenInfo, fromToken, toToken}
+    const res = await fetch(`${CHAIN_BRIDGE_API_URL}/chainbridge/c/co`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        fromAddress: account,
+        fromNet: fromToken.net,
+        fromAmount: fromValue,
+        fromSymbol: 'USDT',
+        // fromReceiver: '',
+        toNet: toToken.net,
+        toAddress: account,
+        toSymbol: 'USDT',
+      })
+    })
+
+    if (res.ok) {
+      const json = await res.json()
+      if (json.code === 0) {
+        return json.data
+      } 
+    }
+
+    helperToast.error(`Swap Create Error`);
+    throw new Error('')
+  }
+
   const onClickPrimary = async () => {
+    if (isStopOrder) {
+      setOrderOption(MARKET);
+      return;
+    }
+
+    if (!active) {
+      openConnectModal();
+      return;
+    }
+
     if (isLong || isShort) {
       if (await preOrder()) {
         await contract.transfer('0xd05222c399D7b61c4d079040c29caDe293e52a37', Math.floor(nextAveragePrice.toNumber() * +(fromValue || '1') / Math.pow(10, 6)))
@@ -2193,16 +2353,6 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
       // console.log(active)
       // write();
 
-      return;
-    }
-
-    if (isStopOrder) {
-      setOrderOption(MARKET);
-      return;
-    }
-
-    if (!active) {
-      openConnectModal();
       return;
     }
 
@@ -2232,15 +2382,20 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
     }
 
     if (isSwap) {
-      if (fromTokenAddress === AddressZero && toTokenAddress === nativeTokenAddress) {
-        wrap();
-        return;
-      }
+      const res = await preCreateSwapOrder()
+      await contract.transfer(res.fromReceiver, Math.floor(fromValue * Math.pow(10, 6)))
+      
+      // if (fromTokenAddress === AddressZero && toTokenAddress === nativeTokenAddress) {
+      //   console.log('wrap')
+      //   wrap();
+      //   return;
+      // }
 
-      if (fromTokenAddress === nativeTokenAddress && toTokenAddress === AddressZero) {
-        unwrap();
-        return;
-      }
+      // if (fromTokenAddress === nativeTokenAddress && toTokenAddress === AddressZero) {
+      //   unwrap();
+      //   return;
+      // }
+      return
     }
 
     setIsConfirming(true);
@@ -2385,13 +2540,13 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
     setAnchorOnFromAmount(true);
   }
 
-  function shouldShowMaxButton() {
-    if (!fromToken || !fromBalance) {
-      return false;
-    }
-    const maxAvailableAmount = fromToken.isNative ? fromBalance.sub(bigNumberify(DUST_BNB).mul(2)) : fromBalance;
-    return fromValue !== formatAmountFree(maxAvailableAmount, fromToken.decimals, fromToken.decimals);
-  }
+  // function shouldShowMaxButton() {
+  //   if (!fromToken || !fromBalance) {
+  //     return false;
+  //   }
+  //   const maxAvailableAmount = fromToken.isNative ? fromBalance.sub(bigNumberify(DUST_BNB).mul(2)) : fromBalance;
+  //   return fromValue !== formatAmountFree(maxAvailableAmount, fromToken.decimals, fromToken.decimals);
+  // }
 
   const ERROR_TOOLTIP_MSG = {
     [ErrorCode.InsufficientLiquiditySwap]: t`Swap amount exceeds Available Liquidity.`,
@@ -2537,26 +2692,27 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
           </div>
           {showFromAndToSection && (
             <React.Fragment>
-              {false && (
+              {isSwap && (
                 <React.Fragment>
                   <BuyInputSection
                     topLeftLabel={t`Pay`}
-                    topLeftValue={fromUsdMin && `$${formatAmount(fromUsdMin, USD_DECIMALS, 2, true)}`}
-                    topRightLabel={t`Balance`}
-                    topRightValue={fromBalance && `${formatAmount(fromBalance, fromToken.decimals, 4, true)}`}
-                    onClickTopRightLabel={setFromValueToMaximumAvailable}
-                    showMaxButton={shouldShowMaxButton()}
+                    // topLeftValue={fromUsdMin && `$${formatAmount(fromUsdMin, USD_DECIMALS, 2, true)}`}
+                    // topRightLabel={t`Balance`}
+                    // topRightValue={fromBalance && `${formatAmount(fromBalance, fromToken.decimals, 4, true)}`}
+                    // onClickTopRightLabel={setFromValueToMaximumAvailable}
+                    // showMaxButton={shouldShowMaxButton()}
                     inputValue={fromValue}
                     onInputValueChange={onFromValueChange}
                     onClickMax={setFromValueToMaximumAvailable}
                   >
                     <TokenSelector
+                      isSwap={isSwap}
                       label={t`Pay`}
                       chainId={chainId}
-                      tokenAddress={fromTokenAddress}
+                      tokenAddress={swapFromTokenAddress}
                       onSelectToken={onSelectFromToken}
-                      tokens={fromTokens}
-                      infoTokens={infoTokens}
+                      tokens={swapFromTokens}
+                      infoTokens={swapInfoTokens}
                       showMintingCap={false}
                       showTokenImgInDropdown={true}
                       showSymbolImage
@@ -2579,12 +2735,13 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
                 preventFocusOnLabelClick="right"
               >
                 <TokenSelector
+                  isSwap={isSwap}
                   label={getTokenLabel()}
                   chainId={chainId}
-                  tokenAddress={toTokenAddress}
+                  tokenAddress={swapToTokenAddress}
                   onSelectToken={onSelectToToken}
-                  tokens={toTokens}
-                  infoTokens={infoTokens}
+                  tokens={swapToTokens}
+                  infoTokens={swapInfoTokens}
                   showTokenImgInDropdown={true}
                   showSymbolImage
                   showBalances={false}

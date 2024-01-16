@@ -7,7 +7,7 @@ import OrderBookReader from "abis/OrderBookReader.json";
 import OrderBook from "abis/OrderBook.json";
 
 import { CHAIN_ID, ETH_MAINNET, getExplorerUrl, getRpcUrl } from "config/chains";
-import { getServerBaseUrl } from "config/backend";
+import { TRADE_API_URL } from "config/backend";
 import { getMostAbundantStableToken } from "domain/tokens";
 import { getTokenInfo } from "domain/tokens/utils";
 import { getProvider } from "./rpc";
@@ -873,7 +873,7 @@ export function useAccountOrders(flagOrdersEnabled, overrideAccount) {
       const orderBookReaderContract = new ethers.Contract(orderBookReaderAddress, OrderBookReader.abi, provider);
 
       const fetchIndexesFromServer = () => {
-        const ordersIndexesUrl = `${getServerBaseUrl(chainId)}/orders_indices?account=${account}`;
+        const ordersIndexesUrl = `${TRADE_API_URL}/orders_indices`;
         return fetch(ordersIndexesUrl)
           .then(async (res) => {
             const json = await res.json();

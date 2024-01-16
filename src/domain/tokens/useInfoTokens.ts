@@ -49,7 +49,7 @@ export function useInfoTokens(
   // );
 
   // const indexPricesUrl = getServerUrl(chainId, "/prices");
-  const indexPricesUrl = `${DEX_STATS_API_URL}/a/quote/f/r`;
+  const indexPricesUrl = `${DEX_STATS_API_URL}/a/quote/s/r`;
 
   const { data: res } = useSWR(indexPricesUrl, {
     // @ts-ignore spread args incorrect type
@@ -59,7 +59,7 @@ export function useInfoTokens(
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "id": 209,
+        "id": 32,
       })
     }).then((res) => res.json()),
     refreshInterval: 500,

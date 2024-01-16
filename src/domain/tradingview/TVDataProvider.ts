@@ -83,6 +83,7 @@ export class TVDataProvider {
         if (lastBar.time === currentCandleTime) {
           this.lastBar = { ...lastBar, ticker, period };
         }
+        console.log('bars', filledBars, bars, CHART_PERIODS[period])
         this.barsInfo.data = filledBars;
         this.barsInfo.ticker = ticker;
         this.barsInfo.period = period;

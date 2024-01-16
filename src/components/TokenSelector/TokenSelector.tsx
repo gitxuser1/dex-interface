@@ -36,6 +36,7 @@ type Props = {
   showTokenImgInDropdown?: boolean;
   showSymbolImage?: boolean;
   showNewCaret?: boolean;
+  isSwap?: boolean;
   getTokenState?: (info: TokenInfo) => TokenState | undefined;
   disableBodyScrollLock?: boolean;
   onSelectToken: (token: Token) => void;
@@ -48,7 +49,11 @@ export default function TokenSelector(props: Props) {
   let tokenInfo: TokenInfo | undefined;
 
   try {
-    tokenInfo = getToken(props.chainId, props.tokenAddress);
+    if (!props.isSwap) {
+      tokenInfo = getToken(props.chainId, props.tokenAddress);
+    } else {
+      tokenInfo = (props.infoTokens || {})[props.tokenAddress]
+    }
   } catch (e) {
     // ...ignore unsupported tokens
   }
@@ -248,7 +253,7 @@ export default function TokenSelector(props: Props) {
         <div className="TokenSelector-box" onClick={() => setIsModalVisible(true)}>
           <span className="inline-items-center">
             {showSymbolImage && (
-              <TokenIcon className="mr-xs" symbol={tokenInfo.symbol} importSize={24} displaySize={20} />
+              <TokenIcon className="mr-xs" symbol={tokenInfo.symbol} importSize={props.isSwap ? 40 : 24} displaySize={20} />
             )}
             <span className="Token-symbol-text">{tokenInfo.symbol}</span>
           </span>

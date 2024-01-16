@@ -77,7 +77,7 @@ export async function getLimitChartPricesFromStats(chainId, symbol, period, limi
   }
 
   // const url = `${GMX_STATS_API_URL}/candles/${symbol}?preferableChainId=${chainId}&period=${period}&limit=${limit}`;
-  const url = `${DEX_STATS_API_URL}/a/quote/f/r`
+  const url = `${DEX_STATS_API_URL}/a/quote/s/r`
 
   try {
     // const response = await fetch(url)
@@ -87,7 +87,7 @@ export async function getLimitChartPricesFromStats(chainId, symbol, period, limi
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "id": 209,
+        "id": 32,
       })
     });
     if (!response.ok) {
@@ -115,7 +115,7 @@ export async function getChartPricesFromStats(chainId, symbol, period) {
   const timeDiff = CHART_PERIODS[period] * 3000;
   const from = Math.floor(Date.now() / 1000 - timeDiff);
   // const url = `${GMX_STATS_API_URL}/candles/${symbol}?preferableChainId=${chainId}&period=${period}&from=${from}&preferableSource=fast`;
-  const url = `${DEX_STATS_API_URL}/a/agg/f/l`
+  const url = `${DEX_STATS_API_URL}/a/quote/s/h`
 
   const TIMEOUT = 5000;
   const res: Response = await new Promise(async (resolve, reject) => {
@@ -130,34 +130,35 @@ export async function getChartPricesFromStats(chainId, symbol, period) {
       if (done) return;
       try {
         // const res = await fetch(url);
-        // const res = await fetch(url, {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json'
-        //   },
-        //   body: JSON.stringify({
-        //     "instId": "ETH-USDT",
-        //     "bar": "5m",
-        //     "after": Math.floor(Date.now()),
-        //     "limit": 100 
-        //   })
-        // });
         const res = await fetch(url, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            "tickerId": 209,
-            "multiplier": 5,
-            "timeSpan":"minute",
-            "from": format(from * 1000, 'yyyy-MM-dd'),
-            "to": format(Math.floor(Date.now()), 'yyyy-MM-dd'),
-            "adjusted":true,
-            "sort":"asc", 
-            "pageSize": 100 
+            "id": 32,
+            "bar": "5m",
+            // "after": Math.floor(Date.now()),
+            // "before": Math.floor(Date.now()),
+            "limit": 100
           })
         });
+        // const res = await fetch(url, {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json'
+        //   },
+        //   body: JSON.stringify({
+        //     "tickerId": 209,
+        //     "multiplier": 5,
+        //     "timeSpan":"minute",
+        //     "from": format(from * 1000, 'yyyy-MM-dd'),
+        //     "to": format(Math.floor(Date.now()), 'yyyy-MM-dd'),
+        //     "adjusted":true,
+        //     "sort":"asc", 
+        //     "pageSize": 100 
+        //   })
+        // });
         resolve(res);
         return;
       } catch (ex) {
@@ -172,8 +173,8 @@ export async function getChartPricesFromStats(chainId, symbol, period) {
   }
   const json = await res.json();
   // let prices = json?.prices;
-  let prices = json?.data.results.map(data => ({
-    "t": Math.floor(data.t / 1000),
+  let prices = json?.data.map(data => ({
+    "t": Math.floor(data.ts / 1000),
     "o": data.o,
     "c": data.c,
     "h": data.h,
@@ -196,7 +197,7 @@ export async function getChartPricesFromStats(chainId, symbol, period) {
   // }
 
   prices = prices.map(formatBarInfo);
-  // console.log('prices', prices)
+  console.log('prices', prices)
   return prices;
 }
 

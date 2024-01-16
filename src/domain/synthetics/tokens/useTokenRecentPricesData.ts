@@ -18,7 +18,7 @@ export function useTokenRecentPrices(chainId: number): TokenPricesDataResult {
   const { data } = useSWR([chainId, oracleKeeperFetcher.oracleKeeperUrl, "useTokenRecentPrices"], {
     fetcher: async ([chainId]) => {
 
-      const url = `${DEX_STATS_API_URL}/a/quote/f/r`
+      const url = `${DEX_STATS_API_URL}/a/quote/s/r`
 
       try {
         const result: TokenPricesData = {};
@@ -29,7 +29,7 @@ export function useTokenRecentPrices(chainId: number): TokenPricesDataResult {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            "id": 209,
+            "id": 32,
           })
         });
         if (!response.ok) {
