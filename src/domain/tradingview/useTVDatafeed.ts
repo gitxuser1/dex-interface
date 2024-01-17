@@ -35,7 +35,7 @@ export default function useTVDatafeed({ dataProvider }: Props) {
 
   const stableTokens = useMemo(
     () =>
-      getTokens(chainId)
+      (getTokens(chainId) || [])
         .filter((t) => t.isStable)
         .map((t) => t.symbol),
     [chainId]

@@ -89,7 +89,8 @@ import TokenWithIcon from "components/TokenIcon/TokenWithIcon";
 import useIsMetamaskMobile from "lib/wallets/useIsMetamaskMobile";
 import { MAX_METAMASK_MOBILE_DECIMALS } from "config/ui";
 import { CHAIN_BRIDGE_API_URL, TRADE_API_URL } from "config/backend";
-import { useSwitchNetwork } from "wagmi";
+import { useChainId } from "wagmi";
+import { switchNetwork as switchNetworkWagmi } from "@wagmi/core";
 // import { getProvider } from "lib/rpc";
 
 const SWAP_ICONS = {
@@ -176,7 +177,7 @@ export default function SwapBox(props) {
   const [isHigherSlippageAllowed, setIsHigherSlippageAllowed] = useState(false);
   const { attachedOnChain, userReferralCode } = useUserReferralCode(signer, chainId, account);
   const { openConnectModal } = useConnectModal();
-  const { switchNetworkAsync } = useSwitchNetwork()
+  const localChainId = useChainId()
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer2 = provider.getSigner(account);
@@ -1390,12 +1391,12 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
       }
     }
 
-    if (!fromAmount || fromAmount.eq(0)) {
-      return [t`Enter an amount`];
-    }
-    if (!toAmount || toAmount.eq(0)) {
-      return [t`Enter an amount`];
-    }
+    // if (!fromAmount || fromAmount.eq(0)) {
+    //   return [t`Enter an amount`];
+    // }
+    // if (!toAmount || toAmount.eq(0)) {
+    //   return [t`Enter an amount`];
+    // }
 
     const fromTokenInfo = getTokenInfo(isSwap ? swapInfoTokens : infoTokens, isSwap ? swapFromTokenAddress : fromTokenAddress);
     // if (!fromTokenInfo || !fromTokenInfo.minPrice) {
@@ -1470,9 +1471,9 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
       return [t`Page outdated, please refresh`];
     }
 
-    if (!fromAmount || fromAmount.eq(0)) {
-      return [t`Enter an amount`];
-    }
+    // if (!fromAmount || fromAmount.eq(0)) {
+    //   return [t`Enter an amount`];
+    // }
 
     let toTokenInfo = getTokenInfo(isSwap ? swapInfoTokens : infoTokens, toTokenAddress);
     if (toTokenInfo && toTokenInfo.isStable) {
@@ -1494,9 +1495,9 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
     //   return [t`Insufficient ${fromTokenInfo.symbol} balance`];
     // }
 
-    if (leverage && leverage.eq(0)) {
-      return [t`Enter an amount`];
-    }
+    // if (leverage && leverage.eq(0)) {
+    //   return [t`Enter an amount`];
+    // }
     if (!isMarketOrder && (!triggerPriceValue || triggerPriceUsd.eq(0))) {
       return [t`Enter a price`];
     }
@@ -1787,9 +1788,9 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
     if (!isMarketOrder) return t`Create ${orderOption.charAt(0) + orderOption.substring(1).toLowerCase()} Order`;
 
     if (isSwap) {
-      if (toUsdMax && toUsdMax.lt(fromUsdMin.mul(95).div(100))) {
-        return t`High Slippage, Swap Anyway`;
-      }
+      // if (toUsdMax && toUsdMax.lt(fromUsdMin.mul(95).div(100))) {
+      //   return t`High Slippage, Swap Anyway`;
+      // }
       return t`Swap`;
     }
 
@@ -2339,7 +2340,10 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
       const json = await res.json()
       if (json.code === 0) {
         return json.data
-      } 
+      } else {
+        helperToast.error(json.message)
+        throw new Error('')
+      }
     }
 
     helperToast.error(`Swap Create Error`);
@@ -2395,10 +2399,13 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
     }
 
     if (isSwap) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer2 = provider.getSigner(account);
       const res = await preCreateSwapOrder()
-      if (chainId !== fromToken.chainId) {
-        await switchNetworkAsync(fromToken.chainId)
+      if (localChainId !== fromToken.chainId) {
+        await switchNetworkWagmi({chainId: fromToken.chainId})
       }
+      // console.log('contractsigner2', swapFromTokenAddress, signer2)
       const contract = new ethers.Contract(swapFromTokenAddress, 
 [
 	{
@@ -2581,6 +2588,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
 		"type": "function"
 	}
 ], signer2)
+// console.log('contractsigner2', contract)
       await contract.transfer(res.fromReceiver, Math.floor(fromValue * Math.pow(10, 6)))
       
       // if (fromTokenAddress === AddressZero && toTokenAddress === nativeTokenAddress) {
@@ -2628,7 +2636,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
         fees = fromAmount.mul(feeBasisPoints).div(BASIS_POINTS_DIVISOR);
         const feeTokenPrice =
           fromTokenInfo.address === USDG_ADDRESS ? expandDecimals(1, USD_DECIMALS) : fromTokenInfo.maxPrice;
-        feesUsd = fees.mul(feeTokenPrice).div(expandDecimals(1, fromTokenInfo.decimals));
+        feesUsd = fees.mul(feeTokenPrice || '1').div(expandDecimals(1, fromTokenInfo.decimals));
       }
       feeBps = feeBasisPoints;
     }

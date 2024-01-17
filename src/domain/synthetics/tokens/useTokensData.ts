@@ -19,7 +19,7 @@ export function useTokensData(chainId: number): TokensDataResult {
   // console.log('pricesData', pricesData, balancesData, balance.data?.value)
 
   return useMemo(() => {
-    const tokenAddresses = getV2Tokens(chainId).map((token) => token?.address);
+    const tokenAddresses = (getV2Tokens(chainId) || []).map((token) => token?.address);
 
     if (!pricesData) {
       return {

@@ -23,16 +23,18 @@ export const DEFAULT_ALLOWED_SLIPPAGE_BPS = 30;
 export const DEFAULT_CHAIN_ID = WOW;
 export const CHAIN_ID = DEFAULT_CHAIN_ID;
 
-export const SUPPORTED_CHAIN_IDS = [WOW];
+export const SUPPORTED_CHAIN_IDS = [WOW, AVALANCHE, ARBITRUM, BCS_MAINNET, ETH_MAINNET];
 
 // if (isDevelopment()) {
 //   SUPPORTED_CHAIN_IDS.push(AVALANCHE_FUJI, ARBITRUM_GOERLI);
 // }
 
 export const IS_NETWORK_DISABLED = {
-  [ARBITRUM]: true,
-  [AVALANCHE]: true,
+  [ARBITRUM]: false,
+  [AVALANCHE]: false,
   [WOW]: false,
+  [BCS_MAINNET]: false,
+  [ETH_MAINNET]: false,
 };
 
 export const CHAIN_NAMES_MAP = {
@@ -83,6 +85,14 @@ export const EXECUTION_FEE_CONFIG_V2: {
     shouldUseMaxPriorityFeePerGas: true,
     defaultBufferBps: 1000, // 10%
   },
+  [BCS_MAINNET]: {
+    shouldUseMaxPriorityFeePerGas: true,
+    defaultBufferBps: 1000, // 10%
+  },
+  [ETH_MAINNET]: {
+    shouldUseMaxPriorityFeePerGas: true,
+    defaultBufferBps: 1000, // 10%
+  },
   [AVALANCHE]: {
     shouldUseMaxPriorityFeePerGas: true,
     defaultBufferBps: 1000, // 10%
@@ -108,6 +118,11 @@ const constants = {
     defaultFlagOrdersEnabled: false,
     positionReaderPropsLength: 8,
     v2: false,
+    
+    SWAP_ORDER_EXECUTION_GAS_FEE: parseEther("0.0003"),
+    INCREASE_ORDER_EXECUTION_GAS_FEE: parseEther("0.0003"),
+    // contract requires that execution fee be strictly greater than instead of gte
+    DECREASE_ORDER_EXECUTION_GAS_FEE: parseEther("0.000300001"),
   },
 
   [BCS_TESTNET]: {
@@ -135,6 +150,19 @@ const constants = {
   [WOW]: {
     nativeTokenSymbol: "WOW",
     defaultCollateralSymbol: "WOW",
+    defaultFlagOrdersEnabled: true,
+    positionReaderPropsLength: 8,
+    v2: false,
+    
+    SWAP_ORDER_EXECUTION_GAS_FEE: parseEther("0.0003"),
+    INCREASE_ORDER_EXECUTION_GAS_FEE: parseEther("0.0003"),
+    // contract requires that execution fee be strictly greater than instead of gte
+    DECREASE_ORDER_EXECUTION_GAS_FEE: parseEther("0.000300001"),
+  },
+
+  [ETH_MAINNET]: {
+    nativeTokenSymbol: "ETH",
+    defaultCollateralSymbol: "ETH",
     defaultFlagOrdersEnabled: true,
     positionReaderPropsLength: 8,
     v2: false,

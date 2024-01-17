@@ -15,7 +15,7 @@ import {
   okxWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { Chain, configureChains, createClient, WagmiConfig } from "wagmi";
-import { arbitrum, arbitrumGoerli, avalanche, avalancheFuji } from "wagmi/chains";
+import { arbitrum, arbitrumGoerli, avalanche, avalancheFuji, bsc, mainnet } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import merge from "lodash/merge";
@@ -66,7 +66,7 @@ const walletTheme = merge(lightTheme(), {
 } as Theme);
 
 const { chains, provider } = configureChains(
-  [wow, arbitrum, avalanche, ...(isDevelopment() ? [arbitrumGoerli, avalancheFuji] : [])],
+  [wow, arbitrum, avalanche, bsc, mainnet, ...(isDevelopment() ? [arbitrumGoerli, avalancheFuji] : [])],
   [jsonRpcProvider({
     rpc: () => ({
       http: `https://rpc.wowearn.io`,

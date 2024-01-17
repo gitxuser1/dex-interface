@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { ARBITRUM, ARBITRUM_GOERLI, AVALANCHE, AVALANCHE_FUJI, BCS_MAINNET, BCS_TESTNET, WOW } from "./chains";
+import { ARBITRUM, ARBITRUM_GOERLI, AVALANCHE, AVALANCHE_FUJI, BCS_MAINNET, BCS_TESTNET, ETH_MAINNET, WOW } from "./chains";
 
 const { AddressZero } = ethers.constants;
 
@@ -11,6 +11,60 @@ export const XGMT_EXCLUDED_ACCOUNTS = [
 ];
 
 const CONTRACTS = {
+  [ETH_MAINNET]: {
+    // arbitrum testnet
+    Vault: AddressZero,
+    Router: AddressZero,
+    VaultReader: AddressZero,
+    Reader: AddressZero,
+    GlpManager: AddressZero,
+    RewardRouter: AddressZero,
+    RewardReader: AddressZero,
+    GlpRewardRouter: AddressZero,
+    NATIVE_TOKEN: AddressZero,
+    GLP: AddressZero,
+    GMX: AddressZero,
+    ES_GMX: AddressZero,
+    BN_GMX: AddressZero,
+    USDG: AddressZero,
+    ES_GMX_IOU: AddressZero,
+
+    StakedGmxTracker: AddressZero,
+    BonusGmxTracker: AddressZero,
+    FeeGmxTracker: AddressZero,
+    StakedGlpTracker: AddressZero,
+    FeeGlpTracker: AddressZero,
+
+    StakedGmxDistributor: AddressZero,
+    StakedGlpDistributor: AddressZero,
+
+    GmxVester: AddressZero,
+    GlpVester: AddressZero,
+
+    OrderBook: AddressZero,
+    OrderExecutor: AddressZero,
+    OrderBookReader: AddressZero,
+
+    PositionRouter: AddressZero,
+    PositionManager: AddressZero,
+
+    TraderJoeGmxAvaxPool: AddressZero,
+    ReferralStorage: AddressZero,
+    ReferralReader: AddressZero,
+
+    // Synthetics
+    DataStore: AddressZero,
+    EventEmitter: AddressZero,
+    ExchangeRouter: AddressZero,
+    DepositVault: AddressZero,
+    WithdrawalVault: AddressZero,
+    OrderVault: AddressZero,
+    SyntheticsReader: AddressZero,
+    SyntheticsRouter: AddressZero,
+    Timelock: AddressZero,
+
+    Multicall: AddressZero,
+  },
   [WOW]: {
     // arbitrum testnet
     Vault: AddressZero,
@@ -79,7 +133,7 @@ const CONTRACTS = {
     OrderBookReader: "0x1111111111111111111111111111111111111111",
     GmxMigrator: "0xDEF2af818514c1Ca1A9bBe2a4D45E28f260063f9",
     USDG: "0x85E76cbf4893c1fbcB34dCF1239A91CE2A4CF5a7",
-    NATIVE_TOKEN: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+    NATIVE_TOKEN: AddressZero,
     XGMT: "0xe304ff0983922787Fd84BC9170CD21bF78B16B10",
     GMT_USDG_PAIR: "0xa41e57459f09a126F358E118b693789d088eA8A0",
     XGMT_USDG_PAIR: "0x0b622208fc0691C2486A3AE6B7C875b4A174b317",
@@ -100,6 +154,21 @@ const CONTRACTS = {
     XGMT_GMX_IOU: "0xeB3733DFe3b68C9d26898De2493A3Bb59FDb4A7B",
     GMT_USDG_GMX_IOU: "0x481312655F81b5e249780A6a49735335BF6Ca7f4",
     XGMT_USDG_GMX_IOU: "0x8095F1A92526C304623483018aA28cC6E62EB1e1",
+    PositionRouter: AddressZero,
+    ReferralStorage: AddressZero,
+
+    // Synthetics
+    DataStore: AddressZero,
+    EventEmitter: AddressZero,
+    ExchangeRouter: AddressZero,
+    DepositVault: AddressZero,
+    WithdrawalVault: AddressZero,
+    OrderVault: AddressZero,
+    SyntheticsReader: AddressZero,
+    SyntheticsRouter: AddressZero,
+    Timelock: AddressZero,
+
+    Multicall: AddressZero,
   },
   [BCS_TESTNET]: {
     // bsc testnet
