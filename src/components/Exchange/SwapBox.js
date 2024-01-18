@@ -162,7 +162,6 @@ export default function SwapBox(props) {
     minExecutionFeeUSD,
     minExecutionFeeErrorMessage,
     setFromTokenAddress,
-    setTokenSelection,
   } = props;
   const { account, active, signer, balance } = useWallet();
   const isMetamaskMobile = useIsMetamaskMobile();
