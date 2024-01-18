@@ -10,6 +10,7 @@ import { chainlinkClient } from "lib/subgraph/clients";
 import { sleep } from "lib/sleep";
 import { formatAmount } from "lib/numbers";
 import { getNativeToken, getNormalizedTokenSymbol, isChartAvailabeForToken } from "config/tokens";
+import { request } from "lib/request";
 
 const BigNumber = ethers.BigNumber;
 
@@ -77,25 +78,23 @@ export async function getLimitChartPricesFromStats(chainId, symbol, period, limi
   }
 
   // const url = `${GMX_STATS_API_URL}/candles/${symbol}?preferableChainId=${chainId}&period=${period}&limit=${limit}`;
-  const url = `${DEX_STATS_API_URL}/a/quote/s/r`
+  const url = `${DEX_STATS_API_URL}/a/quote/quote/s/r`
 
   try {
     // const response = await fetch(url)
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+    const response = await request({
+      url,
+      data: {
         "id": 32,
-      })
+      }
     });
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    // if (!response.ok) {
+    //   throw new Error(`HTTP error! status: ${response.status}`);
+    // }
     // const prices = await response.json().then(({ prices }) => prices);
-    const prices = await response.json().then(({ data }) => ([{
-      "t": Math.floor(data.timestamp / 1000),
+
+    const prices = [response].map(({ data }) => ([{
+      "t": Math.floor(data.ts / 1000),
       "o": data.o,
       "c": data.c,
       "h": data.h,
@@ -115,10 +114,10 @@ export async function getChartPricesFromStats(chainId, symbol, period) {
   const timeDiff = CHART_PERIODS[period] * 3000;
   const from = Math.floor(Date.now() / 1000 - timeDiff);
   // const url = `${GMX_STATS_API_URL}/candles/${symbol}?preferableChainId=${chainId}&period=${period}&from=${from}&preferableSource=fast`;
-  const url = `${DEX_STATS_API_URL}/a/quote/s/h`
+  const url = `${DEX_STATS_API_URL}/a/quote/quote/s/h`
 
   const TIMEOUT = 5000;
-  const res: Response = await new Promise(async (resolve, reject) => {
+  const res: any = await new Promise(async (resolve, reject) => {
     let done = false;
     setTimeout(() => {
       done = true;
@@ -130,18 +129,15 @@ export async function getChartPricesFromStats(chainId, symbol, period) {
       if (done) return;
       try {
         // const res = await fetch(url);
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
+        const res = await request({
+          url,
+          data: {
             "id": 32,
             "bar": "5m",
             // "after": Math.floor(Date.now()),
             // "before": Math.floor(Date.now()),
-            "limit": 100
-          })
+            "limit": 1000
+          }
         });
         // const res = await fetch(url, {
         //   method: 'POST',
@@ -168,12 +164,12 @@ export async function getChartPricesFromStats(chainId, symbol, period) {
     }
     reject(lastEx);
   });
-  if (!res.ok) {
-    throw new Error(`request failed ${res.status} ${res.statusText}`);
-  }
-  const json = await res.json();
+  // if (!res.ok) {
+  //   throw new Error(`request failed ${res.status} ${res.statusText}`);
+  // }
+  // const json = await res.json();
   // let prices = json?.prices;
-  let prices = json?.data.map(data => ({
+  let prices = res.data.map(data => ({
     "t": Math.floor(data.ts / 1000),
     "o": data.o,
     "c": data.c,
@@ -196,8 +192,8 @@ export async function getChartPricesFromStats(chainId, symbol, period) {
   //   );
   // }
 
-  prices = prices.map(formatBarInfo);
   console.log('prices', prices)
+  prices = prices.sort((a, b) => a.t - b.t).map(formatBarInfo);
   return prices;
 }
 

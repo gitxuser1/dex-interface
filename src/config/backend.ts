@@ -2,13 +2,13 @@ import { ARBITRUM, ARBITRUM_GOERLI, AVALANCHE, BCS_MAINNET } from "./chains";
 
 export const GMX_STATS_API_URL = "https://stats.gmx.io/api";
 
-export const DEX_STATS_API_URL = "https://quote.onetradefinance.co/xstock_api";
+export const DEX_STATS_API_URL = "https://api.onetradefinance.co/xstock_api";
 
-export const REQUEST_API_URL = "https://api.onetradefinance.co/xstock_api_test";
+export const REQUEST_API_URL = "https://api.onetradefinance.co/xstock_api";
 
-export const TRADE_API_URL = "https://dextd.onetradefinance.co/exchange-engine";
+export const TRADE_API_URL = "https://api.onetradefinance.co/exchange-engine";
 
-export const CHAIN_BRIDGE_API_URL = "http://38.99.82.158:7021"
+export const CHAIN_BRIDGE_API_URL = "https://api.onetradefinance.co/xstock_api"
 
 const BACKEND_URLS = {
   default: "https://gmx-server-mainnet.uw.r.appspot.com",

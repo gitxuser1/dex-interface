@@ -2,6 +2,7 @@ import { useAccount, useNetwork, useSigner, useBalance } from "wagmi";
 import { useState } from 'react'
 import { REQUEST_API_URL } from "config/backend";
 import { useThrottleFn } from 'react-use';
+import { request } from "lib/request";
 
 let lock = false
 
@@ -17,16 +18,14 @@ export default function useWallet() {
     if (!user && isConnected && !loading && !lock) {
       lock = true
       try {
-        await fetch(`${REQUEST_API_URL}/a/u/scaned`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
+        const res = await request({
+          url: `${REQUEST_API_URL}/a/u/scaned`,
+          data: {
             net: chain?.network,
             address
-          })
+          }
         })
+        localStorage.setItem('Authorization', res.data.token)
         // const json = await res.json()
       } catch (error) {}
       lock = false

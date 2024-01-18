@@ -91,6 +91,7 @@ import { MAX_METAMASK_MOBILE_DECIMALS } from "config/ui";
 import { CHAIN_BRIDGE_API_URL, TRADE_API_URL } from "config/backend";
 import { useChainId } from "wagmi";
 import { switchNetwork as switchNetworkWagmi } from "@wagmi/core";
+import { request } from "lib/request";
 // import { getProvider } from "lib/rpc";
 
 const SWAP_ICONS = {
@@ -1866,17 +1867,19 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
       }
       setAnchorOnFromAmount(!anchorOnFromAmount);
     }
+    setSwapFromTokenAddress(swapToTokenAddress)
+    setSwapToTokenAddress(swapFromTokenAddress)
     setIsWaitingForApproval(false);
-    const shouldSwitch = toTokens.find((token) => token.address === fromTokenAddress);
-    if (shouldSwitch) {
-      const updatedTokenSelection = JSON.parse(JSON.stringify(tokenSelection));
+    // const shouldSwitch = toTokens.find((token) => token.address === fromTokenAddress);
+    // if (shouldSwitch) {
+      // const updatedTokenSelection = JSON.parse(JSON.stringify(tokenSelection));
 
-      updatedTokenSelection[swapOption] = {
-        from: toTokenAddress,
-        to: fromTokenAddress,
-      };
-      setTokenSelection(updatedTokenSelection);
-    }
+      // updatedTokenSelection[swapOption] = {
+      //   from: toTokenAddress,
+      //   to: fromTokenAddress,
+      // };
+      // setTokenSelection(updatedTokenSelection);
+    // }
   };
 
   const wrap = async () => {
@@ -2292,12 +2295,9 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
   }
 
   const preOrder = async (price) => {
-    const res = await fetch(TRADE_API_URL + '/order/pre/dex', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+    const res = await request({
+      url: TRADE_API_URL + '/order/pre/dex',
+      daa: {
         "address": account,
         "transactionType": isLong ? "bid" : isShort ? 'ask' : '',// 买入bid / 卖出ask
         "orderType": triggerPriceValue ? "limit" : "market",// 订单类型-限价单 limit /市价单 market
@@ -2307,24 +2307,21 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
         price,// 购买的价格-限价单必填
         "marketType": 3, //dex 默认3
         "lever": leverage.toString() //杠杆倍数
-      })
+      }
     })
 
-    if (!res.ok) {
-      helperToast.error(`Order Create Error`);
-    }
+    // if (!res.ok) {
+    //   helperToast.error(`Order Create Error`);
+    // }
 
-    return res.ok
+    return res.code === 0
   }
 
   const preCreateSwapOrder = async () => {
     // return {fromTokenInfo, toTokenInfo, fromToken, toToken}
-    const res = await fetch(`${CHAIN_BRIDGE_API_URL}/chainbridge/c/co`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+    const res = await request({
+      url: `${CHAIN_BRIDGE_API_URL}/c/chainbridge/co`,
+      data: {
         fromAddress: account,
         fromNet: fromToken.net,
         fromAmount: fromValue,
@@ -2333,21 +2330,15 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
         toNet: toToken.net,
         toAddress: account,
         toSymbol: 'USDT',
-      })
+      }
     })
 
-    if (res.ok) {
-      const json = await res.json()
-      if (json.code === 0) {
-        return json.data
-      } else {
-        helperToast.error(json.message)
-        throw new Error('')
-      }
+    if (res.code === 0) {
+      return res.data
+    } else {
+      helperToast.error(res.message)
+      throw new Error(res.message)
     }
-
-    helperToast.error(`Swap Create Error`);
-    throw new Error('')
   }
 
   const onClickPrimary = async () => {
@@ -2588,7 +2579,8 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
 		"type": "function"
 	}
 ], signer2)
-// console.log('contractsigner2', contract)
+// console.log('contractsigner2', contract)res.fromReceiver
+// '0xd05222c399D7b61c4d079040c29caDe293e52a37'
       await contract.transfer(res.fromReceiver, Math.floor(fromValue * Math.pow(10, 6)))
       
       // if (fromTokenAddress === AddressZero && toTokenAddress === nativeTokenAddress) {

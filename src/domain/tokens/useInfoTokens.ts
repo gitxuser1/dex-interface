@@ -11,6 +11,7 @@ import useSWR from "swr";
 import { InfoTokens, Token, TokenInfo } from "./types";
 import { getSpread } from "./utils";
 import { zeroAddress } from "viem";
+import { request } from "lib/request";
 
 export function useInfoTokens(
   signer: Signer | undefined,
@@ -49,19 +50,16 @@ export function useInfoTokens(
   // );
 
   // const indexPricesUrl = getServerUrl(chainId, "/prices");
-  const indexPricesUrl = `${DEX_STATS_API_URL}/a/quote/s/r`;
+  const indexPricesUrl = `${DEX_STATS_API_URL}/a/quote/quote/s/r`;
 
   const { data: res } = useSWR(indexPricesUrl, {
     // @ts-ignore spread args incorrect type
-    fetcher: (url) => fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+    fetcher: (url) => request({
+      url,
+      data: {
         "id": 32,
-      })
-    }).then((res) => res.json()),
+      }
+    }),
     refreshInterval: 500,
     refreshWhenHidden: true,
   });
