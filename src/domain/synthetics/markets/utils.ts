@@ -23,7 +23,7 @@ export function getMarketIndexName(p: { indexToken: Token; isSpotOnly: boolean }
     return `SWAP-ONLY`;
   }
 
-  return `${indexToken.baseSymbol || indexToken.symbol}/USD`;
+  return `${indexToken.baseSymbol || indexToken.symbol}/USDT`;
 }
 
 export function getMarketPoolName(p: { longToken: Token; shortToken: Token }) {

@@ -8,22 +8,18 @@ import { WOW, getConstant, getExplorerUrl } from "config/chains";
 import { approvePlugin, cancelMultipleOrders } from "domain/legacy";
 import {
   LONG,
-  MARGIN_FEE_BASIS_POINTS,
   SHORT,
   SWAP,
   USD_DECIMALS,
-  getDeltaStr,
-  getFundingFee,
   getPageTitle,
-  getPositionContractKey,
   getPositionKey,
   useAccountOrders,
 } from "lib/legacy";
-import { BASIS_POINTS_DIVISOR } from "config/factors";
+// import { BASIS_POINTS_DIVISOR } from "config/factors";
 
 import { getContract } from "config/contracts";
 
-import Reader from "abis/ReaderV2.json";
+// import Reader from "abis/ReaderV2.json";
 import Router from "abis/Router.json";
 // import Token from "abis/Token.json";
 // import VaultV2 from "abis/VaultV2.json";
@@ -49,14 +45,15 @@ import { contractFetcher } from "lib/contracts";
 import { helperToast } from "lib/helperToast";
 import { useLocalStorageByChainId, useLocalStorageSerializeKey } from "lib/localStorage";
 import { bigNumberify, formatAmount } from "lib/numbers";
-import { getLeverage, getLeverageStr } from "lib/positions/getLeverage";
+// import { getLeverage, getLeverageStr } from "lib/positions/getLeverage";
 import "./Exchange.css";
 import { getIsV1Supported } from "config/features";
 import useWallet from "lib/wallets/useWallet";
+import { request } from "lib/request";
 const { AddressZero } = ethers.constants;
 
-const PENDING_POSITION_VALID_DURATION = 600 * 1000;
-const UPDATED_POSITION_VALID_DURATION = 60 * 1000;
+// const PENDING_POSITION_VALID_DURATION = 600 * 1000;
+// const UPDATED_POSITION_VALID_DURATION = 60 * 1000;
 
 const notifications = {};
 
@@ -107,31 +104,31 @@ const getTokenAddress = (token, nativeTokenAddress) => {
   return token.address;
 };
 
-function applyPendingChanges(position, pendingPositions) {
-  if (!pendingPositions) {
-    return;
-  }
-  const { key } = position;
+// function applyPendingChanges(position, pendingPositions) {
+//   if (!pendingPositions) {
+//     return;
+//   }
+//   const { key } = position;
 
-  if (
-    pendingPositions[key] &&
-    pendingPositions[key].updatedAt &&
-    pendingPositions[key].pendingChanges &&
-    pendingPositions[key].updatedAt + PENDING_POSITION_VALID_DURATION > Date.now()
-  ) {
-    const { pendingChanges } = pendingPositions[key];
-    if (pendingChanges.size && position.size.eq(pendingChanges.size)) {
-      return;
-    }
+//   if (
+//     pendingPositions[key] &&
+//     pendingPositions[key].updatedAt &&
+//     pendingPositions[key].pendingChanges &&
+//     pendingPositions[key].updatedAt + PENDING_POSITION_VALID_DURATION > Date.now()
+//   ) {
+//     const { pendingChanges } = pendingPositions[key];
+//     if (pendingChanges.size && position.size.eq(pendingChanges.size)) {
+//       return;
+//     }
 
-    if (pendingChanges.expectingCollateralChange && !position.collateral.eq(pendingChanges.collateralSnapshot)) {
-      return;
-    }
+//     if (pendingChanges.expectingCollateralChange && !position.collateral.eq(pendingChanges.collateralSnapshot)) {
+//       return;
+//     }
 
-    position.hasPendingChanges = true;
-    position.pendingChanges = pendingChanges;
-  }
-}
+//     position.hasPendingChanges = true;
+//     position.pendingChanges = pendingChanges;
+//   }
+// }
 
 export function getPositions(
   chainId,
@@ -144,169 +141,19 @@ export function getPositions(
   pendingPositions,
   updatedPositions
 ) {
-  const propsLength = getConstant(chainId, "positionReaderPropsLength");
+  // const propsLength = getConstant(chainId, "positionReaderPropsLength");
   const positions = [];
   const positionsMap = {};
   if (!positionData) {
     return { positions, positionsMap };
   }
-  const { collateralTokens, indexTokens, isLong } = positionQuery;
-  for (let i = 0; i < collateralTokens.length; i++) {
-    const collateralToken = getTokenInfo(infoTokens, collateralTokens[i], true, getContract(chainId, "NATIVE_TOKEN"));
-    const indexToken = getTokenInfo(infoTokens, indexTokens[i], true, getContract(chainId, "NATIVE_TOKEN"));
-    const key = getPositionKey(account, collateralTokens[i], indexTokens[i], isLong[i]);
-    let contractKey;
-    if (account) {
-      contractKey = getPositionContractKey(account, collateralTokens[i], indexTokens[i], isLong[i]);
-    }
-
-    const position = {
-      key,
-      contractKey,
-      collateralToken,
-      indexToken,
-      isLong: isLong[i],
-      size: positionData[i * propsLength],
-      collateral: positionData[i * propsLength + 1],
-      averagePrice: positionData[i * propsLength + 2],
-      entryFundingRate: positionData[i * propsLength + 3],
-      cumulativeFundingRate: collateralToken.cumulativeFundingRate,
-      hasRealisedProfit: positionData[i * propsLength + 4].eq(1),
-      realisedPnl: positionData[i * propsLength + 5],
-      lastIncreasedTime: positionData[i * propsLength + 6].toNumber(),
-      hasProfit: positionData[i * propsLength + 7].eq(1),
-      delta: positionData[i * propsLength + 8],
-      markPrice: isLong[i] ? indexToken.minPrice : indexToken.maxPrice,
-    };
-
-    if (
-      updatedPositions &&
-      updatedPositions[key] &&
-      updatedPositions[key].updatedAt &&
-      updatedPositions[key].updatedAt + UPDATED_POSITION_VALID_DURATION > Date.now()
-    ) {
-      const updatedPosition = updatedPositions[key];
-      position.size = updatedPosition.size;
-      position.collateral = updatedPosition.collateral;
-      position.averagePrice = updatedPosition.averagePrice;
-      position.entryFundingRate = updatedPosition.entryFundingRate;
-    }
-
-    let fundingFee = getFundingFee(position);
-    position.fundingFee = fundingFee ? fundingFee : bigNumberify(0);
-    position.collateralAfterFee = position.collateral.sub(position.fundingFee);
-
-    position.closingFee = position.size.mul(MARGIN_FEE_BASIS_POINTS).div(BASIS_POINTS_DIVISOR);
-    position.positionFee = position.size.mul(MARGIN_FEE_BASIS_POINTS).mul(2).div(BASIS_POINTS_DIVISOR);
-    position.totalFees = position.positionFee.add(position.fundingFee);
-
-    position.pendingDelta = position.delta;
-
-    if (position.collateral.gt(0)) {
-      position.hasLowCollateral =
-        position.collateralAfterFee.lt(0) || position.size.div(position.collateralAfterFee.abs()).gt(50);
-
-      if (position.averagePrice && position.markPrice) {
-        const priceDelta = position.averagePrice.gt(position.markPrice)
-          ? position.averagePrice.sub(position.markPrice)
-          : position.markPrice.sub(position.averagePrice);
-        position.pendingDelta = position.size.mul(priceDelta).div(position.averagePrice);
-
-        position.delta = position.pendingDelta;
-
-        if (position.isLong) {
-          position.hasProfit = position.markPrice.gte(position.averagePrice);
-        } else {
-          position.hasProfit = position.markPrice.lte(position.averagePrice);
-        }
-      }
-
-      position.deltaPercentage = position.pendingDelta.mul(BASIS_POINTS_DIVISOR).div(position.collateral);
-
-      const { deltaStr, deltaPercentageStr } = getDeltaStr({
-        delta: position.pendingDelta,
-        deltaPercentage: position.deltaPercentage,
-        hasProfit: position.hasProfit,
-      });
-
-      position.deltaStr = deltaStr;
-      position.deltaPercentageStr = deltaPercentageStr;
-      position.deltaBeforeFeesStr = deltaStr;
-
-      let hasProfitAfterFees;
-      let pendingDeltaAfterFees;
-
-      if (position.hasProfit) {
-        if (position.pendingDelta.gt(position.totalFees)) {
-          hasProfitAfterFees = true;
-          pendingDeltaAfterFees = position.pendingDelta.sub(position.totalFees);
-        } else {
-          hasProfitAfterFees = false;
-          pendingDeltaAfterFees = position.totalFees.sub(position.pendingDelta);
-        }
-      } else {
-        hasProfitAfterFees = false;
-        pendingDeltaAfterFees = position.pendingDelta.add(position.totalFees);
-      }
-
-      position.hasProfitAfterFees = hasProfitAfterFees;
-      position.pendingDeltaAfterFees = pendingDeltaAfterFees;
-      // while calculating delta percentage after fees, we need to add opening fee (which is equal to closing fee) to collateral
-      position.deltaPercentageAfterFees = position.pendingDeltaAfterFees
-        .mul(BASIS_POINTS_DIVISOR)
-        .div(position.collateral.add(position.closingFee));
-
-      const { deltaStr: deltaAfterFeesStr, deltaPercentageStr: deltaAfterFeesPercentageStr } = getDeltaStr({
-        delta: position.pendingDeltaAfterFees,
-        deltaPercentage: position.deltaPercentageAfterFees,
-        hasProfit: hasProfitAfterFees,
-      });
-
-      position.deltaAfterFeesStr = deltaAfterFeesStr;
-      position.deltaAfterFeesPercentageStr = deltaAfterFeesPercentageStr;
-
-      if (showPnlAfterFees) {
-        position.deltaStr = position.deltaAfterFeesStr;
-        position.deltaPercentageStr = position.deltaAfterFeesPercentageStr;
-      }
-
-      let netValue = position.hasProfit
-        ? position.collateral.add(position.pendingDelta)
-        : position.collateral.sub(position.pendingDelta);
-
-      netValue = netValue.sub(position.fundingFee).sub(position.closingFee);
-      position.netValue = netValue;
-    }
-
-    position.leverage = getLeverage({
-      size: position.size,
-      collateral: position.collateral,
-      fundingFee: position.fundingFee,
-      hasProfit: position.hasProfit,
-      delta: position.delta,
-      includeDelta,
-    });
-
-    position.leverageWithPnl = getLeverage({
-      size: position.size,
-      collateral: position.collateral,
-      fundingFee: position.fundingFee,
-      hasProfit: position.hasProfit,
-      delta: position.delta,
-      includeDelta: true,
-    });
-    position.leverageStr = getLeverageStr(position.leverage);
-
-    positionsMap[key] = position;
-
-    applyPendingChanges(position, pendingPositions);
-
-    if (position.size.gt(0) || position.hasPendingChanges) {
-      positions.push(position);
-    }
+  for (const item of positionData) {
+    positionsMap[item.id] = item
   }
-
-  return { positions, positionsMap };
+  return {
+    positions: positionData,
+    positionsMap
+  }
 }
 
 export function getPositionQuery(tokens, nativeTokenAddress) {
@@ -482,11 +329,16 @@ export const Exchange = forwardRef((props, ref) => {
   const { data: positionData, error: positionDataError } = useSWR(
     active && [active, chainId, readerAddress, "getPositions", vaultAddress, account],
     {
-      fetcher: contractFetcher(signer, Reader, [
-        positionQuery.collateralTokens,
-        positionQuery.indexTokens,
-        positionQuery.isLong,
-      ]),
+      fetcher: async () => {
+        const res = await request({
+          url: 'https://dextd.onetradefinance.co/exchange-engine/positions/queryByUid/dex',
+          data: {
+            "uid": localStorage.getItem('uid'),
+            "state": "opening"
+          }
+        })
+        return res.data
+      },
     }
   );
 
@@ -563,6 +415,8 @@ export const Exchange = forwardRef((props, ref) => {
     pendingPositions,
     updatedPositions
   );
+
+  console.log('positions', positionData)
 
   useImperativeHandle(ref, () => ({
     onUpdatePosition(key, size, collateral, averagePrice, entryFundingRate, reserveAmount, realisedPnl) {

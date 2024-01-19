@@ -31,7 +31,7 @@ import "./PositionItem.scss";
 import { Fragment } from "react";
 
 export type Props = {
-  position: PositionInfo;
+  position: any;
   positionOrders: PositionOrderInfo[];
   hideActions?: boolean;
   showPnlAfterFees: boolean;
@@ -78,17 +78,17 @@ export function PositionItem(p: Props) {
               : t`Net Value: Initial Collateral + PnL - Borrow Fee - Negative Funding Fee - Close Fee`}
             <br />
             <br />
-            <StatsTooltipRow
+            {/* <StatsTooltipRow
               label={t`Initial Collateral`}
               value={formatUsd(p.position.collateralUsd) || "..."}
               showDollar={false}
-            />
-            <StatsTooltipRow
+            /> */}
+            {/* <StatsTooltipRow
               label={t`PnL`}
               value={formatDeltaUsd(p.position?.pnl) || "..."}
               showDollar={false}
               className={p.position?.pnl?.gte(0) ? "text-green" : "text-red"}
-            />
+            /> */}
             <StatsTooltipRow
               label={t`Accrued Borrow Fee`}
               value={formatUsd(p.position.pendingBorrowingFeesUsd?.mul(-1)) || "..."}
@@ -481,7 +481,7 @@ export function PositionItem(p: Props) {
             {p.position.pendingUpdate && <ImSpinner2 className="spin position-loading-icon" />}
           </div>
           <div className="Exchange-list-info-label">
-            <span className="muted Position-leverage">{formatLeverage(p.position.leverage) || "..."}&nbsp;</span>
+            <span className="muted Position-leverage">{p.position.lever}&nbsp;</span>
             <span className={cx({ positive: p.position.isLong, negative: !p.position.isLong })}>
               {p.position.isLong ? t`Long` : t`Short`}
             </span>
@@ -489,12 +489,10 @@ export function PositionItem(p: Props) {
         </td>
         <td>
           {/* netValue */}
-          {p.position.isOpening ? (
-            t`Opening...`
-          ) : (
+          {(
             <>
-              {renderNetValue()}
-              {displayedPnl && (
+              {/* {renderNetValue()} */}
+              {/* {displayedPnl && (
                 <div
                   onClick={p.openSettings}
                   className={cx("Exchange-list-info-label cursor-pointer Position-pnl", {
@@ -505,7 +503,7 @@ export function PositionItem(p: Props) {
                 >
                   {formatDeltaUsd(displayedPnl, displayedPnlPercentage)}
                 </div>
-              )}
+              )} */}
             </>
           )}
         </td>
@@ -521,7 +519,7 @@ export function PositionItem(p: Props) {
           {/* entryPrice */}
           {p.position.isOpening
             ? t`Opening...`
-            : formatUsd(p.position.entryPrice, {
+            : formatUsd(p.position.sourceSize, {
                 displayDecimals: indexPriceDecimals,
               })}
         </td>
@@ -576,21 +574,21 @@ export function PositionItem(p: Props) {
             <span className="Exchange-list-title inline-flex">
               <TokenIcon
                 className="PositionList-token-icon"
-                symbol={p.position.marketInfo.indexToken?.symbol}
+                symbol={p.position?.symbol}
                 displaySize={20}
                 importSize={24}
               />
-              {p.position.marketInfo.indexToken?.symbol}
+              {p.position?.symbol}
             </span>
             <div>
-              <span className="Position-leverage">{formatLeverage(p.position.leverage)}&nbsp;</span>
+              <span className="Position-leverage">{formatLeverage()}&nbsp;</span>
               <span
                 className={cx("Exchange-list-side", {
-                  positive: p.position.isLong,
-                  negative: !p.position.isLong,
+                  positive: p.position.tradeType === 'long',
+                  negative: p.position.tradeType !== 'long',
                 })}
               >
-                {p.position.isLong ? t`Long` : t`Short`}
+                {p.position.tradeType === 'long' ? t`Long` : t`Short`}
               </span>
             </div>
             {p.position.pendingUpdate && <ImSpinner2 className="spin position-loading-icon" />}
@@ -615,13 +613,13 @@ export function PositionItem(p: Props) {
                 </div>
               </div>
             </div>
-            <div className="App-card-row">
+            {/* <div className="App-card-row">
               <div className="label">
                 <Trans>Net Value</Trans>
               </div>
               <div>{renderNetValue()}</div>
-            </div>
-            <div className="App-card-row">
+            </div> */}
+            {/* <div className="App-card-row">
               <div className="label">
                 <Trans>PnL</Trans>
               </div>
@@ -637,19 +635,19 @@ export function PositionItem(p: Props) {
                   {formatDeltaUsd(displayedPnl, displayedPnlPercentage)}
                 </span>
               </div>
-            </div>
+            </div> */}
             <div className="App-card-row">
               <div className="label">
                 <Trans>Size</Trans>
               </div>
-              <div>{formatUsd(p.position.sizeInUsd)}</div>
+              <div>{p.position.sourceSize}</div>
             </div>
-            <div className="App-card-row">
+            {/* <div className="App-card-row">
               <div className="label">
                 <Trans>Collateral</Trans>
               </div>
               <div>{renderCollateral()}</div>
-            </div>
+            </div> */}
           </div>
           <div className="App-card-divider" />
           <div className="App-card-content">
@@ -658,9 +656,7 @@ export function PositionItem(p: Props) {
                 <Trans>Entry Price</Trans>
               </div>
               <div>
-                {formatUsd(p.position.entryPrice, {
-                  displayDecimals: indexPriceDecimals,
-                })}
+                {p.position.pl}
               </div>
             </div>
             <div className="App-card-row">
@@ -668,17 +664,15 @@ export function PositionItem(p: Props) {
                 <Trans>Mark Price</Trans>
               </div>
               <div>
-                {formatUsd(p.position.markPrice, {
-                  displayDecimals: indexPriceDecimals,
-                })}
+                {p.position.sourcePrice}
               </div>
             </div>
-            <div className="App-card-row">
+            {/* <div className="App-card-row">
               <div className="label">
                 <Trans>Liq. Price</Trans>
               </div>
               <div>{renderLiquidationPrice()}</div>
-            </div>
+            </div> */}
           </div>
           <div className="App-card-divider" />
           <div className="App-card-row">
@@ -698,7 +692,7 @@ export function PositionItem(p: Props) {
                   <Button variant="secondary" disabled={p.position.sizeInUsd.eq(0)} onClick={p.onClosePositionClick}>
                     <Trans>Close</Trans>
                   </Button>
-                  <Button variant="secondary" disabled={p.position.sizeInUsd.eq(0)} onClick={p.onEditCollateralClick}>
+                  {/* <Button variant="secondary" disabled={p.position.sizeInUsd.eq(0)} onClick={p.onEditCollateralClick}>
                     <Trans>Edit Collateral</Trans>
                   </Button>
                   <Button
@@ -711,9 +705,9 @@ export function PositionItem(p: Props) {
                     }}
                   >
                     <Trans>TP/SL</Trans>
-                  </Button>
+                  </Button> */}
                 </div>
-                <div>
+                {/* <div>
                   {!p.position.isOpening && !p.hideActions && (
                     <PositionDropdown
                       handleMarketSelect={() => p.onSelectPositionClick?.()}
@@ -722,7 +716,7 @@ export function PositionItem(p: Props) {
                       handleLimitIncreaseSize={() => p.onSelectPositionClick?.(TradeMode.Limit)}
                     />
                   )}
-                </div>
+                </div> */}
               </div>
             </>
           )}

@@ -31,7 +31,7 @@ import TokenIcon from "components/TokenIcon/TokenIcon";
 function getOrderTitle(order, indexTokenSymbol) {
   const orderTypeText = order.type === INCREASE ? t`Increase` : t`Decrease`;
   const longShortText = order.isLong ? t`Long` : t`Short`;
-  const sizeDeltaText = formatAmount(order.sizeDelta, USD_DECIMALS, 2, true);
+  const sizeDeltaText = formatAmount(order.sourcePrice, USD_DECIMALS, 2, true);
   const symbolWithIcon = (
     <>
       <TokenIcon className="mx-xxs" symbol={indexTokenSymbol} displaySize={18} importSize={24} /> {indexTokenSymbol}
@@ -143,11 +143,11 @@ export default function OrdersList(props) {
     (order) => {
       return (
         <>
-          <td>
+          {/* <td>
             <button className="Exchange-list-action" onClick={() => onEditClick(order)}>
               <Trans>Edit</Trans>
             </button>
-          </td>
+          </td> */}
           <td>
             <button className="Exchange-list-action" onClick={() => onCancelClick(order)}>
               <Trans>Cancel</Trans>
@@ -156,7 +156,7 @@ export default function OrdersList(props) {
         </>
       );
     },
-    [onEditClick, onCancelClick]
+    [onCancelClick]
   );
 
   const renderLargeList = useCallback(() => {
@@ -417,7 +417,8 @@ export default function OrdersList(props) {
                   <Trans>Price</Trans>
                 </div>
                 <div>
-                  <Tooltip
+                {order.sourcePrice}
+                  {/* <Tooltip
                     position="right-bottom"
                     handle={getExchangeRateDisplay(order.triggerRatio, fromTokenInfo, toTokenInfo)}
                     renderContent={() => t`
@@ -430,7 +431,7 @@ export default function OrdersList(props) {
                       toTokenInfo.symbol
                     } if this order is executed. The exact execution price may vary depending on fees at the time the order is executed.
                   `}
-                  />
+                  /> */}
                 </div>
               </div>
               <div className="App-card-row">
@@ -503,7 +504,7 @@ export default function OrdersList(props) {
                 <Trans>Price</Trans>
               </div>
               <div>
-                {triggerPricePrefix} {formatAmount(order.triggerPrice, USD_DECIMALS, 2, true)}
+                {triggerPricePrefix} {order.sourcePrice}
               </div>
             </div>
             <div className="App-card-row">
@@ -543,9 +544,9 @@ export default function OrdersList(props) {
               <>
                 <div className="App-card-divider"></div>
                 <div className="remove-top-margin">
-                  <Button variant="secondary" className="mr-md mt-md" onClick={() => onEditClick(order)}>
+                  {/* <Button variant="secondary" className="mr-md mt-md" onClick={() => onEditClick(order)}>
                     <Trans>Edit</Trans>
-                  </Button>
+                  </Button> */}
                   <Button variant="secondary" className="mt-md" onClick={() => onCancelClick(order)}>
                     <Trans>Cancel</Trans>
                   </Button>

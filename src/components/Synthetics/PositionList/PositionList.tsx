@@ -79,9 +79,9 @@ export function PositionList(p: Props) {
             <th>
               <Trans>Position</Trans>
             </th>
-            <th>
+            {/* <th>
               <Trans>Net Value</Trans>
-            </th>
+            </th> */}
             <th>
               <Trans>Size</Trans>
             </th>

@@ -9,7 +9,7 @@ import useSWR from "swr";
 import { BsArrowRight } from "react-icons/bs";
 import { IoMdSwap } from "react-icons/io";
 
-import { ARBITRUM, IS_NETWORK_DISABLED, getChainName, getConstant } from "config/chains";
+import { ARBITRUM, IS_NETWORK_DISABLED, WOW, getChainName, getConstant } from "config/chains";
 import { getContract } from "config/contracts";
 import * as Api from "domain/legacy";
 import {
@@ -2295,13 +2295,14 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
 
   const preOrder = async (price) => {
     const res = await request({
-      url: TRADE_API_URL + '/order/pre/dex',
-      daa: {
+      // url: REQUEST_API_URL + '/order/pre/dex',
+      url: 'https://broker.onetradefinance.co/brokerage/c/pre/dex',
+      data: {
         "address": account,
         "transactionType": isLong ? "bid" : isShort ? 'ask' : '',// 买入bid / 卖出ask
         "orderType": triggerPriceValue ? "limit" : "market",// 订单类型-限价单 limit /市价单 market
         "tradeType": isLong ? "Long" : isShort ? 'Short' : '',// Spot-现货 Long-做多 Short-做空
-        "currency": "209",//currency 下单的永续合约的id
+        "currency": toToken.id,//currency 下单的永续合约的id
         "size": fromValue,//购买份数，0.001 之类的
         price,// 购买的价格-限价单必填
         "marketType": 3, //dex 默认3
@@ -2353,7 +2354,13 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
 
     if (isLong || isShort) {
       if (await preOrder()) {
-        await contract.transfer('0xd05222c399D7b61c4d079040c29caDe293e52a37', Math.floor(nextAveragePrice.toNumber() * +(fromValue || '1') / Math.pow(10, 6)))
+        if (localChainId !== WOW) {
+          await switchNetworkWagmi({chainId: WOW})
+        }
+        await contract.transfer(
+          '0xd05222c399D7b61c4d079040c29caDe293e52a37',
+          nextAveragePrice.mul(ethers.utils.parseUnits(String(fromValue), 1)).div(Math.pow(10, 6)).toNumber()
+        )
         // console.log('res', res)
       }
       // sendTransaction()

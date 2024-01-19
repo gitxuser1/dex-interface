@@ -7,52 +7,53 @@ import PositionEditor from "./PositionEditor";
 import OrdersToa from "./OrdersToa";
 import { ImSpinner2 } from "react-icons/im";
 
-import { getOrderError, USD_DECIMALS, FUNDING_RATE_PRECISION, SWAP, LONG, SHORT, INCREASE, DECREASE } from "lib/legacy";
+import { USD_DECIMALS, LONG, SHORT } from "lib/legacy";
 import PositionShare from "./PositionShare";
-import PositionDropdown from "./PositionDropdown";
-import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
-import NetValueTooltip from "./NetValueTooltip";
+// import PositionDropdown from "./PositionDropdown";
+// import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
+// import NetValueTooltip from "./NetValueTooltip";
 import { helperToast } from "lib/helperToast";
 import { getUsd } from "domain/tokens/utils";
-import { bigNumberify, formatAmount } from "lib/numbers";
-import { AiOutlineEdit } from "react-icons/ai";
+import { formatAmount } from "lib/numbers";
+// import { AiOutlineEdit } from "react-icons/ai";
 import useAccountType, { AccountType } from "lib/wallets/useAccountType";
-import getLiquidationPrice from "lib/positions/getLiquidationPrice";
-import { getPriceDecimals } from "config/tokens";
+// import getLiquidationPrice from "lib/positions/getLiquidationPrice";
+// import { getPriceDecimals } from "config/tokens";
 import TokenIcon from "components/TokenIcon/TokenIcon";
 import Button from "components/Button/Button";
-import { FaAngleRight } from "react-icons/fa";
+// import { FaAngleRight } from "react-icons/fa";
+import { request } from "lib/request";
 
-const getOrdersForPosition = (account, position, orders, nativeTokenAddress) => {
-  if (!orders || orders.length === 0) {
-    return [];
-  }
-  /* eslint-disable array-callback-return */
-  return orders
-    .filter((order) => {
-      if (order.type === SWAP) {
-        return false;
-      }
-      const hasMatchingIndexToken =
-        order.indexToken === nativeTokenAddress
-          ? position.indexToken.isNative
-          : order.indexToken === position.indexToken.address;
-      const hasMatchingCollateralToken =
-        order.collateralToken === nativeTokenAddress
-          ? position.collateralToken.isNative
-          : order.collateralToken === position.collateralToken.address;
-      if (order.isLong === position.isLong && hasMatchingIndexToken && hasMatchingCollateralToken) {
-        return true;
-      }
-    })
-    .map((order) => {
-      order.error = getOrderError(account, order, undefined, position);
-      if (order.type === DECREASE && order.sizeDelta.gt(position.size)) {
-        order.error = t`Order size is bigger than position, will only be executable if position increases`;
-      }
-      return order;
-    });
-};
+// const getOrdersForPosition = (account, position, orders, nativeTokenAddress) => {
+//   if (!orders || orders.length === 0) {
+//     return [];
+//   }
+//   /* eslint-disable array-callback-return */
+//   return orders
+//     .filter((order) => {
+//       if (order.type === SWAP) {
+//         return false;
+//       }
+//       const hasMatchingIndexToken =
+//         order.indexToken === nativeTokenAddress
+//           ? position.indexToken.isNative
+//           : order.indexToken === position.indexToken.address;
+//       const hasMatchingCollateralToken =
+//         order.collateralToken === nativeTokenAddress
+//           ? position.collateralToken.isNative
+//           : order.collateralToken === position.collateralToken.address;
+//       if (order.isLong === position.isLong && hasMatchingIndexToken && hasMatchingCollateralToken) {
+//         return true;
+//       }
+//     })
+//     .map((order) => {
+//       order.error = getOrderError(account, order, undefined, position);
+//       if (order.type === DECREASE && order.sizeDelta.gt(position.size)) {
+//         order.error = t`Order size is bigger than position, will only be executable if position increases`;
+//       }
+//       return order;
+//     });
+// };
 
 export default function PositionsList(props) {
   const {
@@ -67,7 +68,7 @@ export default function PositionsList(props) {
     signer,
     pendingTxns,
     setPendingTxns,
-    setListSection,
+    // setListSection,
     flagOrdersEnabled,
     savedIsPnlInLeverage,
     chainId,
@@ -82,7 +83,7 @@ export default function PositionsList(props) {
     isWaitingForPositionRouterApproval,
     isPositionRouterApproving,
     approvePositionRouter,
-    showPnlAfterFees,
+    // showPnlAfterFees,
     setMarket,
     minExecutionFee,
     minExecutionFeeUSD,
@@ -90,30 +91,38 @@ export default function PositionsList(props) {
     usdgSupply,
     totalTokenWeights,
     hideActions,
-    openSettings,
+    // openSettings,
   } = props;
-  const [positionToEditKey, setPositionToEditKey] = useState(undefined);
-  const [positionToSellKey, setPositionToSellKey] = useState(undefined);
-  const [positionToShare, setPositionToShare] = useState(null);
+  const [positionToEditKey] = useState(undefined);
+  const [positionToSellKey] = useState(undefined);
+  const [positionToShare] = useState(null);
   const [isPositionEditorVisible, setIsPositionEditorVisible] = useState(undefined);
   const [isPositionSellerVisible, setIsPositionSellerVisible] = useState(undefined);
-  const [collateralTokenAddress, setCollateralTokenAddress] = useState(undefined);
+  const [collateralTokenAddress] = useState(undefined);
   const [isPositionShareModalOpen, setIsPositionShareModalOpen] = useState(false);
   const [ordersToaOpen, setOrdersToaOpen] = useState(false);
   const [isHigherSlippageAllowed, setIsHigherSlippageAllowed] = useState(false);
   const accountType = useAccountType();
   const isContractAccount = accountType === AccountType.CONTRACT;
 
-  const editPosition = (position) => {
-    setCollateralTokenAddress(position.collateralToken.address);
-    setPositionToEditKey(position.key);
-    setIsPositionEditorVisible(true);
-  };
+  // const editPosition = (position) => {
+  //   setCollateralTokenAddress(position.collateralToken.address);
+  //   setPositionToEditKey(position.key);
+  //   setIsPositionEditorVisible(true);
+  // };
 
-  const sellPosition = (position) => {
-    setPositionToSellKey(position.key);
-    setIsPositionSellerVisible(true);
-    setIsHigherSlippageAllowed(false);
+  const sellPosition = async (position) => {
+    await request({
+      url: 'https://broker.onetradefinance.co/brokerage/c/closingPosition',
+      data: {
+        orderId: position.orderId
+      }
+    })
+
+    helperToast.success('Success')
+    // setPositionToSellKey(position.key);
+    // setIsPositionSellerVisible(true);
+    // setIsHigherSlippageAllowed(false);
   };
 
   const onPositionClick = (position) => {
@@ -230,28 +239,34 @@ export default function PositionsList(props) {
           )}
           <div className="Exchange-list small">
             {positions.map((position) => {
-              const positionOrders = getOrdersForPosition(account, position, orders, nativeTokenAddress);
-              const liquidationPrice = getLiquidationPrice({
-                size: position.size,
-                collateral: position.collateral,
-                averagePrice: position.averagePrice,
-                isLong: position.isLong,
-                fundingFee: position.fundingFee,
-              });
+              // const positionOrders = [];
+              // const liquidationPrice = bigNumberify(0);
+              // const positionOrders = getOrdersForPosition(account, position, orders, nativeTokenAddress);
+              // const liquidationPrice = getLiquidationPrice({
+              //   size: position.size,
+              //   collateral: position.collateral,
+              //   averagePrice: position.averagePrice,
+              //   isLong: position.isLong,
+              //   fundingFee: position.fundingFee,
+              // });
 
-              const positionPriceDecimal = getPriceDecimals(chainId, position.indexToken.symbol);
+              // const positionPriceDecimal = getPriceDecimals(chainId, position.indexToken.symbol);
 
-              const hasPositionProfit = position[showPnlAfterFees ? "hasProfitAfterFees" : "hasProfit"];
-              const positionDelta =
-                position[showPnlAfterFees ? "pendingDeltaAfterFees" : "pendingDelta"] || bigNumberify(0);
-              let borrowFeeUSD;
-              if (position.collateralToken && position.collateralToken.fundingRate) {
-                const borrowFeeRate = position.collateralToken.fundingRate
-                  .mul(position.size)
-                  .mul(24)
-                  .div(FUNDING_RATE_PRECISION);
-                borrowFeeUSD = formatAmount(borrowFeeRate, USD_DECIMALS, 2, true);
-              }
+              const positionPriceDecimal = 2;
+
+              // const hasPositionProfit = false;
+              // const hasPositionProfit = position[showPnlAfterFees ? "hasProfitAfterFees" : "hasProfit"];
+              // const positionDelta = bigNumberify(0);
+              // const positionDelta =
+              //   position[showPnlAfterFees ? "pendingDeltaAfterFees" : "pendingDelta"] || bigNumberify(0);
+              // let borrowFeeUSD;
+              // if (position.collateralToken && position.collateralToken.fundingRate) {
+              //   const borrowFeeRate = position.collateralToken.fundingRate
+              //     .mul(position.size)
+              //     .mul(24)
+              //     .div(FUNDING_RATE_PRECISION);
+              //   borrowFeeUSD = formatAmount(borrowFeeRate, USD_DECIMALS, 2, true);
+              // }
 
               return (
                 <div key={position.key} className="App-card">
@@ -259,57 +274,57 @@ export default function PositionsList(props) {
                     <div className="App-card-title Position-card-title" onClick={() => onPositionClick(position)}>
                       <TokenIcon
                         className="PositionList-token-icon"
-                        symbol={position.indexToken.symbol}
+                        symbol={position.symbol}
                         displaySize={20}
                         importSize={24}
                       />
-                      <span className="Exchange-list-title">{position.indexToken.symbol}</span>
+                      <span className="Exchange-list-title">{position.symbol}</span>
                       <div>
-                        <span className="Position-leverage">{position.leverageStr}</span>
+                        <span className="Position-leverage">{position.lever}</span>
                         <span
                           className={cx("Exchange-list-side", {
-                            positive: position.isLong,
-                            negative: !position.isLong,
+                            positive: position.tradeType === 'long',
+                            negative: position.tradeType !== 'long',
                           })}
                         >
-                          {position.isLong ? t`Long` : t`Short`}
+                          {position.tradeType === 'long' ? t`Long` : t`Short`}
                         </span>
                       </div>
                     </div>
                     <div className="App-card-divider" />
                     <div className="App-card-content">
-                      <div className="App-card-row">
+                      {/* <div className="App-card-row">
                         <div className="label">
                           <Trans>Net Value</Trans>
                         </div>
                         <div>
                           <NetValueTooltip isMobile position={position} />
                         </div>
-                      </div>
-                      <div className="App-card-row">
+                      </div> */}
+                      {/* <div className="App-card-row">
                         <div className="label">
                           <Trans>PnL</Trans>
                         </div>
                         <div>
                           <span
                             className={cx("Exchange-list-info-label Position-pnl", {
-                              positive: hasPositionProfit && positionDelta.gt(0),
-                              negative: !hasPositionProfit && positionDelta.gt(0),
-                              muted: positionDelta.eq(0),
+                              // positive: hasPositionProfit && positionDelta.gt(0),
+                              // negative: !hasPositionProfit && positionDelta.gt(0),
+                              // muted: positionDelta.eq(0),
                             })}
                             onClick={openSettings}
                           >
                             {position.deltaStr} ({position.deltaPercentageStr})
                           </span>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="App-card-row">
                         <div className="label">
                           <Trans>Size</Trans>
                         </div>
-                        <div>${formatAmount(position.size, USD_DECIMALS, 2, true)}</div>
+                        <div>{position.sourceSize}</div>
                       </div>
-                      <div className="App-card-row">
+                      {/* <div className="App-card-row">
                         <div className="label">
                           <Trans>Collateral</Trans>
                         </div>
@@ -362,7 +377,7 @@ export default function PositionsList(props) {
                             </span>
                           )}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="App-card-divider" />
                     <div className="App-card-content">
@@ -376,16 +391,16 @@ export default function PositionsList(props) {
                         <div className="label">
                           <Trans>Mark Price</Trans>
                         </div>
-                        <div>${formatAmount(position.markPrice, USD_DECIMALS, positionPriceDecimal, true)}</div>
+                        <div>${position.sourcePrice}</div>
                       </div>
-                      <div className="App-card-row">
+                      {/* <div className="App-card-row">
                         <div className="label">
                           <Trans>Liq. Price</Trans>
                         </div>
                         <div>${formatAmount(liquidationPrice, USD_DECIMALS, positionPriceDecimal, true)}</div>
-                      </div>
+                      </div> */}
                     </div>
-                    <div className="App-card-divider" />
+                    {/* <div className="App-card-divider" />
                     <div className="App-card-row">
                       <div className="label">
                         <Trans>Orders</Trans>
@@ -420,7 +435,7 @@ export default function PositionsList(props) {
                           }
                         })}
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                   {!hideActions && (
                     <div>
@@ -429,15 +444,15 @@ export default function PositionsList(props) {
                         <Button
                           variant="secondary"
                           className="mr-md mt-md"
-                          disabled={position.size.eq(0)}
+                          disabled={+position.size === 0}
                           onClick={() => sellPosition(position)}
                         >
                           <Trans>Close</Trans>
                         </Button>
-                        <Button
+                        {/* <Button
                           variant="secondary"
                           className="mr-md mt-md"
-                          disabled={position.size.eq(0)}
+                          disabled={position.size == 0}
                           onClick={() => editPosition(position)}
                         >
                           <Trans>Edit Collateral</Trans>
@@ -449,10 +464,10 @@ export default function PositionsList(props) {
                             setPositionToShare(position);
                             setIsPositionShareModalOpen(true);
                           }}
-                          disabled={position.size.eq(0)}
+                          disabled={position.size == 0}
                         >
                           <Trans>Share</Trans>
-                        </Button>
+                        </Button> */}
                       </div>
                     </div>
                   )}
@@ -468,24 +483,24 @@ export default function PositionsList(props) {
             <th>
               <Trans>Position</Trans>
             </th>
-            <th>
+            {/* <th>
               <Trans>Net Value</Trans>
-            </th>
+            </th> */}
             <th>
               <Trans>Size</Trans>
             </th>
-            <th>
+            {/* <th>
               <Trans>Collateral</Trans>
-            </th>
+            </th> */}
             <th>
               <Trans>Entry Price</Trans>
             </th>
             <th>
               <Trans>Mark Price</Trans>
             </th>
-            <th>
+            {/* <th>
               <Trans>Liq. Price</Trans>
-            </th>
+            </th> */}
             {!hideActions && (
               <>
                 <th></th>
@@ -504,29 +519,33 @@ export default function PositionsList(props) {
           )}
 
           {positions.map((position) => {
-            const liquidationPrice =
-              getLiquidationPrice({
-                size: position.size,
-                collateral: position.collateral,
-                averagePrice: position.averagePrice,
-                isLong: position.isLong,
-                fundingFee: position.fundingFee,
-              }) || bigNumberify(0);
+            // const liquidationPrice = bigNumberify(0);
+            //   getLiquidationPrice({
+            //     size: position.size,
+            //     collateral: position.collateral,
+            //     averagePrice: position.averagePrice,
+            //     isLong: position.isLong,
+            //     fundingFee: position.fundingFee,
+            //   }) || bigNumberify(0);
 
-            const positionPriceDecimal = getPriceDecimals(chainId, position.indexToken.symbol);
-            const positionOrders = getOrdersForPosition(account, position, orders, nativeTokenAddress);
-            const hasOrderError = !!positionOrders.find((order) => order.error);
-            const hasPositionProfit = position[showPnlAfterFees ? "hasProfitAfterFees" : "hasProfit"];
-            const positionDelta =
-              position[showPnlAfterFees ? "pendingDeltaAfterFees" : "pendingDelta"] || bigNumberify(0);
-            let borrowFeeUSD;
-            if (position.collateralToken && position.collateralToken.fundingRate) {
-              const borrowFeeRate = position.collateralToken.fundingRate
-                .mul(position.size)
-                .mul(24)
-                .div(FUNDING_RATE_PRECISION);
-              borrowFeeUSD = formatAmount(borrowFeeRate, USD_DECIMALS, 2, true);
-            }
+            // const positionPriceDecimal = getPriceDecimals(chainId, position.symbol);
+            const positionPriceDecimal = 2;
+            // const positionOrders = getOrdersForPosition(account, position, orders, nativeTokenAddress);
+            // const positionOrders = [];
+            // const hasOrderError = !!positionOrders.find((order) => order.error);
+            // const hasOrderError = false;
+            // const hasPositionProfit = position[showPnlAfterFees ? "hasProfitAfterFees" : "hasProfit"];
+            // const hasPositionProfit = false;
+            // const positionDelta = bigNumberify(0);
+            //   position[showPnlAfterFees ? "pendingDeltaAfterFees" : "pendingDelta"] || bigNumberify(0);
+            // let borrowFeeUSD;
+            // if (position.collateralToken && position.collateralToken.fundingRate) {
+            //   const borrowFeeRate = position.collateralToken.fundingRate
+            //     .mul(position.size)
+            //     .mul(24)
+            //     .div(FUNDING_RATE_PRECISION);
+            //   borrowFeeUSD = formatAmount(borrowFeeRate, USD_DECIMALS, 2, true);
+            // }
 
             return (
               <tr key={position.key}>
@@ -538,11 +557,11 @@ export default function PositionsList(props) {
                           <>
                             <TokenIcon
                               className="PositionList-token-icon"
-                              symbol={position.indexToken.symbol}
+                              symbol={position.symbol}
                               displaySize={20}
                               importSize={24}
                             />
-                            {position.indexToken.symbol}
+                            {position.symbol}
                           </>
                         }
                         position="left-bottom"
@@ -568,23 +587,23 @@ export default function PositionsList(props) {
                       <div className="inline-flex">
                         <TokenIcon
                           className="PositionList-token-icon"
-                          symbol={position.indexToken.symbol}
+                          symbol={position.symbol}
                           displaySize={20}
                           importSize={24}
                         />
-                        {position.indexToken.symbol}
+                        {position.symbol}
                       </div>
                     )}
                     {position.hasPendingChanges && <ImSpinner2 className="spin position-loading-icon" />}
                   </div>
                   <div className="Exchange-list-info-label">
-                    {position.leverageStr && <span className="muted Position-leverage">{position.leverageStr}</span>}
-                    <span className={cx({ positive: position.isLong, negative: !position.isLong })}>
-                      {position.isLong ? t`Long` : t`Short`}
+                    {position.lever && <span className="muted Position-leverage">{position.lever}</span>}
+                    <span className={cx({ positive: position.tradeType === 'long', negative: position.tradeType !== 'long' })}>
+                      {position.tradeType === 'long' ? t`Long` : t`Short`}
                     </span>
                   </div>
                 </td>
-                <td>
+                {/* <td>
                   <div>{position.netValue ? <NetValueTooltip position={position} /> : t`Opening...`}</div>
 
                   {position.deltaStr && (
@@ -599,10 +618,10 @@ export default function PositionsList(props) {
                       {position.deltaStr} ({position.deltaPercentageStr})
                     </div>
                   )}
-                </td>
+                </td> */}
                 <td>
-                  <div>${formatAmount(position.size, USD_DECIMALS, 2, true)}</div>
-                  {positionOrders.length > 0 && (
+                  <div>{position.sourceSize}</div>
+                  {/* {positionOrders.length > 0 && (
                     <div
                       className="Position-list-active-orders"
                       onClick={() => setListSection && setListSection("Orders")}
@@ -621,7 +640,7 @@ export default function PositionsList(props) {
                                 <Trans>Active Orders</Trans>
                               </strong>
                               {positionOrders.map((order) => {
-                                const priceDecimal = getPriceDecimals(chainId, order.indexToken.symbol);
+                                const priceDecimal = getPriceDecimals(chainId, order.symbol);
                                 return (
                                   <div
                                     key={`${order.isLong}-${order.type}-${order.index}`}
@@ -647,9 +666,9 @@ export default function PositionsList(props) {
                         }}
                       />
                     </div>
-                  )}
+                  )} */}
                 </td>
-                <td>
+                {/* <td>
                   <div className="position-list-collateral">
                     <Tooltip
                       handle={`$${formatAmount(position.collateralAfterFee, USD_DECIMALS, 2, true)}`}
@@ -701,23 +720,23 @@ export default function PositionsList(props) {
                       </span>
                     )}
                   </div>
-                </td>
+                </td> */}
                 <td>${formatAmount(position.averagePrice, USD_DECIMALS, positionPriceDecimal, true)}</td>
-                <td>${formatAmount(position.markPrice, USD_DECIMALS, positionPriceDecimal, true)}</td>
-                <td>${formatAmount(liquidationPrice, USD_DECIMALS, positionPriceDecimal, true)}</td>
+                <td>${position.sourcePrice}</td>
+                {/* <td>${formatAmount(liquidationPrice, USD_DECIMALS, positionPriceDecimal, true)}</td> */}
 
                 <td>
                   <button
                     className="Exchange-list-action"
                     onClick={() => sellPosition(position)}
-                    disabled={position.size.eq(0)}
+                    disabled={+position.size === 0}
                   >
                     <Trans>Close</Trans>
                   </button>
                 </td>
                 {!hideActions && (
                   <td>
-                    <PositionDropdown
+                    {/* <PositionDropdown
                       handleEditCollateral={() => {
                         editPosition(position);
                       }}
@@ -728,7 +747,7 @@ export default function PositionsList(props) {
                       handleMarketSelect={() => {
                         onPositionClick(position);
                       }}
-                    />
+                    /> */}
                   </td>
                 )}
               </tr>

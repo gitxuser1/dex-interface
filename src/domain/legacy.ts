@@ -32,6 +32,7 @@ import { replaceNativeTokenAddress } from "./tokens";
 import { getUsd } from "./tokens/utils";
 import useWallet from "lib/wallets/useWallet";
 import useSWRInfinite from "swr/infinite";
+import { request } from "lib/request";
 
 export * from "./prices";
 
@@ -840,22 +841,29 @@ export async function cancelIncreaseOrder(chainId, signer, index, opts) {
 }
 
 export function handleCancelOrder(chainId, signer, order, opts) {
-  let func;
-  if (order.type === SWAP) {
-    func = cancelSwapOrder;
-  } else if (order.type === INCREASE) {
-    func = cancelIncreaseOrder;
-  } else if (order.type === DECREASE) {
-    func = cancelDecreaseOrder;
-  }
 
-  return func(chainId, signer, order.index, {
-    successMsg: t`Order cancelled.`,
-    failMsg: t`Cancel failed.`,
-    sentMsg: t`Cancel submitted.`,
-    pendingTxns: opts.pendingTxns,
-    setPendingTxns: opts.setPendingTxns,
-  });
+  request({
+    url: 'https://broker.onetradefinance.co/brokerage/c/cancelTransaction',
+    data: {
+      id: order.id
+    }
+  })
+  // let func;
+  // if (order.type === SWAP) {
+  //   func = cancelSwapOrder;
+  // } else if (order.type === INCREASE) {
+  //   func = cancelIncreaseOrder;
+  // } else if (order.type === DECREASE) {
+  //   func = cancelDecreaseOrder;
+  // }
+
+  // return func(chainId, signer, order.index, {
+  //   successMsg: t`Order cancelled.`,
+  //   failMsg: t`Cancel failed.`,
+  //   sentMsg: t`Cancel submitted.`,
+  //   pendingTxns: opts.pendingTxns,
+  //   setPendingTxns: opts.setPendingTxns,
+  // });
 }
 
 export async function cancelMultipleOrders(chainId, signer, allIndexes: any[] = [], opts) {

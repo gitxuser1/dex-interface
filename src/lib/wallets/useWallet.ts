@@ -25,6 +25,7 @@ export default function useWallet() {
             address
           }
         })
+        localStorage.setItem('uid', res.data.id)
         localStorage.setItem('Authorization', res.data.token)
         // const json = await res.json()
       } catch (error) {}

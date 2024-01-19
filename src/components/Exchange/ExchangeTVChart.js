@@ -13,7 +13,7 @@ import { SUPPORTED_RESOLUTIONS_V1 } from "config/tradingview";
 import { getTokenInfo } from "domain/tokens/utils";
 import { TVDataProvider } from "domain/tradingview/TVDataProvider";
 import { useLocalStorageSerializeKey } from "lib/localStorage";
-import { formatAmount, numberWithCommas } from "lib/numbers";
+import { bigNumberify, formatAmount, numberWithCommas } from "lib/numbers";
 import getLiquidationPrice from "lib/positions/getLiquidationPrice";
 import ChartTokenSelector from "./ChartTokenSelector";
 import { WOW } from "config/chains";
@@ -137,30 +137,31 @@ export default function ExchangeTVChart(props) {
       return [];
     }
     return positions
-      .filter((p) => p.indexToken.address === chartToken.address)
+      .filter((p) => p.address === chartToken.address)
       .map((position) => {
         const longOrShortText = position.isLong ? t`Long` : t`Short`;
-        const priceDecimal = getPriceDecimals(chainId, position.indexToken.symbol);
-        const liquidationPrice = getLiquidationPrice({
-          size: position.size,
-          collateral: position.collateral,
-          averagePrice: position.averagePrice,
-          isLong: position.isLong,
-          fundingFee: position.fundingFee,
-        });
+        const priceDecimal = 2//getPriceDecimals(chainId, position.indexToken.symbol);
+        const liquidationPrice = bigNumberify(0)
+        // const liquidationPrice = getLiquidationPrice({
+        //   size: position.size,
+        //   collateral: position.collateral,
+        //   averagePrice: position.averagePrice,
+        //   isLong: position.isLong,
+        //   fundingFee: position.fundingFee,
+        // });
 
         return {
           open: {
             price: parseFloat(formatAmount(position.averagePrice, USD_DECIMALS, priceDecimal)),
-            title: t`Open ${position.indexToken.symbol} ${longOrShortText}`,
+            title: t`Open ${position.symbol} ${longOrShortText}`,
           },
           liquidation: {
             price: parseFloat(formatAmount(liquidationPrice, USD_DECIMALS, priceDecimal)),
-            title: t`Liq. ${position.indexToken.symbol} ${longOrShortText}`,
+            title: t`Liq. ${position.symbol} ${longOrShortText}`,
           },
         };
       });
-  }, [chartToken, positions, chainId]);
+  }, [chartToken, positions]);
 
   const chartLines = useMemo(() => {
     const lines = [];

@@ -3,16 +3,16 @@ import { BigNumber, ethers } from "ethers";
 import { getContract } from "config/contracts";
 import useSWR from "swr";
 
-import OrderBookReader from "abis/OrderBookReader.json";
-import OrderBook from "abis/OrderBook.json";
+// import OrderBookReader from "abis/OrderBookReader.json";
+// import OrderBook from "abis/OrderBook.json";
 
 import { CHAIN_ID, ETH_MAINNET, getExplorerUrl, getRpcUrl } from "config/chains";
-import { TRADE_API_URL } from "config/backend";
+// import { TRADE_API_URL } from "config/backend";
 import { getMostAbundantStableToken } from "domain/tokens";
 import { getTokenInfo } from "domain/tokens/utils";
 import { getProvider } from "./rpc";
 import { bigNumberify, expandDecimals, formatAmount } from "./numbers";
-import { isValidToken } from "config/tokens";
+// import { isValidToken } from "config/tokens";
 import { useChainId } from "./chains";
 import { isValidTimestamp } from "./dates";
 import { t } from "@lingui/macro";
@@ -754,98 +754,98 @@ export function useENS(address) {
   return { ensName };
 }
 
-function _parseOrdersData(ordersData, account, indexes, extractor, uintPropsLength, addressPropsLength) {
-  if (!ordersData || ordersData.length === 0) {
-    return [];
-  }
-  const [uintProps, addressProps] = ordersData;
-  const count = uintProps.length / uintPropsLength;
+// function _parseOrdersData(ordersData, account, indexes, extractor, uintPropsLength, addressPropsLength) {
+//   if (!ordersData || ordersData.length === 0) {
+//     return [];
+//   }
+//   const [uintProps, addressProps] = ordersData;
+//   const count = uintProps.length / uintPropsLength;
 
-  const orders: any[] = [];
-  for (let i = 0; i < count; i++) {
-    const sliced = addressProps
-      .slice(addressPropsLength * i, addressPropsLength * (i + 1))
-      .concat(uintProps.slice(uintPropsLength * i, uintPropsLength * (i + 1)));
+//   const orders: any[] = [];
+//   for (let i = 0; i < count; i++) {
+//     const sliced = addressProps
+//       .slice(addressPropsLength * i, addressPropsLength * (i + 1))
+//       .concat(uintProps.slice(uintPropsLength * i, uintPropsLength * (i + 1)));
 
-    if (sliced[0] === AddressZero && sliced[1] === AddressZero) {
-      continue;
-    }
+//     if (sliced[0] === AddressZero && sliced[1] === AddressZero) {
+//       continue;
+//     }
 
-    const order = extractor(sliced);
-    order.index = indexes[i];
-    order.account = account;
-    orders.push(order);
-  }
+//     const order = extractor(sliced);
+//     order.index = indexes[i];
+//     order.account = account;
+//     orders.push(order);
+//   }
 
-  return orders;
-}
+//   return orders;
+// }
 
-function parseDecreaseOrdersData(chainId, decreaseOrdersData, account, indexes) {
-  const extractor = (sliced) => {
-    const isLong = sliced[4].toString() === "1";
-    return {
-      collateralToken: sliced[0],
-      indexToken: sliced[1],
-      collateralDelta: sliced[2],
-      sizeDelta: sliced[3],
-      isLong,
-      triggerPrice: sliced[5],
-      triggerAboveThreshold: sliced[6].toString() === "1",
-      type: DECREASE,
-    };
-  };
-  return _parseOrdersData(decreaseOrdersData, account, indexes, extractor, 5, 2).filter((order) => {
-    return isValidToken(chainId, order.collateralToken) && isValidToken(chainId, order.indexToken);
-  });
-}
+// function parseDecreaseOrdersData(chainId, decreaseOrdersData, account, indexes) {
+//   const extractor = (sliced) => {
+//     const isLong = sliced[4].toString() === "1";
+//     return {
+//       collateralToken: sliced[0],
+//       indexToken: sliced[1],
+//       collateralDelta: sliced[2],
+//       sizeDelta: sliced[3],
+//       isLong,
+//       triggerPrice: sliced[5],
+//       triggerAboveThreshold: sliced[6].toString() === "1",
+//       type: DECREASE,
+//     };
+//   };
+//   return _parseOrdersData(decreaseOrdersData, account, indexes, extractor, 5, 2).filter((order) => {
+//     return isValidToken(chainId, order.collateralToken) && isValidToken(chainId, order.indexToken);
+//   });
+// }
 
-function parseIncreaseOrdersData(chainId, increaseOrdersData, account, indexes) {
-  const extractor = (sliced) => {
-    const isLong = sliced[5].toString() === "1";
-    return {
-      purchaseToken: sliced[0],
-      collateralToken: sliced[1],
-      indexToken: sliced[2],
-      purchaseTokenAmount: sliced[3],
-      sizeDelta: sliced[4],
-      isLong,
-      triggerPrice: sliced[6],
-      triggerAboveThreshold: sliced[7].toString() === "1",
-      type: INCREASE,
-    };
-  };
-  return _parseOrdersData(increaseOrdersData, account, indexes, extractor, 5, 3).filter((order) => {
-    return (
-      isValidToken(chainId, order.purchaseToken) &&
-      isValidToken(chainId, order.collateralToken) &&
-      isValidToken(chainId, order.indexToken)
-    );
-  });
-}
+// function parseIncreaseOrdersData(chainId, increaseOrdersData, account, indexes) {
+//   const extractor = (sliced) => {
+//     const isLong = sliced[5].toString() === "1";
+//     return {
+//       purchaseToken: sliced[0],
+//       collateralToken: sliced[1],
+//       indexToken: sliced[2],
+//       purchaseTokenAmount: sliced[3],
+//       sizeDelta: sliced[4],
+//       isLong,
+//       triggerPrice: sliced[6],
+//       triggerAboveThreshold: sliced[7].toString() === "1",
+//       type: INCREASE,
+//     };
+//   };
+//   return _parseOrdersData(increaseOrdersData, account, indexes, extractor, 5, 3).filter((order) => {
+//     return (
+//       isValidToken(chainId, order.purchaseToken) &&
+//       isValidToken(chainId, order.collateralToken) &&
+//       isValidToken(chainId, order.indexToken)
+//     );
+//   });
+// }
 
-function parseSwapOrdersData(chainId, swapOrdersData, account, indexes) {
-  if (!swapOrdersData || !swapOrdersData.length) {
-    return [];
-  }
+// function parseSwapOrdersData(chainId, swapOrdersData, account, indexes) {
+//   if (!swapOrdersData || !swapOrdersData.length) {
+//     return [];
+//   }
 
-  const extractor = (sliced) => {
-    const triggerAboveThreshold = sliced[6].toString() === "1";
-    const shouldUnwrap = sliced[7].toString() === "1";
+//   const extractor = (sliced) => {
+//     const triggerAboveThreshold = sliced[6].toString() === "1";
+//     const shouldUnwrap = sliced[7].toString() === "1";
 
-    return {
-      path: [sliced[0], sliced[1], sliced[2]].filter((address) => address !== AddressZero),
-      amountIn: sliced[3],
-      minOut: sliced[4],
-      triggerRatio: sliced[5],
-      triggerAboveThreshold,
-      type: SWAP,
-      shouldUnwrap,
-    };
-  };
-  return _parseOrdersData(swapOrdersData, account, indexes, extractor, 5, 3).filter((order) => {
-    return order.path.every((token) => isValidToken(chainId, token));
-  });
-}
+//     return {
+//       path: [sliced[0], sliced[1], sliced[2]].filter((address) => address !== AddressZero),
+//       amountIn: sliced[3],
+//       minOut: sliced[4],
+//       triggerRatio: sliced[5],
+//       triggerAboveThreshold,
+//       type: SWAP,
+//       shouldUnwrap,
+//     };
+//   };
+//   return _parseOrdersData(swapOrdersData, account, indexes, extractor, 5, 3).filter((order) => {
+//     return order.path.every((token) => isValidToken(chainId, token));
+//   });
+// }
 
 export function getOrderKey(order) {
   return `${order.type}-${order.account}-${order.index}`;
@@ -860,7 +860,7 @@ export function useAccountOrders(flagOrdersEnabled, overrideAccount) {
   const shouldRequest = active && account && flagOrdersEnabled;
 
   const orderBookAddress = getContract(chainId, "OrderBook");
-  const orderBookReaderAddress = getContract(chainId, "OrderBookReader");
+  // const orderBookReaderAddress = getContract(chainId, "OrderBookReader");
   const key: any = shouldRequest ? [active, chainId, orderBookAddress, account] : false;
   const {
     data: orders = [],
@@ -870,73 +870,84 @@ export function useAccountOrders(flagOrdersEnabled, overrideAccount) {
     dedupingInterval: 5000,
     fetcher: async ([active, chainId, orderBookAddress, account]) => {
       const provider = getProvider(signer, chainId);
-      const orderBookContract = new ethers.Contract(orderBookAddress, OrderBook.abi, provider);
-      const orderBookReaderContract = new ethers.Contract(orderBookReaderAddress, OrderBookReader.abi, provider);
+      // const orderBookContract = new ethers.Contract(orderBookAddress, OrderBook.abi, provider);
+      // const orderBookReaderContract = new ethers.Contract(orderBookReaderAddress, OrderBookReader.abi, provider);
 
       const fetchIndexesFromServer = () => {
         // const ordersIndexesUrl = `${TRADE_API_URL}/c/brokerage/getTransactionList`;
-        return request({url: 'https://broker.onetradefinance.co/brokerage/c/getTransactionList'})
-          .then(async (json) => {
-            const ret = {};
-            for (const key of Object.keys(json.data)) {
-              ret[key.toLowerCase()] = json.data[key].map((val) => parseInt(val.value)).sort((a, b) => a - b);
-            }
+        return Promise.all([
+          request({url: 'https://broker.onetradefinance.co/brokerage/c/getRegistrationList', 
+        data: {
+          state: 'pending',
+          uid: localStorage.getItem('uid')
+        }}),
+        ])
+          .then(async ([swap]) => {
+            const ret = {
+              swap: swap.data.map(item => ({...item, indexToken: AddressZero})),
+              increase: [],
+              decrease: [],
+            };
+            // for (const key of Object.keys(json.data)) {
+            //   ret[key.toLowerCase()] = json.data[key].map((val) => parseInt(val.value)).sort((a, b) => a - b);
+            // 
 
             return ret;
           })
           .catch(() => ({ swap: [], increase: [], decrease: [] }));
       };
 
-      const fetchLastIndex = async (type) => {
-        const method = type.toLowerCase() + "OrdersIndex";
-        return await orderBookContract[method](account).then((res) => bigNumberify(res._hex)!.toNumber());
-      };
+      // const fetchLastIndex = async (type) => {
+      //   const method = type.toLowerCase() + "OrdersIndex";
+      //   return await orderBookContract[method](account).then((res) => bigNumberify(res._hex)!.toNumber());
+      // };
 
-      const fetchLastIndexes = async () => {
-        const [swap, increase, decrease] = await Promise.all([
-          fetchLastIndex("swap"),
-          fetchLastIndex("increase"),
-          fetchLastIndex("decrease"),
-        ]);
+      // const fetchLastIndexes = async () => {
+      //   const [swap, increase, decrease] = await Promise.all([
+      //     fetchLastIndex("swap"),
+      //     fetchLastIndex("increase"),
+      //     fetchLastIndex("decrease"),
+      //   ]);
 
-        return { swap, increase, decrease };
-      };
+      //   return { swap, increase, decrease };
+      // };
 
-      const getRange = (to: number, from?: number) => {
-        const LIMIT = 10;
-        const _indexes: number[] = [];
-        from = from || Math.max(to - LIMIT, 0);
-        for (let i = to - 1; i >= from; i--) {
-          _indexes.push(i);
-        }
-        return _indexes;
-      };
+      // const getRange = (to: number, from?: number) => {
+      //   const LIMIT = 10;
+      //   const _indexes: number[] = [];
+      //   from = from || Math.max(to - LIMIT, 0);
+      //   for (let i = to - 1; i >= from; i--) {
+      //     _indexes.push(i);
+      //   }
+      //   return _indexes;
+      // };
 
-      const getIndexes = (knownIndexes, lastIndex) => {
-        if (knownIndexes.length === 0) {
-          return getRange(lastIndex);
-        }
-        return [
-          ...knownIndexes,
-          ...getRange(lastIndex, knownIndexes[knownIndexes.length - 1] + 1).sort((a, b) => b - a),
-        ];
-      };
+      // const getIndexes = (knownIndexes, lastIndex) => {
+      //   if (knownIndexes.length === 0) {
+      //     return getRange(lastIndex);
+      //   }
+      //   return [
+      //     ...knownIndexes,
+      //     ...getRange(lastIndex, knownIndexes[knownIndexes.length - 1] + 1).sort((a, b) => b - a),
+      //   ];
+      // };
 
-      const getOrders = async (method, knownIndexes, lastIndex, parseFunc) => {
-        const indexes = getIndexes(knownIndexes, lastIndex);
-        const ordersData = await orderBookReaderContract[method](orderBookAddress, account, indexes);
-        const orders = parseFunc(chainId, ordersData, account, indexes);
+      // const getOrders = async (method, knownIndexes, lastIndex, parseFunc) => {
+      //   const indexes = getIndexes(knownIndexes, lastIndex);
+      //   const ordersData = await orderBookReaderContract[method](orderBookAddress, account, indexes);
+      //   const orders = parseFunc(chainId, ordersData, account, indexes);
 
-        return orders;
-      };
+      //   return orders;
+      // };
 
       try {
-        const [serverIndexes, lastIndexes]: any = await Promise.all([fetchIndexesFromServer(), fetchLastIndexes()]);
-        const [swapOrders = [], increaseOrders = [], decreaseOrders = []] = await Promise.all([
-          getOrders("getSwapOrders", serverIndexes.swap, lastIndexes.swap, parseSwapOrdersData),
-          getOrders("getIncreaseOrders", serverIndexes.increase, lastIndexes.increase, parseIncreaseOrdersData),
-          getOrders("getDecreaseOrders", serverIndexes.decrease, lastIndexes.decrease, parseDecreaseOrdersData),
-        ]);
+        // const [serverIndexes, lastIndexes]: any = await Promise.all([fetchIndexesFromServer(), fetchLastIndexes()]);
+        // const [swapOrders = [], increaseOrders = [], decreaseOrders = []] = await Promise.all([
+        //   getOrders("getSwapOrders", serverIndexes.swap, lastIndexes.swap, parseSwapOrdersData),
+        //   getOrders("getIncreaseOrders", serverIndexes.increase, lastIndexes.increase, parseIncreaseOrdersData),
+        //   getOrders("getDecreaseOrders", serverIndexes.decrease, lastIndexes.decrease, parseDecreaseOrdersData),
+        // ]);
+        const {swap: swapOrders, increase: increaseOrders, decrease: decreaseOrders} = await fetchIndexesFromServer()
         return [...swapOrders, ...increaseOrders, ...decreaseOrders];
       } catch (ex) {
         // eslint-disable-next-line no-console

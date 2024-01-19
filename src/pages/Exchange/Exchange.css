@@ -505,12 +505,12 @@ button.Exchange-list-action {
   border-radius: 3px;
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 0.7);
   margin: 0 0.3rem;
 }
 
 button.Exchange-list-action:hover {
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
 }
 
 table.Exchange-list {
