@@ -1,8 +1,8 @@
 // import VaultReader from "abis/VaultReader.json";
 import { DEX_STATS_API_URL } from "config/backend";
 import { getContract } from "config/contracts";
-import { getV1Tokens, getWhitelistedV1Tokens } from "config/tokens";
-import { BigNumber, Signer } from "ethers";
+import { getTokens, getV1Tokens, getWhitelistedV1Tokens } from "config/tokens";
+import { BigNumber, ethers, Signer } from "ethers";
 // import { contractFetcher } from "lib/contracts";
 import { DEFAULT_MAX_USDG_AMOUNT, MAX_PRICE_DEVIATION_BASIS_POINTS, USD_DECIMALS, USDG_ADDRESS } from "lib/legacy";
 import { BASIS_POINTS_DIVISOR } from "config/factors";
@@ -10,8 +10,9 @@ import { bigNumberify, expandDecimals } from "lib/numbers";
 import useSWR from "swr";
 import { InfoTokens, Token, TokenInfo } from "./types";
 import { getSpread } from "./utils";
-import { zeroAddress } from "viem";
+// import { zeroAddress } from "viem";
 import { request } from "lib/request";
+import { WOW } from "config/chains";
 
 export function useInfoTokens(
   signer: Signer | undefined,
@@ -50,26 +51,43 @@ export function useInfoTokens(
   // );
 
   // const indexPricesUrl = getServerUrl(chainId, "/prices");
-  const indexPricesUrl = `${DEX_STATS_API_URL}/a/quote/quote/s/r`;
+  const indexPricesUrl = `${DEX_STATS_API_URL}/a/quote/quote/s/l`;
+  const alltokens = getTokens(WOW)
 
   const { data: res } = useSWR(indexPricesUrl, {
     // @ts-ignore spread args incorrect type
     fetcher: (url) => request({
       url,
       data: {
-        "id": 32,
+        "tickerIds": tokens.map(item => item.id).filter(Boolean),
       }
     }),
     refreshInterval: 500,
     refreshWhenHidden: true,
   });
 
-  const close = bigNumberify(Math.pow(10, 12) * res?.data.c || 0)!
-  const open = bigNumberify(Math.pow(10, 12) * res?.data.o || 0)!
-  const hight = bigNumberify(Math.pow(10, 12) * res?.data.h || 0)!
-  const low = bigNumberify(Math.pow(10, 12) * res?.data.l || 0)!
 
-  const vaultTokenInfo = res && [close, open, hight, low]
+  const closes = {}
+  const vaultTokenInfo: BigNumber[] = []
+  if (res) {
+    for (const [key, value] of Object.entries(res.data) as any) {
+      const token = alltokens.find(item => item.id! === +key)!
+      // const json = await response.json()
+      const n = ethers.utils.parseUnits(String(value.c), 12)
+      closes[token.address] = n
+      // {
+      //   minPrice: parseContractPrice(BigNumber.from(value.c), tokenConfig.decimals),
+      //   maxPrice: parseContractPrice(BigNumber.from(value.h), tokenConfig.decimals),
+      // };
+      // console.log('vaultTokenInfo', n, value.c, token)
+      vaultTokenInfo.push(n)
+    }
+  }
+  // console.log('vaultTokenInfo', vaultTokenInfo)
+  // const close = bigNumberify(Math.pow(10, 12) * 1 || 0)!
+  // const open = bigNumberify(Math.pow(10, 12) * 1 || 0)!
+  // const hight = bigNumberify(Math.pow(10, 12) * 1 || 0)!
+  // const low = bigNumberify(Math.pow(10, 12) * 1 || 0)!
 
   return {
     infoTokens: getInfoTokens(
@@ -79,9 +97,7 @@ export function useInfoTokens(
       vaultTokenInfo,
       fundingRateInfo,
       vaultPropsLength,
-      {
-        [zeroAddress]: close!
-      },
+      closes,
       nativeTokenAddress
     ),
   };
@@ -121,29 +137,28 @@ function getInfoTokens(
   for (let i = 0; i < whitelistedTokens.length; i++) {
     const token = JSON.parse(JSON.stringify(whitelistedTokens[i])) as TokenInfo;
 
-    // console.log('token', token, vaultTokenInfo)
-
-    if (vaultTokenInfo) {
-      token.poolAmount = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength];
-      token.reservedAmount = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 1];
-      token.availableAmount = token.poolAmount.sub(token.reservedAmount);
-      token.usdgAmount = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 2];
-      token.redemptionAmount = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 3];
-      token.weight = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 4];
-      token.bufferAmount = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 5];
-      token.maxUsdgAmount = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 6];
-      token.globalShortSize = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 7];
-      token.maxGlobalShortSize = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 8];
-      token.maxGlobalLongSize = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 9];
-      token.minPrice = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 10];
-      token.maxPrice = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 11];
+    if (vaultTokenInfo?.length) {
+      vaultTokenInfo[i] = vaultTokenInfo[i] ?? bigNumberify(1)
+      token.poolAmount = vaultTokenInfo[i]//vaultTokenInfo[i * vaultPropsLength];
+      token.reservedAmount = vaultTokenInfo[i]//vaultTokenInfo[i * vaultPropsLength + 1];
+      token.availableAmount = token.poolAmount?.sub(token.reservedAmount);
+      token.usdgAmount = vaultTokenInfo[i]//vaultTokenInfo[i * vaultPropsLength + 2];
+      token.redemptionAmount = vaultTokenInfo[i]//vaultTokenInfo[i * vaultPropsLength + 3];
+      token.weight = vaultTokenInfo[i]//vaultTokenInfo[i * vaultPropsLength + 4];
+      token.bufferAmount = vaultTokenInfo[i]//vaultTokenInfo[i * vaultPropsLength + 5];
+      token.maxUsdgAmount = vaultTokenInfo[i]//vaultTokenInfo[i * vaultPropsLength + 6];
+      token.globalShortSize = vaultTokenInfo[i]//vaultTokenInfo[i * vaultPropsLength + 7];
+      token.maxGlobalShortSize = vaultTokenInfo[i]//vaultTokenInfo[i * vaultPropsLength + 8];
+      token.maxGlobalLongSize = vaultTokenInfo[i]//vaultTokenInfo[i * vaultPropsLength + 9];
+      token.minPrice = vaultTokenInfo[i]//vaultTokenInfo[i * vaultPropsLength + 10];
+      token.maxPrice = vaultTokenInfo[i]//vaultTokenInfo[i * vaultPropsLength + 11];
       token.spread = getSpread({
         minPrice: token.minPrice,
         maxPrice: token.maxPrice,
       });
-      token.guaranteedUsd = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 12];
-      token.maxPrimaryPrice = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 13];
-      token.minPrimaryPrice = vaultTokenInfo[0]//vaultTokenInfo[i * vaultPropsLength + 14];
+      token.guaranteedUsd = vaultTokenInfo[i]//vaultTokenInfo[i * vaultPropsLength + 12];
+      token.maxPrimaryPrice = vaultTokenInfo[i]//vaultTokenInfo[i * vaultPropsLength + 13];
+      token.minPrimaryPrice = vaultTokenInfo[i]//vaultTokenInfo[i * vaultPropsLength + 14];
 
       // save minPrice and maxPrice as setTokenUsingIndexPrices may override it
       token.contractMinPrice = token.minPrice;

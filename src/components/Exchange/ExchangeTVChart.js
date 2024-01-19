@@ -16,6 +16,7 @@ import { useLocalStorageSerializeKey } from "lib/localStorage";
 import { formatAmount, numberWithCommas } from "lib/numbers";
 import getLiquidationPrice from "lib/positions/getLiquidationPrice";
 import ChartTokenSelector from "./ChartTokenSelector";
+import { WOW } from "config/chains";
 
 const PRICE_LINE_TEXT_WIDTH = 15;
 
@@ -57,7 +58,7 @@ export default function ExchangeTVChart(props) {
     fromTokenAddress,
     toTokenAddress,
     infoTokens,
-    chainId,
+    // chainId,
     positions,
     savedShouldShowPositionLines,
     orders,
@@ -66,6 +67,7 @@ export default function ExchangeTVChart(props) {
     setTradePageVersion,
     setSwapOption,
   } = props;
+  const chainId = WOW;
   let [period, setPeriod] = useLocalStorageSerializeKey([chainId, "Chart-period"], DEFAULT_PERIOD);
 
   if (!period || !(period in CHART_PERIODS)) {
@@ -92,7 +94,8 @@ export default function ExchangeTVChart(props) {
 
   useEffect(() => {
     const tmp = getChartToken(swapOption, fromToken, toToken, chainId);
-    // console.log('getChartToken', infoTokens, {swapOption, fromToken, toToken, chainId})
+    // console.log('getChartToken', infoTokens, {swapOption, fromToken, toToken, chainId, tmp})
+    // console.log('getChartToken', tmp)
     setChartToken(tmp);
   }, [swapOption, fromToken, toToken, chainId]);
 
@@ -183,7 +186,7 @@ export default function ExchangeTVChart(props) {
     chainId,
     chartToken?.symbol,
     chartToken?.isStable,
-    "1h",
+    "1H",
     currentAveragePrice
   );
 

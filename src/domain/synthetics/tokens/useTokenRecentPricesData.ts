@@ -1,4 +1,4 @@
-import { getToken } from "config/tokens";
+import { getToken, getTokens } from "config/tokens";
 import { BigNumber } from "ethers";
 import useSWR from "swr";
 import { TokenPricesData } from "./types";
@@ -7,6 +7,7 @@ import { parseContractPrice } from "./utils";
 import { DEX_STATS_API_URL } from "config/backend";
 import { zeroAddress } from "viem";
 import { request } from "lib/request";
+import { WOW } from "config/chains";
 
 type TokenPricesDataResult = {
   pricesData?: TokenPricesData;
@@ -19,7 +20,9 @@ export function useTokenRecentPrices(chainId: number): TokenPricesDataResult {
   const { data } = useSWR([chainId, oracleKeeperFetcher.oracleKeeperUrl, "useTokenRecentPrices"], {
     fetcher: async ([chainId]) => {
 
-      const url = `${DEX_STATS_API_URL}/a/quote/quote/s/r`
+      const tokens = getTokens(WOW)
+      // const token = getTokenBySymbol(chainId, symbol)
+      const url = `${DEX_STATS_API_URL}/a/quote/quote/s/l`
 
       try {
         const result: TokenPricesData = {};
@@ -27,25 +30,28 @@ export function useTokenRecentPrices(chainId: number): TokenPricesDataResult {
         const response = await request({
           url,
           data: {
-            "id": 32,
+            "tickerIds": tokens.map(item => item.id).filter(Boolean),
           }
         });
         // if (!response.ok) {
         //   throw new Error(`HTTP error! status: ${response.status}`);
         // }
-        let tokenConfig: any;
-        // const json = await response.json()
-        try {
-          tokenConfig = getToken(chainId, zeroAddress);
-        } catch (e) {
-          // ignore unknown token errors
+        for (const [key, value] of Object.entries(response.data) as any) {
+          const token = tokens.find(item => item.id! === +key)!
+          let tokenConfig: any;
+          // const json = await response.json()
+          try {
+            tokenConfig = getToken(WOW, token.address);
+          } catch (e) {
+            // ignore unknown token errors
 
-          return;
+            return;
+          }
+          result[token.address] = {
+            minPrice: parseContractPrice(BigNumber.from(value.o), tokenConfig.decimals),
+            maxPrice: parseContractPrice(BigNumber.from(value.h), tokenConfig.decimals),
+          };
         }
-        result[zeroAddress] = {
-          minPrice: parseContractPrice(BigNumber.from(response.data.o), tokenConfig.decimals),
-          maxPrice: parseContractPrice(BigNumber.from(response.data.h), tokenConfig.decimals),
-        };
         return result
       } catch {
 

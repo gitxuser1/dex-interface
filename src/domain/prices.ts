@@ -9,7 +9,7 @@ import { DEX_STATS_API_URL } from "config/backend";
 import { chainlinkClient } from "lib/subgraph/clients";
 import { sleep } from "lib/sleep";
 import { formatAmount } from "lib/numbers";
-import { getNativeToken, getNormalizedTokenSymbol, isChartAvailabeForToken } from "config/tokens";
+import { getNativeToken, getNormalizedTokenSymbol, getTokenBySymbol, isChartAvailabeForToken } from "config/tokens";
 import { request } from "lib/request";
 
 const BigNumber = ethers.BigNumber;
@@ -72,6 +72,7 @@ export function fillGaps(prices, periodSeconds) {
 
 export async function getLimitChartPricesFromStats(chainId, symbol, period, limit = 1) {
   symbol = getNormalizedTokenSymbol(symbol);
+  const token = getTokenBySymbol(chainId, symbol)
 
   if (!isChartAvailabeForToken(chainId, symbol)) {
     symbol = getNativeToken(chainId).symbol;
@@ -85,7 +86,7 @@ export async function getLimitChartPricesFromStats(chainId, symbol, period, limi
     const response = await request({
       url,
       data: {
-        "id": 32,
+        "id": token.id,
       }
     });
     // if (!response.ok) {
@@ -111,8 +112,10 @@ export async function getLimitChartPricesFromStats(chainId, symbol, period, limi
 export async function getChartPricesFromStats(chainId, symbol, period) {
   symbol = getNormalizedTokenSymbol(symbol);
 
-  const timeDiff = CHART_PERIODS[period] * 3000;
-  const from = Math.floor(Date.now() / 1000 - timeDiff);
+  const token = getTokenBySymbol(chainId, symbol)
+
+  // const timeDiff = CHART_PERIODS[period] * 3000;
+  // const from = Math.floor(Date.now() / 1000 - timeDiff);
   // const url = `${GMX_STATS_API_URL}/candles/${symbol}?preferableChainId=${chainId}&period=${period}&from=${from}&preferableSource=fast`;
   const url = `${DEX_STATS_API_URL}/a/quote/quote/s/h`
 
@@ -132,8 +135,8 @@ export async function getChartPricesFromStats(chainId, symbol, period) {
         const res = await request({
           url,
           data: {
-            "id": 32,
-            "bar": "5m",
+            "id": token.id,
+            "bar": period,
             // "after": Math.floor(Date.now()),
             // "before": Math.floor(Date.now()),
             "limit": 1000
@@ -191,8 +194,6 @@ export async function getChartPricesFromStats(chainId, symbol, period) {
   //     new Date().toISOString()
   //   );
   // }
-
-  console.log('prices', prices)
   prices = prices.sort((a, b) => a.t - b.t).map(formatBarInfo);
   return prices;
 }
@@ -238,7 +239,7 @@ function getCandlesFromPrices(prices, period) {
 
 export function getChainlinkChartPricesFromGraph(tokenSymbol, period) {
   tokenSymbol = getNormalizedTokenSymbol(tokenSymbol);
-  const marketName = tokenSymbol + "_USD";
+  const marketName = tokenSymbol + "_USDT";
   const feedId = FEED_ID_MAP[marketName];
   if (!feedId) {
     throw new Error(`undefined marketName ${marketName}`);

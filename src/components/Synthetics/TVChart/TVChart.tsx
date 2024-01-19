@@ -23,6 +23,7 @@ import { AvailableTokenOptions, TradeType } from "domain/synthetics/trade";
 import { MarketsInfoData, getMarketIndexName, getMarketPoolName } from "domain/synthetics/markets";
 import { getByKey } from "lib/objects";
 import { helperToast } from "lib/helperToast";
+import { WOW } from "config/chains";
 
 export type Props = {
   tradePageVersion: number;
@@ -57,7 +58,8 @@ export function TVChart({
   marketsInfoData,
   currentTradeType,
 }: Props) {
-  const { chainId } = useChainId();
+  // const { chainId } = useChainId();
+  const chainId = WOW;
   const oracleKeeperFetcher = useOracleKeeperFetcher(chainId);
   const [dataProvider, setDataProvider] = useState<SyntheticsTVDataProvider>();
 

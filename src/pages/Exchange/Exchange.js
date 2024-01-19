@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from "react";
 import useSWR from "swr";
 
-import { getConstant, getExplorerUrl } from "config/chains";
+import { WOW, getConstant, getExplorerUrl } from "config/chains";
 import { approvePlugin, cancelMultipleOrders } from "domain/legacy";
 import {
   LONG,
@@ -391,7 +391,8 @@ export const Exchange = forwardRef((props, ref) => {
   }, [showBanner, bannerHidden, setBannerHidden, setShowBanner]);
 
   const { active, account, signer } = useWallet();
-  const { chainId } = useChainId();
+  // const { chainId } = useChainId();
+  const chainId = WOW;
   const currentAccount = account;
 
   const nativeTokenAddress = getContract(chainId, "NATIVE_TOKEN");
@@ -935,7 +936,7 @@ export const Exchange = forwardRef((props, ref) => {
         toTokenAddress={toTokenAddress}
         infoTokens={infoTokens}
         swapOption={swapOption}
-        chainId={chainId}
+        chainId={WOW}
         positions={positions}
         savedShouldShowPositionLines={savedShouldShowPositionLines}
         orders={orders}

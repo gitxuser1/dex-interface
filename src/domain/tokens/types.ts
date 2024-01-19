@@ -1,6 +1,7 @@
 import { BigNumber } from "@ethersproject/bignumber";
 
 export type Token = {
+  id?: number;
   name: string;
   symbol: string;
   assetSymbol?: string;

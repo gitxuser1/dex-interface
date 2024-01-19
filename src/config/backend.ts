@@ -6,7 +6,7 @@ export const DEX_STATS_API_URL = "https://api.onetradefinance.co/xstock_api";
 
 export const REQUEST_API_URL = "https://api.onetradefinance.co/xstock_api";
 
-export const TRADE_API_URL = "https://api.onetradefinance.co/exchange-engine";
+export const TRADE_API_URL = "https://dextd.onetradefinance.co/exchange-engine";
 
 export const CHAIN_BRIDGE_API_URL = "https://api.onetradefinance.co/xstock_api"
 

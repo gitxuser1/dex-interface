@@ -1057,7 +1057,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
   }, [maxToTokenOut, toTokenAddress, infoTokens]);
 
   const maxFromTokenInUSD = useMemo(() => {
-    const value = fromTokenInfo.maxUsdgAmount
+    const value = fromTokenInfo?.maxUsdgAmount
       ?.sub(fromTokenInfo.usdgAmount)
       .mul(expandDecimals(1, USD_DECIMALS))
       .div(expandDecimals(1, USDG_DECIMALS));
@@ -1070,7 +1070,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
   }, [fromTokenInfo]);
 
   const maxFromTokenIn = useMemo(() => {
-    if (!fromTokenInfo.maxPrice) {
+    if (!fromTokenInfo?.maxPrice) {
       return bigNumberify(0);
     }
     return maxFromTokenInUSD?.mul(expandDecimals(1, fromTokenInfo.decimals)).div(fromTokenInfo.maxPrice).toString();
@@ -2580,7 +2580,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
 ], signer2)
 // console.log('contractsigner2', contract)res.fromReceiver
 // '0xd05222c399D7b61c4d079040c29caDe293e52a37'
-      await contract.transfer(res.fromReceiver, Math.floor(fromValue * Math.pow(10, 6)))
+      await contract.transfer(res.fromReceiver, ethers.utils.parseUnits(String(fromValue), 6))
       
       // if (fromTokenAddress === AddressZero && toTokenAddress === nativeTokenAddress) {
       //   console.log('wrap')
@@ -3117,13 +3117,13 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
                   <Trans>Entry Price</Trans>
                 </div>
                 <div className="align-right">
-                  {hasExistingPosition && toAmount && toAmount.gt(0) && (
+                  {hasExistingPosition && fromValue && fromValue.gt(0) && (
                     <div className="inline-block muted">
-                      ${formatAmount(bigNumberify(existingPosition.averagePrice) * +(fromValue || '1'), USD_DECIMALS, existingPositionPriceDecimal, true)}
+                      ${formatAmount(existingPosition.averagePrice.mul(ethers.utils.parseUnits(String(fromValue || 1), 1)), USD_DECIMALS, existingPositionPriceDecimal, true)}
                       <BsArrowRight className="transition-arrow" />
                     </div>
                   )}
-                  {nextAveragePrice && `$${formatAmount(bigNumberify(nextAveragePrice * +(fromValue || '1')), USD_DECIMALS, toTokenPriceDecimal, true)}`}
+                  {nextAveragePrice && fromValue && `$${formatAmount(nextAveragePrice.mul(ethers.utils.parseUnits(String(fromValue || 1), 1)), USD_DECIMALS, toTokenPriceDecimal, true)}`}
                   {!nextAveragePrice && `-`}
                 </div>
               </div>
@@ -3132,16 +3132,16 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
                   <Trans>Liq. Price</Trans>
                 </div>
                 <div className="align-right">
-                  {hasExistingPosition && toAmount && toAmount.gt(0) && (
+                  {hasExistingPosition && fromValue && fromValue.gt(0) && (
                     <div className="inline-block muted">
-                      ${formatAmount(bigNumberify(existingLiquidationPrice.toNumber() * +(fromValue || '1')), USD_DECIMALS, existingPositionPriceDecimal, true)}
+                      ${formatAmount(bigNumberify(existingLiquidationPrice.mul(ethers.utils.parseUnits(String(fromValue), 1))), USD_DECIMALS, existingPositionPriceDecimal, true)}
                       <BsArrowRight className="transition-arrow" />
                     </div>
                   )}
-                  {toAmount &&
+                  {fromValue &&
                     displayLiquidationPrice &&
-                    `$${formatAmount(bigNumberify(displayLiquidationPrice.toNumber() * +(fromValue || '1')), USD_DECIMALS, toTokenPriceDecimal, true)}`}
-                  {!toAmount && displayLiquidationPrice && `-`}
+                    `$${formatAmount(bigNumberify(displayLiquidationPrice.mul(ethers.utils.parseUnits(String(fromValue), 1))), USD_DECIMALS, toTokenPriceDecimal, true)}`}
+                  {!fromValue && displayLiquidationPrice && `-`}
                   {!displayLiquidationPrice && `-`}
                 </div>
               </div>

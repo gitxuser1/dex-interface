@@ -19,6 +19,7 @@ import { t } from "@lingui/macro";
 import { isLocal } from "config/env";
 import { BASIS_POINTS_DIVISOR } from "config/factors";
 import useWallet from "./wallets/useWallet";
+import { request } from "./request";
 
 const { AddressZero } = ethers.constants;
 
@@ -873,13 +874,12 @@ export function useAccountOrders(flagOrdersEnabled, overrideAccount) {
       const orderBookReaderContract = new ethers.Contract(orderBookReaderAddress, OrderBookReader.abi, provider);
 
       const fetchIndexesFromServer = () => {
-        const ordersIndexesUrl = `${TRADE_API_URL}/orders_indices`;
-        return fetch(ordersIndexesUrl)
-          .then(async (res) => {
-            const json = await res.json();
+        // const ordersIndexesUrl = `${TRADE_API_URL}/c/brokerage/getTransactionList`;
+        return request({url: 'https://broker.onetradefinance.co/brokerage/c/getTransactionList'})
+          .then(async (json) => {
             const ret = {};
-            for (const key of Object.keys(json)) {
-              ret[key.toLowerCase()] = json[key].map((val) => parseInt(val.value)).sort((a, b) => a - b);
+            for (const key of Object.keys(json.data)) {
+              ret[key.toLowerCase()] = json.data[key].map((val) => parseInt(val.value)).sort((a, b) => a - b);
             }
 
             return ret;

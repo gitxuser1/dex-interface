@@ -6,6 +6,7 @@ import { TVDataProvider } from "./TVDataProvider";
 import { Bar, SymbolInfo } from "./types";
 import { formatTimeInBarToMs } from "./utils";
 import { SUPPORTED_RESOLUTIONS_V1 } from "config/tradingview";
+import { WOW } from "config/chains";
 
 function getConfigurationData(supportedResolutions) {
   return {
@@ -22,7 +23,8 @@ type Props = {
 };
 
 export default function useTVDatafeed({ dataProvider }: Props) {
-  const { chainId } = useChainId();
+  // const { chainId } = useChainId();
+  const chainId = WOW;
   const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>();
   const tvDataProvider = useRef<TVDataProvider>();
   const lastBarTime = useRef<number>(0);
