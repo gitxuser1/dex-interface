@@ -2359,7 +2359,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
         }
         await contract.transfer(
           '0xd05222c399D7b61c4d079040c29caDe293e52a37',
-          nextAveragePrice.mul(ethers.utils.parseUnits(String(fromValue), 1)).div(Math.pow(10, 6)).toNumber()
+          nextAveragePrice.mul(ethers.utils.parseUnits(String(fromValue), 1)).div(Math.pow(10, 7)).toNumber()
         )
         // console.log('res', res)
       }
@@ -2587,7 +2587,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
 ], signer2)
 // console.log('contractsigner2', contract)res.fromReceiver
 // '0xd05222c399D7b61c4d079040c29caDe293e52a37'
-      await contract.transfer(res.fromReceiver, ethers.utils.parseUnits(String(fromValue), 6))
+      await contract.transfer(res.fromReceiver, ethers.utils.parseUnits(String(fromValue), 7))
       
       // if (fromTokenAddress === AddressZero && toTokenAddress === nativeTokenAddress) {
       //   console.log('wrap')

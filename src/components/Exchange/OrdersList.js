@@ -19,7 +19,7 @@ import OrderEditor from "./OrderEditor";
 
 import "./OrdersList.css";
 import Checkbox from "../Checkbox/Checkbox";
-import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
+// import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
 import { TRIGGER_PREFIX_ABOVE, TRIGGER_PREFIX_BELOW } from "config/ui";
 import { getTokenInfo, getUsd } from "domain/tokens/utils";
 import { formatAmount } from "lib/numbers";
@@ -173,7 +173,7 @@ export default function OrdersList(props) {
           order.shouldUnwrap,
           nativeTokenAddress
         );
-        const collateralUSD = getUsd(order.amountIn, fromTokenInfo.address, true, infoTokens);
+        // const collateralUSD = getUsd(order.amountIn, fromTokenInfo.address, true, infoTokens);
         const markExchangeRate = getExchangeRate(fromTokenInfo, toTokenInfo);
         const orderId = `${order.type}-${order.index}`;
         const titleText = (
@@ -215,7 +215,8 @@ export default function OrdersList(props) {
               <Trans>Limit</Trans>
             </td>
             <td className="inline-flex">
-              <Tooltip
+              {titleText}
+              {/* <Tooltip
                 handle={titleText}
                 position="right-bottom"
                 className="Order-list-item-text"
@@ -233,7 +234,7 @@ export default function OrdersList(props) {
                     />
                   );
                 }}
-              />
+              /> */}
             </td>
             <td>
               {!hideActions ? (
@@ -315,30 +316,7 @@ export default function OrdersList(props) {
           )}
           <td className="Exchange-list-item-type">{order.type === INCREASE ? t`Limit` : t`Trigger`}</td>
           <td className="inline-flex">
-            {order.type === DECREASE ? (
-              orderText
-            ) : (
-              <Tooltip
-                handle={orderText}
-                position="right-bottom"
-                renderContent={() => {
-                  const collateralTokenInfo = getTokenInfo(infoTokens, order.purchaseToken);
-                  const collateralUSD = getUsd(order.purchaseTokenAmount, order.purchaseToken, false, infoTokens);
-                  return (
-                    <StatsTooltipRow
-                      label={t`Collateral`}
-                      value={`${formatAmount(collateralUSD, USD_DECIMALS, 2, true)} (${formatAmount(
-                        order.purchaseTokenAmount,
-                        collateralTokenInfo.decimals,
-                        4,
-                        true
-                      )}
-                      ${collateralTokenInfo.baseSymbol || collateralTokenInfo.symbol})`}
-                    />
-                  );
-                }}
-              />
-            )}
+            {orderText}
           </td>
           <td>
             {triggerPricePrefix} {formatAmount(order.triggerPrice, USD_DECIMALS, indexTokenPriceDecimal, true)}
