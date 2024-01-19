@@ -88,7 +88,7 @@ import useWallet from "lib/wallets/useWallet";
 import TokenWithIcon from "components/TokenIcon/TokenWithIcon";
 import useIsMetamaskMobile from "lib/wallets/useIsMetamaskMobile";
 import { MAX_METAMASK_MOBILE_DECIMALS } from "config/ui";
-import { CHAIN_BRIDGE_API_URL, TRADE_API_URL } from "config/backend";
+import { CHAIN_BRIDGE_API_URL } from "config/backend";
 import { useChainId } from "wagmi";
 import { switchNetwork as switchNetworkWagmi } from "@wagmi/core";
 import { request } from "lib/request";
