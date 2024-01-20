@@ -116,7 +116,7 @@ export default function ChartTokenSelector(props: Props) {
                     displaySize={20}
                     importSize={24}
                   />
-                  {selectedToken.symbol} / USD
+                  {selectedToken.symbol} / USDT
                 </span>
                 <FaChevronDown color="rgba(0, 0, 0, 1)" fontSize={14} />
               </button>
@@ -141,8 +141,8 @@ export default function ChartTokenSelector(props: Props) {
                       <thead className="table-head">
                         <tr>
                           <th>Market</th>
-                          <th>{isSwap ? t`Max In` : t`Long Liquidity`}</th>
-                          <th>{isSwap ? t`Max Out` : t`Short Liquidity`}</th>
+                          {/* <th>{isSwap ? t`Max In` : t`Long Liquidity`}</th> */}
+                          {/* <th>{isSwap ? t`Max Out` : t`Short Liquidity`}</th> */}
                         </tr>
                       </thead>
                     )}
@@ -162,10 +162,10 @@ export default function ChartTokenSelector(props: Props) {
                                   displaySize={16}
                                   importSize={24}
                                 />
-                                {option.symbol} {!isSwap && "/ USD"}
+                                {option.symbol} {!isSwap && "/ USDT"}
                               </span>
                             </td>
-                            <td
+                            {/* <td
                               onClick={() => {
                                 onSelect(option);
                                 if (setSwapOption && !isSwap) {
@@ -174,8 +174,8 @@ export default function ChartTokenSelector(props: Props) {
                               }}
                             >
                               ${formatAmount(isSwap ? option.maxInUsd : option.maxAvailableLong, USD_DECIMALS, 0, true)}
-                            </td>
-                            <td
+                            </td> */}
+                            {/* <td
                               onClick={() => {
                                 onSelect(option);
                                 if (setSwapOption && !isSwap) {
@@ -190,7 +190,7 @@ export default function ChartTokenSelector(props: Props) {
                                 0,
                                 true
                               )}
-                            </td>
+                            </td> */}
                           </Popover.Button>
                         );
                       })}

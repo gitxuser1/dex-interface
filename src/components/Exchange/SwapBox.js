@@ -3084,7 +3084,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
                   <div className="align-right">
                     <Tooltip
                       position="right-bottom"
-                      handle="USD"
+                      handle="USDT"
                       renderContent={() => (
                         <span className="SwapBox-collateral-tooltip-text">
                           <Trans>

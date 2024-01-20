@@ -23,6 +23,8 @@ import TokenIcon from "components/TokenIcon/TokenIcon";
 import Button from "components/Button/Button";
 // import { FaAngleRight } from "react-icons/fa";
 import { request } from "lib/request";
+import { getTokens } from "config/tokens";
+import { WOW } from "config/chains";
 
 // const getOrdersForPosition = (account, position, orders, nativeTokenAddress) => {
 //   if (!orders || orders.length === 0) {
@@ -253,6 +255,10 @@ export default function PositionsList(props) {
               // const positionPriceDecimal = getPriceDecimals(chainId, position.indexToken.symbol);
 
               const positionPriceDecimal = 2;
+            
+              const tokens = getTokens(WOW)
+              const token = tokens.find(item => item.id === +position.currency)
+              if (!token) return null
 
               // const hasPositionProfit = false;
               // const hasPositionProfit = position[showPnlAfterFees ? "hasProfitAfterFees" : "hasProfit"];
@@ -269,16 +275,16 @@ export default function PositionsList(props) {
               // }
 
               return (
-                <div key={position.key} className="App-card">
+                <div key={position.id} className="App-card">
                   <div>
                     <div className="App-card-title Position-card-title" onClick={() => onPositionClick(position)}>
                       <TokenIcon
                         className="PositionList-token-icon"
-                        symbol={position.symbol}
+                        symbol={token.symbol}
                         displaySize={20}
                         importSize={24}
                       />
-                      <span className="Exchange-list-title">{position.symbol}</span>
+                      <span className="Exchange-list-title">{token.symbol}</span>
                       <div>
                         <span className="Position-leverage">{position.lever}</span>
                         <span
@@ -530,6 +536,9 @@ export default function PositionsList(props) {
 
             // const positionPriceDecimal = getPriceDecimals(chainId, position.symbol);
             const positionPriceDecimal = 2;
+            const tokens = getTokens(WOW)
+            const token = tokens.find(item => item.id === +position.currency)
+            if (!token) return null
             // const positionOrders = getOrdersForPosition(account, position, orders, nativeTokenAddress);
             // const positionOrders = [];
             // const hasOrderError = !!positionOrders.find((order) => order.error);
@@ -557,11 +566,11 @@ export default function PositionsList(props) {
                           <>
                             <TokenIcon
                               className="PositionList-token-icon"
-                              symbol={position.symbol}
+                              symbol={token.symbol}
                               displaySize={20}
                               importSize={24}
                             />
-                            {position.symbol}
+                            {token.symbol}
                           </>
                         }
                         position="left-bottom"
@@ -587,11 +596,11 @@ export default function PositionsList(props) {
                       <div className="inline-flex">
                         <TokenIcon
                           className="PositionList-token-icon"
-                          symbol={position.symbol}
+                          symbol={token.symbol}
                           displaySize={20}
                           importSize={24}
                         />
-                        {position.symbol}
+                        {token.symbol}
                       </div>
                     )}
                     {position.hasPendingChanges && <ImSpinner2 className="spin position-loading-icon" />}

@@ -103,7 +103,7 @@ export default function useTVDatafeed({ dataProvider }: Props) {
           const symbolInfo = {
             name: symbolName,
             type: "crypto",
-            description: symbolName + " / USD",
+            description: symbolName + " / USDT",
             ticker: symbolName,
             session: "24x7",
             minmov: 1,
@@ -111,7 +111,7 @@ export default function useTVDatafeed({ dataProvider }: Props) {
             timezone: "Etc/UTC",
             has_intraday: true,
             has_daily: true,
-            currency_code: "USD",
+            currency_code: "USDT",
             visible_plots_set: "ohlc",
             data_status: "streaming",
             isStable: stableTokens.includes(symbolName),

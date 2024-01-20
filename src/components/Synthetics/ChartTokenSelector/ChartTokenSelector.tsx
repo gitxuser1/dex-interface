@@ -149,7 +149,7 @@ export default function ChartTokenSelector(props: Props) {
                       displaySize={20}
                       importSize={24}
                     />
-                    {selectedToken.symbol} {"/ USD"}
+                    {selectedToken.symbol} {"/ USDT"}
                   </span>
                 )}
                 <FaChevronDown color="rgba(0, 0, 0, 1)" fontSize={14} />
@@ -202,7 +202,7 @@ export default function ChartTokenSelector(props: Props) {
                                   displaySize={16}
                                   importSize={24}
                                 />
-                                {token.symbol} {!isSwap && "/ USD"}
+                                {token.symbol} {!isSwap && "/ USDT"}
                               </span>
                             </td>
 

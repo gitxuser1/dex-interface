@@ -6,7 +6,7 @@ import {
   INCREASE,
   DECREASE,
   USD_DECIMALS,
-  getOrderError,
+  // getOrderError,
   getExchangeRateDisplay,
   getExchangeRate,
   getPositionForOrder,
@@ -24,23 +24,27 @@ import { TRIGGER_PREFIX_ABOVE, TRIGGER_PREFIX_BELOW } from "config/ui";
 import { getTokenInfo, getUsd } from "domain/tokens/utils";
 import { formatAmount } from "lib/numbers";
 import ExternalLink from "components/ExternalLink/ExternalLink";
-import { getPriceDecimals } from "config/tokens";
+import { getPriceDecimals, getTokens } from "config/tokens";
 import Button from "components/Button/Button";
 import TokenIcon from "components/TokenIcon/TokenIcon";
+import { WOW } from "config/chains";
 
-function getOrderTitle(order, indexTokenSymbol) {
-  const orderTypeText = order.type === INCREASE ? t`Increase` : t`Decrease`;
+function getOrderTitle(order) {
+  // const orderTypeText = order.type === INCREASE ? t`Increase` : t`Decrease`;
   const longShortText = order.isLong ? t`Long` : t`Short`;
-  const sizeDeltaText = formatAmount(order.sourcePrice, USD_DECIMALS, 2, true);
+  // const sizeDeltaText = formatAmount(order.sourcePrice, USD_DECIMALS, 2, true);
+  const tokens = getTokens(WOW)
+  const token = tokens.find(item => item.id === +order.currency)
+  if (!token) return null
   const symbolWithIcon = (
     <>
-      <TokenIcon className="mx-xxs" symbol={indexTokenSymbol} displaySize={18} importSize={24} /> {indexTokenSymbol}
+      <TokenIcon className="mx-xxs" symbol={token.symbol} displaySize={18} importSize={24} /> {token.symbol}
     </>
   );
 
   return (
     <span>
-      {orderTypeText} {symbolWithIcon} {longShortText} by ${sizeDeltaText}
+      {symbolWithIcon} {longShortText} by {order.sourcePrice}
     </span>
   );
 }
@@ -80,10 +84,10 @@ export default function OrdersList(props) {
   );
 
   const renderHead = useCallback(() => {
-    const isAllOrdersSelected = cancelOrderIdList?.length > 0 && cancelOrderIdList?.length === orders.length;
+    // const isAllOrdersSelected = cancelOrderIdList?.length > 0 && cancelOrderIdList?.length === orders.length;
     return (
       <tr className="Exchange-list-header">
-        {!hideActions && orders.length > 0 && (
+        {/* {!hideActions && orders.length > 0 && (
           <th>
             <div className="checkbox-inline ">
               <Checkbox
@@ -99,7 +103,7 @@ export default function OrdersList(props) {
               />
             </div>
           </th>
-        )}
+        )} */}
 
         <th>
           <div>
@@ -123,7 +127,7 @@ export default function OrdersList(props) {
         </th>
       </tr>
     );
-  }, [cancelOrderIdList, orders, setCancelOrderIdList, hideActions]);
+  }, []);
 
   const renderEmptyRow = useCallback(() => {
     if (orders && orders.length) {
@@ -274,29 +278,19 @@ export default function OrdersList(props) {
       const triggerPricePrefix = order.triggerAboveThreshold ? TRIGGER_PREFIX_ABOVE : TRIGGER_PREFIX_BELOW;
       const indexTokenSymbol = indexToken.isWrapped ? indexToken.baseSymbol : indexToken.symbol;
 
-      const error = getOrderError(account, order, positionsMap);
-      const orderId = `${order.type}-${order.index}`;
+      // const error = getOrderError(account, order, positionsMap);
+      // const orderId = `${order.type}-${order.index}`;
       const orderTitle = getOrderTitle(order, indexTokenSymbol);
 
       const orderText = (
         <>
-          {error ? (
-            <Tooltip
-              className="order-error"
-              handle={orderTitle}
-              position="right-bottom"
-              handleClassName="plain"
-              renderContent={() => <span className="negative">{error}</span>}
-            />
-          ) : (
-            orderTitle
-          )}
+          {orderTitle}
         </>
       );
 
       return (
         <tr className="Exchange-list-item" key={`${order.isLong}-${order.type}-${order.index}`}>
-          {!hideActions && (
+          {/* {!hideActions && (
             <td className="Exchange-list-item-type">
               <div>
                 <Checkbox
@@ -313,7 +307,7 @@ export default function OrdersList(props) {
                 />
               </div>
             </td>
-          )}
+          )} */}
           <td className="Exchange-list-item-type">{order.type === INCREASE ? t`Limit` : t`Trigger`}</td>
           <td className="inline-flex">
             {orderText}
@@ -352,10 +346,8 @@ export default function OrdersList(props) {
     orders,
     renderActions,
     infoTokens,
-    positionsMap,
     hideActions,
     chainId,
-    account,
     cancelOrderIdList,
     setCancelOrderIdList,
   ]);
@@ -457,24 +449,14 @@ export default function OrdersList(props) {
       const collateralTokenInfo = getTokenInfo(infoTokens, order.purchaseToken);
       const collateralUSD = getUsd(order.purchaseTokenAmount, order.purchaseToken, true, infoTokens);
 
-      const error = getOrderError(account, order, positionsMap);
+      // const error = getOrderError(account, order, positionsMap);
       const orderTitle = getOrderTitle(order, indexTokenSymbol);
 
       return (
         <div key={`${order.isLong}-${order.type}-${order.index}`} className="App-card">
           <div className="App-card-content">
             <div className="Order-list-card-title">
-              {error ? (
-                <Tooltip
-                  className="order-error"
-                  handle={orderTitle}
-                  position="left-bottom"
-                  handleClassName="plain"
-                  renderContent={() => <span className="negative">{error}</span>}
-                />
-              ) : (
-                orderTitle
-              )}
+              {orderTitle}
             </div>
             <div className="App-card-divider"></div>
             <div className="App-card-row">
@@ -535,7 +517,7 @@ export default function OrdersList(props) {
         </div>
       );
     });
-  }, [orders, onEditClick, onCancelClick, infoTokens, positionsMap, hideActions, chainId, account]);
+  }, [orders, onEditClick, onCancelClick, infoTokens, hideActions, chainId]);
 
   return (
     <React.Fragment>

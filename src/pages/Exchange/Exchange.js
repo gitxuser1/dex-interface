@@ -29,9 +29,10 @@ import ExchangeBanner from "components/Exchange/ExchangeBanner";
 import ExchangeTVChart, { getChartToken } from "components/Exchange/ExchangeTVChart";
 import ExchangeWalletTokens from "components/Exchange/ExchangeWalletTokens";
 import OrdersList from "components/Exchange/OrdersList";
+import OrdersListHistory from "components/Exchange/OrdersListHistory";
 import PositionsList from "components/Exchange/PositionsList";
 import SwapBox from "components/Exchange/SwapBox";
-import TradeHistory from "components/Exchange/TradeHistory";
+// import TradeHistory from "components/Exchange/TradeHistory";
 // import Footer from "components/Footer/Footer";
 import Tab from "components/Tab/Tab";
 
@@ -766,14 +767,31 @@ export const Exchange = forwardRef((props, ref) => {
           />
         )}
         {listSection === TRADES && (
-          <TradeHistory
+          <OrdersListHistory
             account={account}
+            active={active}
+            signer={signer}
+            pendingTxns={pendingTxns}
+            setPendingTxns={setPendingTxns}
             infoTokens={infoTokens}
-            getTokenInfo={getTokenInfo}
+            positionsMap={positionsMap}
             chainId={chainId}
-            nativeTokenAddress={nativeTokenAddress}
-            shouldShowPaginationButtons={true}
+            orders={[]}
+            totalTokenWeights={totalTokenWeights}
+            usdgSupply={usdgSupply}
+            hideActions
+            savedShouldDisableValidationForTesting={savedShouldDisableValidationForTesting}
+            cancelOrderIdList={cancelOrderIdList}
+            setCancelOrderIdList={setCancelOrderIdList}
           />
+          // <OrdersListHistory
+          //   account={account}
+          //   infoTokens={infoTokens}
+          //   getTokenInfo={getTokenInfo}
+          //   chainId={chainId}
+          //   nativeTokenAddress={nativeTokenAddress}
+          //   shouldShowPaginationButtons={true}
+          // />
         )}
       </div>
     );
