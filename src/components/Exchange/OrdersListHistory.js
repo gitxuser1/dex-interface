@@ -31,6 +31,7 @@ import useSWR from "swr";
 import { request } from "lib/request";
 import { getTokens } from "config/tokens";
 import { WOW } from "config/chains";
+import { format } from "date-fns";
 
 const SymbolWithIcon = ({code}) => {
   const tokens = getTokens(WOW)
@@ -135,32 +136,37 @@ export default function OrdersList(props) {
 
         <th>
           <div>
-            <Trans>Type</Trans>
+            <Trans>Contract</Trans>
           </div>
         </th>
         <th>
           <div>
-            <Trans>Order</Trans>
-          </div>
-        </th>
-        <th>
-          <div>
-            <Trans>Price</Trans>
-          </div>
-        </th>
-        <th>
-          <div>
-            <Trans>Done Price</Trans>
-          </div>
-        </th>
-        <th>
-          <div>
-            <Trans>Size</Trans>
+            <Trans>Side</Trans>
           </div>
         </th>
         <th>
           <div>
             <Trans>Type</Trans>
+          </div>
+        </th>
+        <th>
+          <div>
+            <Trans>Limit Price</Trans>
+          </div>
+        </th>
+        <th>
+          <div>
+            <Trans>Cost Price</Trans>
+          </div>
+        </th>
+        <th>
+          <div>
+            <Trans>Transimssion Time</Trans>
+          </div>
+        </th>
+        <th>
+          <div>
+            <Trans>Close Time</Trans>
           </div>
         </th>
       </tr>
@@ -357,21 +363,25 @@ export default function OrdersList(props) {
               </div>
             </td>
           )} */}
-          <td className="Exchange-list-item-type">{order.tradeType === 'long' ? t`Long` : t`Short`}</td>
+          <td className="Exchange-list-item-type"><SymbolWithIcon code={order.currency}/></td>
           <td className="inline-flex">
-            {order.tradeType === 'long' ? t`Long` : t`Short`} <SymbolWithIcon code={order.currency} />
-          </td>
-          <td>
-            {order.sourcePrice}
-          </td>
-          <td>
-            {order.donePrice}
-          </td>
-          <td>
-            {order.sourceSize}
+            {order.transactionType}
           </td>
           <td>
             {order.orderType}
+            {/* {triggerPricePrefix} {formatAmount(order.triggerPrice, USD_DECIMALS, indexTokenPriceDecimal, true)} */}
+          </td>
+          <td>
+            {order.orderType === 'limit' ? order.sourcePrice : '-'}
+          </td>
+          <td>
+            {order.price}
+          </td>
+          <td>
+            {format(+order.createTs, 'MM/dd/yyyy HH:mm:ss')}
+          </td>
+          <td>
+            {format(+order.updateTs, 'MM/dd/yyyy HH:mm:ss')}
           </td>
           {/* {!hideActions && renderActions(order)} */}
         </tr>
@@ -485,31 +495,15 @@ export default function OrdersList(props) {
         <div key={`${order.tradeType}-${order.type}-${order.id}`} className="App-card">
           <div className="App-card-content">
             <div className="Order-list-card-title">
-              {orderTitle} <SymbolWithIcon code={order.currency} />
+              <SymbolWithIcon code={order.currency}/> {orderTitle}
             </div>
             <div className="App-card-divider"></div>
             <div className="App-card-row">
               <div className="label">
-                <Trans>Price</Trans>
+                <Trans>Side</Trans>
               </div>
               <div>
-                {order.sourcePrice}
-              </div>
-            </div>
-            <div className="App-card-row">
-              <div className="label">
-                <Trans>Done Price</Trans>
-              </div>
-              <div>
-                {order.donePrice}
-              </div>
-            </div>
-            <div className="App-card-row">
-              <div className="label">
-                <Trans>Size</Trans>
-              </div>
-              <div>
-                {order.sourceSize}
+                {order.transactionType}
               </div>
             </div>
             <div className="App-card-row">
@@ -518,20 +512,64 @@ export default function OrdersList(props) {
               </div>
               <div>
                 {order.orderType}
+                {/* <Tooltip
+                  handle={formatAmount(markPrice, USD_DECIMALS, 2, true)}
+                  position="right-bottom"
+                  renderContent={() => {
+                    return (
+                      <Trans>
+                        The price that the order can be executed at may differ slightly from the chart price as market
+                        orders can change the price while limit / trigger orders cannot.
+                      </Trans>
+                    );
+                  }}
+                /> */}
               </div>
             </div>
-            {/* {order.type === INCREASE && (
-              <div className="App-card-row">
-                <div className="label">
-                  <Trans>Collateral</Trans>
-                </div>
-                <div>
-                  ${formatAmount(collateralUSD, USD_DECIMALS, 2, true)} (
-                  {formatAmount(order.purchaseTokenAmount, collateralTokenInfo.decimals, 4, true)}{" "}
-                  {collateralTokenInfo.baseSymbol || collateralTokenInfo.symbol})
-                </div>
+            <div className="App-card-row">
+              <div className="label">
+                <Trans>Limit Price</Trans>
               </div>
-            )} */}
+              <div>
+                {order.orderType === 'limit' ? order.sourcePrice : '-'}
+                {/* ${formatAmount(collateralUSD, USD_DECIMALS, 2, true)} (
+                {formatAmount(order.purchaseTokenAmount, collateralTokenInfo.decimals, 4, true)}{" "}
+                {collateralTokenInfo.baseSymbol || collateralTokenInfo.symbol}) */}
+              </div>
+            </div>
+            <div className="App-card-row">
+              <div className="label">
+                <Trans>Cost Price</Trans>
+              </div>
+              <div>
+                {order.price}
+                {/* ${formatAmount(collateralUSD, USD_DECIMALS, 2, true)} (
+                {formatAmount(order.purchaseTokenAmount, collateralTokenInfo.decimals, 4, true)}{" "}
+                {collateralTokenInfo.baseSymbol || collateralTokenInfo.symbol}) */}
+              </div>
+            </div>
+            <div className="App-card-row">
+              <div className="label">
+                <Trans>Transimssion Time</Trans>
+              </div>
+              <div>
+                {format(+order.createTs, 'MM/dd/yyyy HH:mm:ss')}
+                {/* ${formatAmount(collateralUSD, USD_DECIMALS, 2, true)} (
+                {formatAmount(order.purchaseTokenAmount, collateralTokenInfo.decimals, 4, true)}{" "}
+                {collateralTokenInfo.baseSymbol || collateralTokenInfo.symbol}) */}
+              </div>
+            </div>
+            <div className="App-card-row">
+              <div className="label">
+                <Trans>Close Time</Trans>
+              </div>
+              <div>
+                {format(+order.updateTs, 'MM/dd/yyyy HH:mm:ss')}
+                {/* ${formatAmount(collateralUSD, USD_DECIMALS, 2, true)} (
+                {formatAmount(order.purchaseTokenAmount, collateralTokenInfo.decimals, 4, true)}{" "}
+                {collateralTokenInfo.baseSymbol || collateralTokenInfo.symbol}) */}
+              </div>
+            </div>
           </div>
           <div>
           </div>

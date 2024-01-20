@@ -23,11 +23,12 @@ import Checkbox from "../Checkbox/Checkbox";
 import { TRIGGER_PREFIX_ABOVE, TRIGGER_PREFIX_BELOW } from "config/ui";
 import { getTokenInfo, getUsd } from "domain/tokens/utils";
 import { formatAmount } from "lib/numbers";
-import ExternalLink from "components/ExternalLink/ExternalLink";
+// import ExternalLink from "components/ExternalLink/ExternalLink";
 import { getPriceDecimals, getTokens } from "config/tokens";
 import Button from "components/Button/Button";
 import TokenIcon from "components/TokenIcon/TokenIcon";
 import { WOW } from "config/chains";
+import { format } from "date-fns";
 
 function getOrderTitle(order) {
   // const orderTypeText = order.type === INCREASE ? t`Increase` : t`Decrease`;
@@ -107,22 +108,27 @@ export default function OrdersList(props) {
 
         <th>
           <div>
+            <Trans>Contract</Trans>
+          </div>
+        </th>
+        <th>
+          <div>
+            <Trans>Side</Trans>
+          </div>
+        </th>
+        <th>
+          <div>
             <Trans>Type</Trans>
           </div>
         </th>
         <th>
           <div>
-            <Trans>Order</Trans>
+            <Trans>Limit Price</Trans>
           </div>
         </th>
         <th>
           <div>
-            <Trans>Price</Trans>
-          </div>
-        </th>
-        <th>
-          <div>
-            <Trans>Mark Price</Trans>
+            <Trans>Transimssion Time</Trans>
           </div>
         </th>
       </tr>
@@ -266,7 +272,7 @@ export default function OrdersList(props) {
       }
 
       const indexToken = getTokenInfo(infoTokens, order.indexToken);
-      const indexTokenPriceDecimal = getPriceDecimals(chainId, indexToken.symbol);
+      // const indexTokenPriceDecimal = getPriceDecimals(chainId, indexToken.symbol);
 
       // Longs Increase: max price
       // Longs Decrease: min price
@@ -308,15 +314,17 @@ export default function OrdersList(props) {
               </div>
             </td>
           )} */}
-          <td className="Exchange-list-item-type">{order.type === INCREASE ? t`Limit` : t`Trigger`}</td>
+          <td className="Exchange-list-item-type">{orderText}</td>
           <td className="inline-flex">
-            {orderText}
+            {order.transactionType}
           </td>
           <td>
-            {triggerPricePrefix} {formatAmount(order.triggerPrice, USD_DECIMALS, indexTokenPriceDecimal, true)}
+            {order.orderType}
+            {/* {triggerPricePrefix} {formatAmount(order.triggerPrice, USD_DECIMALS, indexTokenPriceDecimal, true)} */}
           </td>
           <td>
-            <Tooltip
+            {order.orderType === 'limit' ? order.sourcePrice : '-'}
+            {/* <Tooltip
               handle={formatAmount(markPrice, USD_DECIMALS, indexTokenPriceDecimal, true)}
               position="right-bottom"
               renderContent={() => {
@@ -336,7 +344,10 @@ export default function OrdersList(props) {
                   </Trans>
                 );
               }}
-            />
+            /> */}
+          </td>
+          <td>
+            {format(+order.createTs, 'MM/dd/yyyy HH:mm:ss')}
           </td>
           {!hideActions && renderActions(order)}
         </tr>
@@ -461,18 +472,19 @@ export default function OrdersList(props) {
             <div className="App-card-divider"></div>
             <div className="App-card-row">
               <div className="label">
-                <Trans>Price</Trans>
+                <Trans>Side</Trans>
               </div>
               <div>
-                {triggerPricePrefix} {order.sourcePrice}
+                {order.transactionType}
               </div>
             </div>
             <div className="App-card-row">
               <div className="label">
-                <Trans>Mark Price</Trans>
+                <Trans>Type</Trans>
               </div>
               <div>
-                <Tooltip
+                {order.orderType}
+                {/* <Tooltip
                   handle={formatAmount(markPrice, USD_DECIMALS, 2, true)}
                   position="right-bottom"
                   renderContent={() => {
@@ -483,21 +495,31 @@ export default function OrdersList(props) {
                       </Trans>
                     );
                   }}
-                />
+                /> */}
               </div>
             </div>
-            {order.type === INCREASE && (
-              <div className="App-card-row">
-                <div className="label">
-                  <Trans>Collateral</Trans>
-                </div>
-                <div>
-                  ${formatAmount(collateralUSD, USD_DECIMALS, 2, true)} (
-                  {formatAmount(order.purchaseTokenAmount, collateralTokenInfo.decimals, 4, true)}{" "}
-                  {collateralTokenInfo.baseSymbol || collateralTokenInfo.symbol})
-                </div>
+            <div className="App-card-row">
+              <div className="label">
+                <Trans>Limit Price</Trans>
               </div>
-            )}
+              <div>
+                {order.orderType === 'limit' ? order.sourcePrice : '-'}
+                {/* ${formatAmount(collateralUSD, USD_DECIMALS, 2, true)} (
+                {formatAmount(order.purchaseTokenAmount, collateralTokenInfo.decimals, 4, true)}{" "}
+                {collateralTokenInfo.baseSymbol || collateralTokenInfo.symbol}) */}
+              </div>
+            </div>
+            <div className="App-card-row">
+              <div className="label">
+                <Trans>Transimssion Time</Trans>
+              </div>
+              <div>
+                {format(+order.createTs, 'MM/dd/yyyy HH:mm:ss')}
+                {/* ${formatAmount(collateralUSD, USD_DECIMALS, 2, true)} (
+                {formatAmount(order.purchaseTokenAmount, collateralTokenInfo.decimals, 4, true)}{" "}
+                {collateralTokenInfo.baseSymbol || collateralTokenInfo.symbol}) */}
+              </div>
+            </div>
           </div>
           <div>
             {!hideActions && (

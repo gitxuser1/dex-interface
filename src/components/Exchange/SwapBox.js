@@ -2311,9 +2311,9 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
         "tradeType": isLong ? "Long" : isShort ? 'Short' : '',// Spot-现货 Long-做多 Short-做空
         "currency": toToken.id,//currency 下单的永续合约的id
         "size": fromValue,//购买份数，0.001 之类的
-        price,// 购买的价格-限价单必填
+        price: triggerPriceValue ?? price,// 购买的价格-限价单必填
         "marketType": 3, //dex 默认3
-        "lever": leverage.toString() //杠杆倍数
+        "lever": leverage.div(BASIS_POINTS_DIVISOR).toString() //杠杆倍数
       }
     })
 

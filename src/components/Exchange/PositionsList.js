@@ -7,14 +7,14 @@ import PositionEditor from "./PositionEditor";
 import OrdersToa from "./OrdersToa";
 import { ImSpinner2 } from "react-icons/im";
 
-import { USD_DECIMALS, LONG, SHORT } from "lib/legacy";
+import { LONG, SHORT } from "lib/legacy";
 import PositionShare from "./PositionShare";
 // import PositionDropdown from "./PositionDropdown";
 // import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
 // import NetValueTooltip from "./NetValueTooltip";
 import { helperToast } from "lib/helperToast";
 import { getUsd } from "domain/tokens/utils";
-import { formatAmount } from "lib/numbers";
+import { bigNumberify, formatAmount } from "lib/numbers";
 // import { AiOutlineEdit } from "react-icons/ai";
 import useAccountType, { AccountType } from "lib/wallets/useAccountType";
 // import getLiquidationPrice from "lib/positions/getLiquidationPrice";
@@ -25,6 +25,7 @@ import Button from "components/Button/Button";
 import { request } from "lib/request";
 import { getTokens } from "config/tokens";
 import { WOW } from "config/chains";
+import { ethers } from "ethers";
 
 // const getOrdersForPosition = (account, position, orders, nativeTokenAddress) => {
 //   if (!orders || orders.length === 0) {
@@ -254,11 +255,13 @@ export default function PositionsList(props) {
 
               // const positionPriceDecimal = getPriceDecimals(chainId, position.indexToken.symbol);
 
-              const positionPriceDecimal = 2;
+              // const positionPriceDecimal = 2;
             
               const tokens = getTokens(WOW)
               const token = tokens.find(item => item.id === +position.currency)
               if (!token) return null
+
+              const maxPrice = infoTokens[token.address].maxPrice || bigNumberify(0)
 
               // const hasPositionProfit = false;
               // const hasPositionProfit = position[showPnlAfterFees ? "hasProfitAfterFees" : "hasProfit"];
@@ -299,14 +302,22 @@ export default function PositionsList(props) {
                     </div>
                     <div className="App-card-divider" />
                     <div className="App-card-content">
-                      {/* <div className="App-card-row">
+                      <div className="App-card-row">
                         <div className="label">
-                          <Trans>Net Value</Trans>
+                          <Trans>Side</Trans>
                         </div>
                         <div>
-                          <NetValueTooltip isMobile position={position} />
+                          {position.transactionType}
                         </div>
-                      </div> */}
+                      </div>
+                      <div className="App-card-row">
+                        <div className="label">
+                          <Trans>Position</Trans>
+                        </div>
+                        <div>
+                          {position.sourceSize}
+                        </div>
+                      </div>
                       {/* <div className="App-card-row">
                         <div className="label">
                           <Trans>PnL</Trans>
@@ -326,9 +337,21 @@ export default function PositionsList(props) {
                       </div> */}
                       <div className="App-card-row">
                         <div className="label">
-                          <Trans>Size</Trans>
+                          <Trans>Mkt</Trans>
                         </div>
-                        <div>{position.sourceSize}</div>
+                        <div>{formatAmount(maxPrice.mul(ethers.utils.parseUnits(String(position.sourceSize), 6)), 18, 2, true)}</div>
+                      </div>
+                      <div className="App-card-row">
+                        <div className="label">
+                          <Trans>Cost/Last</Trans>
+                        </div>
+                        <div>{formatAmount(maxPrice, 12, 2, true)}/{position.sourcePrice}</div>
+                      </div>
+                      <div className="App-card-row">
+                        <div className="label">
+                          <Trans>P&l</Trans>
+                        </div>
+                        <div>{position.pl}</div>
                       </div>
                       {/* <div className="App-card-row">
                         <div className="label">
@@ -385,7 +408,7 @@ export default function PositionsList(props) {
                         </div>
                       </div> */}
                     </div>
-                    <div className="App-card-divider" />
+                    {/* <div className="App-card-divider" />
                     <div className="App-card-content">
                       <div className="App-card-row">
                         <div className="label">
@@ -398,14 +421,14 @@ export default function PositionsList(props) {
                           <Trans>Mark Price</Trans>
                         </div>
                         <div>${position.sourcePrice}</div>
-                      </div>
+                      </div> */}
                       {/* <div className="App-card-row">
                         <div className="label">
                           <Trans>Liq. Price</Trans>
                         </div>
                         <div>${formatAmount(liquidationPrice, USD_DECIMALS, positionPriceDecimal, true)}</div>
                       </div> */}
-                    </div>
+                    {/* </div> */}
                     {/* <div className="App-card-divider" />
                     <div className="App-card-row">
                       <div className="label">
@@ -487,22 +510,22 @@ export default function PositionsList(props) {
         <tbody>
           <tr className="Exchange-list-header">
             <th>
+              <Trans>Contract</Trans>
+            </th>
+            <th>
+              <Trans>Side</Trans>
+            </th>
+            <th>
               <Trans>Position</Trans>
             </th>
-            {/* <th>
-              <Trans>Net Value</Trans>
-            </th> */}
             <th>
-              <Trans>Size</Trans>
-            </th>
-            {/* <th>
-              <Trans>Collateral</Trans>
-            </th> */}
-            <th>
-              <Trans>Entry Price</Trans>
+              <Trans>Mkt</Trans>
             </th>
             <th>
-              <Trans>Mark Price</Trans>
+              <Trans>Cost/Last</Trans>
+            </th>
+            <th>
+              <Trans>P&L</Trans>
             </th>
             {/* <th>
               <Trans>Liq. Price</Trans>
@@ -535,10 +558,11 @@ export default function PositionsList(props) {
             //   }) || bigNumberify(0);
 
             // const positionPriceDecimal = getPriceDecimals(chainId, position.symbol);
-            const positionPriceDecimal = 2;
+            // const positionPriceDecimal = 2;
             const tokens = getTokens(WOW)
             const token = tokens.find(item => item.id === +position.currency)
             if (!token) return null
+            const maxPrice = infoTokens[token.address].maxPrice || bigNumberify(0)
             // const positionOrders = getOrdersForPosition(account, position, orders, nativeTokenAddress);
             // const positionOrders = [];
             // const hasOrderError = !!positionOrders.find((order) => order.error);
@@ -558,8 +582,8 @@ export default function PositionsList(props) {
 
             return (
               <tr key={position.key}>
-                <td className={!hideActions ? "clickable" : ""} onClick={() => onPositionClick(position)}>
-                  <div className="Exchange-list-title" onClick={() => onPositionClick(position)}>
+                <td className={!hideActions ? "clickable" : ""}>
+                  <div className="Exchange-list-title">
                     {!hideActions ? (
                       <Tooltip
                         handle={
@@ -605,12 +629,12 @@ export default function PositionsList(props) {
                     )}
                     {position.hasPendingChanges && <ImSpinner2 className="spin position-loading-icon" />}
                   </div>
-                  <div className="Exchange-list-info-label">
+                  {/* <div className="Exchange-list-info-label">
                     {position.lever && <span className="muted Position-leverage">{position.lever}</span>}
                     <span className={cx({ positive: position.tradeType === 'long', negative: position.tradeType !== 'long' })}>
                       {position.tradeType === 'long' ? t`Long` : t`Short`}
                     </span>
-                  </div>
+                  </div> */}
                 </td>
                 {/* <td>
                   <div>{position.netValue ? <NetValueTooltip position={position} /> : t`Opening...`}</div>
@@ -628,6 +652,9 @@ export default function PositionsList(props) {
                     </div>
                   )}
                 </td> */}
+                <td>
+                  <div>{position.transactionType}</div>
+                </td>
                 <td>
                   <div>{position.sourceSize}</div>
                   {/* {positionOrders.length > 0 && (
@@ -730,8 +757,9 @@ export default function PositionsList(props) {
                     )}
                   </div>
                 </td> */}
-                <td>${formatAmount(position.averagePrice, USD_DECIMALS, positionPriceDecimal, true)}</td>
-                <td>${position.sourcePrice}</td>
+                <td>{formatAmount(maxPrice.mul(ethers.utils.parseUnits(String(position.sourceSize), 6)), 18, 2, true)}</td>
+                <td>{formatAmount(maxPrice, 12, 2, true)}/{position.sourcePrice}</td>
+                <td>${position.pl}</td>
                 {/* <td>${formatAmount(liquidationPrice, USD_DECIMALS, positionPriceDecimal, true)}</td> */}
 
                 <td>
