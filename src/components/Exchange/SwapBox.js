@@ -60,7 +60,7 @@ import Button from "components/Button/Button";
 import BuyInputSection from "components/BuyInputSection/BuyInputSection";
 import ExternalLink from "components/ExternalLink/ExternalLink";
 import { LeverageSlider } from "components/LeverageSlider/LeverageSlider";
-import ToggleSwitch from "components/ToggleSwitch/ToggleSwitch";
+// import ToggleSwitch from "components/ToggleSwitch/ToggleSwitch";
 import { get1InchSwapUrl } from "config/links";
 import { getPriceDecimals, getToken, getTokenBySymbol, getV1Tokens, getWhitelistedV1Tokens } from "config/tokens";
 import { useUserReferralCode } from "domain/referrals/hooks";
@@ -742,7 +742,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
     [chainId, "Exchange-swap-leverage-option"],
     "2"
   );
-  const [isLeverageSliderEnabled, setIsLeverageSliderEnabled] = useLocalStorageSerializeKey(
+  const [isLeverageSliderEnabled] = useLocalStorageSerializeKey(
     [chainId, "Exchange-swap-leverage-slider-enabled"],
     true
   );
@@ -766,6 +766,13 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
 
   const [triggerPriceValue, setTriggerPriceValue] = useState("");
   const triggerPriceUsd = isMarketOrder ? 0 : parseValue(triggerPriceValue, USD_DECIMALS);
+
+  const [usdtBalance, setUsdtBalance] = useState(bigNumberify(0))
+
+  useEffect(() => {
+    contract.balanceOf(account)
+    .then(res => setUsdtBalance(res))
+  }, [account])
 
   const onTriggerPriceChange = (evt) => {
     setTriggerPriceValue(evt.target.value || "");
@@ -2931,8 +2938,8 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
               )}
               <BuyInputSection
                 topLeftLabel={getToLabel()}
-                // topRightLabel={t`Balance`}
-                // topRightValue={fromBalance && `${formatAmount(fromBalance, fromToken.decimals, 4, true)}`}
+                topRightLabel={t`Balance`}
+                topRightValue={`${formatAmount(usdtBalance, 6, 4, true)}`}
                 showMaxButton={false}
                 inputValue={fromValue}
                 onInputValueChange={onFromValueChange}
@@ -2997,7 +3004,7 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
               inputValue={triggerPriceValue}
               onInputValueChange={onTriggerPriceChange}
             >
-              USD
+              USDT
             </BuyInputSection>
           )}
           {isSwap && (
@@ -3022,13 +3029,13 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
           )}
           {(isLong || isShort) && !isStopOrder && (
             <div className="Exchange-leverage-box">
-              <ToggleSwitch
+              {/* <ToggleSwitch
                 className="Exchange-leverage-toggle-wrapper"
                 isChecked={isLeverageSliderEnabled}
                 setIsChecked={setIsLeverageSliderEnabled}
-              >
+              > */}
                 <span className="muted">Leverage slider</span>
-              </ToggleSwitch>
+              {/* </ToggleSwitch> */}
               {isLeverageSliderEnabled && (
                 <LeverageSlider isPositive={isLong} value={leverageOption} onChange={setLeverageOption} />
               )}

@@ -33,7 +33,7 @@ export function LeverageSlider(p: Props) {
       })}
     >
       <Slider
-        min={1.1}
+        min={2}
         max={MAX_ALLOWED_LEVERAGE / BASIS_POINTS_DIVISOR}
         step={0.1}
         marks={leverageMarks}
