@@ -1762,15 +1762,15 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
       return error;
     }
 
-    if (needPositionRouterApproval && isWaitingForPositionRouterApproval) {
-      return t`Enabling Leverage...`;
-    }
-    if (isPositionRouterApproving) {
-      return t`Enabling Leverage...`;
-    }
-    if (needPositionRouterApproval) {
-      return t`Enable Leverage`;
-    }
+    // if (needPositionRouterApproval && isWaitingForPositionRouterApproval) {
+    //   return t`Enabling Leverage...`;
+    // }
+    // if (isPositionRouterApproving) {
+    //   return t`Enabling Leverage...`;
+    // }
+    // if (needPositionRouterApproval) {
+    //   return t`Enable Leverage`;
+    // }
 
     if (needApproval && isWaitingForApproval) {
       return t`Waiting for Approval`;
@@ -1804,24 +1804,24 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
     if (isLong) {
       const indexTokenInfo = getTokenInfo(infoTokens, toTokenAddress);
       if (indexTokenInfo && indexTokenInfo.minPrice) {
-        const { amount: nextToAmount } = getNextToAmount(
-          chainId,
-          fromAmount,
-          fromTokenAddress,
-          indexTokenAddress,
-          infoTokens,
-          undefined,
-          undefined,
-          usdgSupply,
-          totalTokenWeights,
-          isSwap
-        );
-        const nextToAmountUsd = nextToAmount
-          .mul(indexTokenInfo.minPrice)
-          .div(expandDecimals(1, indexTokenInfo.decimals));
-        if (fromTokenAddress === USDG_ADDRESS && nextToAmountUsd.lt(fromUsdMin.mul(98).div(100))) {
-          return t`High USDG Slippage, Long Anyway`;
-        }
+        // const { amount: nextToAmount } = getNextToAmount(
+        //   chainId,
+        //   fromAmount,
+        //   fromTokenAddress,
+        //   indexTokenAddress,
+        //   infoTokens,
+        //   undefined,
+        //   undefined,
+        //   usdgSupply,
+        //   totalTokenWeights,
+        //   isSwap
+        // );
+        // const nextToAmountUsd = nextToAmount
+        //   .mul(indexTokenInfo.minPrice)
+        //   .div(expandDecimals(1, indexTokenInfo.decimals));
+        // if (fromTokenAddress === USDG_ADDRESS && nextToAmountUsd.lt(fromUsdMin.mul(98).div(100))) {
+        //   return t`High USDG Slippage, Long Anyway`;
+        // }
       }
       return t`Long ${toToken.symbol}`;
     }
@@ -2364,10 +2364,14 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
         if (localChainId !== WOW) {
           await switchNetworkWagmi({chainId: WOW})
         }
-        await contract.transfer(
-          '0xd05222c399D7b61c4d079040c29caDe293e52a37',
-          nextAveragePrice.mul(ethers.utils.parseUnits(String(fromValue), 1)).div(Math.pow(10, 7)).toNumber()
-        )
+        try {
+          await contract.transfer(
+            '0xd05222c399D7b61c4d079040c29caDe293e52a37',
+            nextAveragePrice.mul(ethers.utils.parseUnits(String(fromValue), 1)).div(Math.pow(10, 7)).toNumber()
+          )
+        } catch (error) {
+          helperToast.error(error.message)
+        }
         // console.log('res', res)
       }
       // sendTransaction()
@@ -2674,18 +2678,18 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
 
   let hasZeroBorrowFee = false;
   let borrowFeeText;
-  if (isLong && toTokenInfo && toTokenInfo.fundingRate) {
-    borrowFeeText = formatAmount(toTokenInfo.fundingRate, 4, 4) + "% / 1h";
-    if (toTokenInfo.fundingRate.eq(0)) {
-      // hasZeroBorrowFee = true
-    }
+  if ((isLong || isShort)) {
+    borrowFeeText = "0.001% / 1h";
+    // if (fromAmount.eq(0)) {
+    //   hasZeroBorrowFee = true
+    // }
   }
-  if (isShort && shortCollateralToken && shortCollateralToken.fundingRate) {
-    borrowFeeText = formatAmount(shortCollateralToken.fundingRate, 4, 4) + "% / 1h";
-    if (shortCollateralToken.fundingRate.eq(0)) {
-      // hasZeroBorrowFee = true
-    }
-  }
+  // if (isShort && shortCollateralToken && shortCollateralToken.fundingRate) {
+  //   borrowFeeText = formatAmount(shortCollateralToken.fundingRate, 4, 4) + "% / 1h";
+  //   if (shortCollateralToken.fundingRate.eq(0)) {
+  //     // hasZeroBorrowFee = true
+  //   }
+  // }
 
   const fromUsdMinAfterFees = fromUsdMin?.sub(swapFees ?? 0).sub(positionFee ?? 0) || bigNumberify(0);
   const liquidationPrice = getLiquidationPrice({
@@ -3133,11 +3137,11 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
                 <div className="align-right">
                   {hasExistingPosition && fromValue && fromValue.gt(0) && (
                     <div className="inline-block muted">
-                      ${formatAmount(existingPosition.averagePrice.mul(ethers.utils.parseUnits(String(fromValue || 1), 1)), USD_DECIMALS, existingPositionPriceDecimal, true)}
+                      ${formatAmount(existingPosition.averagePrice, USD_DECIMALS, existingPositionPriceDecimal, true)}
                       <BsArrowRight className="transition-arrow" />
                     </div>
                   )}
-                  {nextAveragePrice && fromValue && `$${formatAmount(nextAveragePrice.mul(ethers.utils.parseUnits(String(fromValue || 1), 1)), USD_DECIMALS, toTokenPriceDecimal, true)}`}
+                  {nextAveragePrice && fromValue && `$${formatAmount(nextAveragePrice, USD_DECIMALS, toTokenPriceDecimal, true)}`}
                   {!nextAveragePrice && `-`}
                 </div>
               </div>
@@ -3148,13 +3152,13 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
                 <div className="align-right">
                   {hasExistingPosition && fromValue && fromValue.gt(0) && (
                     <div className="inline-block muted">
-                      ${formatAmount(bigNumberify(existingLiquidationPrice.mul(ethers.utils.parseUnits(String(fromValue), 1))), USD_DECIMALS, existingPositionPriceDecimal, true)}
+                      ${formatAmount(existingLiquidationPrice, USD_DECIMALS, existingPositionPriceDecimal, true)}
                       <BsArrowRight className="transition-arrow" />
                     </div>
                   )}
                   {fromValue &&
                     displayLiquidationPrice &&
-                    `$${formatAmount(bigNumberify(displayLiquidationPrice.mul(ethers.utils.parseUnits(String(fromValue), 1))), USD_DECIMALS, toTokenPriceDecimal, true)}`}
+                    `$${formatAmount(displayLiquidationPrice, USD_DECIMALS, toTokenPriceDecimal, true)}`}
                   {!fromValue && displayLiquidationPrice && `-`}
                   {!displayLiquidationPrice && `-`}
                 </div>

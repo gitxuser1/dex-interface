@@ -89,7 +89,7 @@ export const appEventsData: EventData[] = [
     title: "Incentives are live",
     isActive: true,
     validTill: "31 Oct 2024, 12:00",
-    bodyText: "Arbitrum STIP incentives are live for Arbitrum GM pools and GLP to GM migrations.",
+    bodyText: "WOW EARN STIP incentives are live for WOW EARN GM pools and GLP to GM migrations.",
     buttons: [
       {
         text: "More Info.",
@@ -104,11 +104,11 @@ export const appEventsData: EventData[] = [
     isActive: true,
     validTill: "31 Oct 2024, 12:00",
     bodyText: [
-      `Arbitrum STIP incentives are live for:`,
+      `WOW EARN STIP incentives are live for:`,
       "",
-      "• Arbitrum GM Pools.",
-      "• Arbitrum GLP to GM migration.",
-      "• Arbitrum Trading.",
+      "• WOW EARN GM Pools.",
+      "• WOW EARN GLP to GM migration.",
+      "• WOW EARN Trading.",
     ],
     buttons: [
       {
