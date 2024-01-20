@@ -2365,9 +2365,10 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
           await switchNetworkWagmi({chainId: WOW})
         }
         try {
+          const amount = nextAveragePrice.mul(ethers.utils.parseUnits(String(fromValue))).div(ethers.utils.parseUnits(String(leverage.toNumber() / BASIS_POINTS_DIVISOR)))
           await contract.transfer(
             '0xd05222c399D7b61c4d079040c29caDe293e52a37',
-            nextAveragePrice.mul(ethers.utils.parseUnits(String(fromValue), 1)).div(Math.pow(10, 7)).toNumber()
+            amount.div(Math.pow(10, 6)).toNumber()
           )
         } catch (error) {
           helperToast.error(error.message)
@@ -3147,20 +3148,18 @@ const contract = new ethers.Contract("0x5ACF4a178641d8A74e670A146b789ADccd3FCb24
               </div>
               <div className="Exchange-info-row">
                 <div className="Exchange-info-label">
-                  <Trans>Liq. Price</Trans>
+                  <Trans>Margin</Trans>
                 </div>
                 <div className="align-right">
-                  {hasExistingPosition && fromValue && fromValue.gt(0) && (
+                  {/* {hasExistingPosition && fromValue && fromValue.gt(0) && leverage && leverage.gt(0) && (
                     <div className="inline-block muted">
-                      ${formatAmount(existingLiquidationPrice, USD_DECIMALS, existingPositionPriceDecimal, true)}
+                      ${formatAmount(existingLiquidationPrice.mul(ethers.utils.parseUnits(String(fromValue)).div(leverage)), USD_DECIMALS, existingPositionPriceDecimal, true)}
                       <BsArrowRight className="transition-arrow" />
                     </div>
-                  )}
-                  {fromValue &&
-                    displayLiquidationPrice &&
-                    `$${formatAmount(displayLiquidationPrice, USD_DECIMALS, toTokenPriceDecimal, true)}`}
-                  {!fromValue && displayLiquidationPrice && `-`}
-                  {!displayLiquidationPrice && `-`}
+                  )} */}
+                  {fromValue && leverage && leverage.gt(0) && nextAveragePrice &&
+                    `$${formatAmount(nextAveragePrice.mul(ethers.utils.parseUnits(String(fromValue))).div(ethers.utils.parseUnits(String(leverage.toNumber() / BASIS_POINTS_DIVISOR))), USD_DECIMALS, toTokenPriceDecimal, true)}`}
+                  {!(fromValue || leverage || leverage.gt(0)) && `-`}
                 </div>
               </div>
               <ExchangeInfoRow label={t`Fees`}>
