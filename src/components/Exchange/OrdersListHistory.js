@@ -37,7 +37,6 @@ const SymbolWithIcon = ({code}) => {
 
   const token = tokens.find(item => +item.id === +code)
 
-  console.log('token', token, tokens, code)
   if (!token) return null
   return (
     <>

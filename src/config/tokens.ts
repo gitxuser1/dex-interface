@@ -16,6 +16,7 @@ export const TOKENS: { [chainId: number]: Token[] } = {
       address: ethers.constants.AddressZero,
       isV1Available: true,
       isShortable: false,
+      isChartDisabled: true,
       imageUrl: "https://assets.coingecko.com/coins/images/16547/small/photo_2023-03-29_21.47.00.jpeg?1680097630",
       coingeckoUrl: "https://www.coingecko.com/en/coins/arbitrum",
     },

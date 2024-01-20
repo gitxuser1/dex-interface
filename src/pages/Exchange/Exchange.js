@@ -417,8 +417,6 @@ export const Exchange = forwardRef((props, ref) => {
     updatedPositions
   );
 
-  console.log('positions', positionData)
-
   useImperativeHandle(ref, () => ({
     onUpdatePosition(key, size, collateral, averagePrice, entryFundingRate, reserveAmount, realisedPnl) {
       for (let i = 0; i < positions.length; i++) {

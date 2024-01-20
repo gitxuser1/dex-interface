@@ -46,6 +46,7 @@ export default function ChartTokenSelector(props: Props) {
   };
 
   const filteredTokens: Token[] | undefined = options?.filter((item) => {
+    if (!item.id) return false;
     return (
       item.name.toLowerCase().indexOf(searchKeyword.toLowerCase()) > -1 ||
       item.symbol.toLowerCase().indexOf(searchKeyword.toLowerCase()) > -1
