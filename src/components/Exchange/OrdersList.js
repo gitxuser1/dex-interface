@@ -3,8 +3,6 @@ import { t, Trans } from "@lingui/macro";
 
 import {
   SWAP,
-  INCREASE,
-  DECREASE,
   USD_DECIMALS,
   // getOrderError,
   getExchangeRateDisplay,
@@ -20,11 +18,11 @@ import OrderEditor from "./OrderEditor";
 import "./OrdersList.css";
 import Checkbox from "../Checkbox/Checkbox";
 // import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
-import { TRIGGER_PREFIX_ABOVE, TRIGGER_PREFIX_BELOW } from "config/ui";
+// import { TRIGGER_PREFIX_ABOVE, TRIGGER_PREFIX_BELOW } from "config/ui";
 import { getTokenInfo, getUsd } from "domain/tokens/utils";
 import { formatAmount } from "lib/numbers";
 // import ExternalLink from "components/ExternalLink/ExternalLink";
-import { getPriceDecimals, getTokens } from "config/tokens";
+import {  getTokens } from "config/tokens";
 import Button from "components/Button/Button";
 import TokenIcon from "components/TokenIcon/TokenIcon";
 import { WOW } from "config/chains";
@@ -278,10 +276,10 @@ export default function OrdersList(props) {
       // Longs Decrease: min price
       // Short Increase: min price
       // Short Decrease: max price
-      const maximisePrice = (order.type === INCREASE && order.isLong) || (order.type === DECREASE && !order.isLong);
+      // const maximisePrice = (order.type === INCREASE && order.isLong) || (order.type === DECREASE && !order.isLong);
 
-      const markPrice = maximisePrice ? indexToken.contractMaxPrice : indexToken.contractMinPrice;
-      const triggerPricePrefix = order.triggerAboveThreshold ? TRIGGER_PREFIX_ABOVE : TRIGGER_PREFIX_BELOW;
+      // const markPrice = maximisePrice ? indexToken.contractMaxPrice : indexToken.contractMinPrice;
+      // const triggerPricePrefix = order.triggerAboveThreshold ? TRIGGER_PREFIX_ABOVE : TRIGGER_PREFIX_BELOW;
       const indexTokenSymbol = indexToken.isWrapped ? indexToken.baseSymbol : indexToken.symbol;
 
       // const error = getOrderError(account, order, positionsMap);
@@ -452,13 +450,13 @@ export default function OrdersList(props) {
       }
 
       const indexToken = getTokenInfo(infoTokens, order.indexToken);
-      const maximisePrice = (order.type === INCREASE && order.isLong) || (order.type === DECREASE && !order.isLong);
-      const markPrice = maximisePrice ? indexToken.contractMaxPrice : indexToken.contractMinPrice;
-      const triggerPricePrefix = order.triggerAboveThreshold ? TRIGGER_PREFIX_ABOVE : TRIGGER_PREFIX_BELOW;
+      // const maximisePrice = (order.type === INCREASE && order.isLong) || (order.type === DECREASE && !order.isLong);
+      // const markPrice = maximisePrice ? indexToken.contractMaxPrice : indexToken.contractMinPrice;
+      // const triggerPricePrefix = order.triggerAboveThreshold ? TRIGGER_PREFIX_ABOVE : TRIGGER_PREFIX_BELOW;
       const indexTokenSymbol = indexToken.isWrapped ? indexToken.baseSymbol : indexToken.symbol;
 
-      const collateralTokenInfo = getTokenInfo(infoTokens, order.purchaseToken);
-      const collateralUSD = getUsd(order.purchaseTokenAmount, order.purchaseToken, true, infoTokens);
+      // const collateralTokenInfo = getTokenInfo(infoTokens, order.purchaseToken);
+      // const collateralUSD = getUsd(order.purchaseTokenAmount, order.purchaseToken, true, infoTokens);
 
       // const error = getOrderError(account, order, positionsMap);
       const orderTitle = getOrderTitle(order, indexTokenSymbol);
